@@ -329,9 +329,16 @@ const permissions = [
     method: 'POST',
   },
 
-  // Profile Update
+  // Profile
   {
     _id: '643bdfca6e2f031ae50db338',
+    description: 'Get profile',
+    route: '/api/mobile/profile',
+    name: 'Profile',
+    method: 'GET',
+  },
+  {
+    _id: '643bdfca6e2f031ae50db339',
     description: 'Update profile',
     route: '/api/mobile/profile',
     name: 'Profile',
