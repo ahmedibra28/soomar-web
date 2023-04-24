@@ -344,6 +344,40 @@ const permissions = [
     name: 'Profile',
     method: 'POST',
   },
+
+  // Category
+  {
+    _id: '643bdfca6e2f031ae50db33a',
+    description: 'Get categories',
+    route: '/api/mobile/categories',
+    name: 'Category',
+    method: 'GET',
+  },
+
+  // Inventory
+  {
+    _id: '643bdfca6e2f031ae50db34a',
+    description: 'Get inventories',
+    route: '/api/mobile/inventories',
+    name: 'Inventory',
+    method: 'GET',
+  },
+  {
+    _id: '643bdfca6e2f031ae50db35a',
+    description: 'Get product inventory details',
+    route: '/api/mobile/inventories/:id',
+    name: 'Inventory',
+    method: 'GET',
+  },
+
+  // Order
+  {
+    _id: '643bdfca6e2f031ae50db36a',
+    description: 'Create order',
+    route: '/api/mobile/orders',
+    name: 'Order',
+    method: 'POST',
+  },
 ]
 
 export { roles, users, profile, permissions, clientPermissions }

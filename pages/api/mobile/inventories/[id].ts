@@ -11,13 +11,13 @@ handler.get(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const { page, limit, q } = req.query
+      const { id } = req.query
 
-      const products = await axios.get(
-        `${process.env.API_URL}/inventories?page=${page}&limit=${limit}&q=${q}`
+      const inventories = await axios.get(
+        `${process.env.API_URL}/inventories?product=${id}&limit=100`
       )
 
-      res.status(200).json(products)
+      res.status(200).json(inventories)
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }
