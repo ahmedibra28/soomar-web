@@ -11,6 +11,7 @@ handler.post(
     await db()
     try {
       let mobile = req.body.mobile
+      const { market } = req.body
 
       if (mobile.length !== 9) {
         if (mobile.startsWith('0')) {

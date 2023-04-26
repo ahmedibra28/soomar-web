@@ -6,10 +6,11 @@ export interface IProfile {
   name?: string
   image?: string
   address?: string
+  market?: string
   mobile?: number
   bio?: string
   user: Schema.Types.ObjectId
-  points?: number
+  points: number
 
   createdAt?: Date
 }
@@ -21,7 +22,8 @@ const profileSchema = new Schema<IProfile>(
     address: String,
     mobile: Number,
     bio: String,
-    points: Number,
+    points: { type: Number, default: 0 },
+    market: String,
 
     user: {
       type: Schema.Types.ObjectId,
