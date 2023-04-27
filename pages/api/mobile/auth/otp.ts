@@ -56,6 +56,7 @@ handler.post(
         _id: user._id,
         name: user.name,
         mobile: user.mobile,
+        email: user.email,
         market: profile.market,
         points: profile.points,
         role: roleObj.role.type,

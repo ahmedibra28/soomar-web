@@ -3,6 +3,7 @@ import db from '../../../../config/db'
 import User from '../../../../models/User'
 import UserRole from '../../../../models/UserRole'
 import Profile from '../../../../models/Profile'
+import { Markets } from '../../../../utils/markets'
 
 const handler = nc()
 
@@ -12,6 +13,10 @@ handler.post(
       await db()
 
       let { mobile } = req.body
+      const { market } = req.body
+
+      if (market && !Markets.includes(market))
+        return res.status(400).json({ error: 'Invalid market' })
 
       const user = await User.findOne({ mobile })
 
