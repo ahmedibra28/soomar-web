@@ -7,19 +7,36 @@ const handler = nc()
 
 handler.use(isAuth)
 
+const config = () => {
+  return {
+    headers: {
+      'x-db-key': 3020,
+    },
+  }
+}
+
 handler.get(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
+
     try {
       const { page, limit, q } = req.query
 
-      const categories = await axios.get(
-        `${process.env.API_URL}/settings/categories?page=${page}&limit=${limit}&q=${q}`
-      )
+      const url = `${process.env.API_URL}/mobile/categories?page=${page}&limit=${limit}&q=${q}`
 
-      res.status(200).json(categories)
+      const { data } = await axios.get(url, config())
+
+      const filter = data?.data?.map((item: any) => ({
+        _id: item._id,
+        name: item.name,
+        status: item.status,
+      }))
+
+      res.status(200).json({ ...data, data: filter })
     } catch (error: any) {
-      res.status(500).json({ error: error.message })
+      res
+        .status(500)
+        .json({ error: error?.response?.data?.error || error?.message })
     }
   }
 )

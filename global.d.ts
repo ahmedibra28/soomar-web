@@ -30,6 +30,8 @@ declare global {
       option: string
       startDate: Date
       endDate: Date
+      category: string
+      branch: string
     }
   }
   interface NextApiResponseExtended extends NextApiResponse {
