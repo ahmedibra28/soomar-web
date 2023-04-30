@@ -20,19 +20,13 @@ handler.get(
     await db()
 
     try {
-      const { page, limit, q } = req.query
+      const { category } = req.query
 
-      const url = `${process.env.API_URL}/mobile/categories?page=${page}&limit=${limit}&q=${q}`
+      const url = `${process.env.API_URL}/mobile/sub-categories?category=${category}`
 
       const { data } = await axios.get(url, config())
 
-      const filter = data?.data?.map((item: any) => ({
-        _id: item._id,
-        name: item.name,
-        image: item.image,
-      }))
-
-      res.status(200).json({ ...data, data: filter })
+      res.status(200).json(data)
     } catch (error: any) {
       res
         .status(500)

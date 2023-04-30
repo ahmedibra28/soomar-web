@@ -354,6 +354,15 @@ const permissions = [
     method: 'GET',
   },
 
+  // Sub-Category
+  {
+    _id: '643bdfca6e2f031ae50db31a',
+    description: 'Get sub-categories',
+    route: '/api/mobile/sub-categories',
+    name: 'Sub-Category',
+    method: 'GET',
+  },
+
   // Inventory
   {
     _id: '643bdfca6e2f031ae50db34a',
