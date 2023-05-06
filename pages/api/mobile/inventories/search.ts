@@ -1,6 +1,6 @@
 import nc from 'next-connect'
 import db from '../../../../config/db'
-import { isAuth } from '../../../../utils/auth'
+// import { isAuth } from '../../../../utils/auth'
 import axios from 'axios'
 
 const handler = nc()
@@ -20,15 +20,14 @@ handler.get(
     await db()
 
     try {
-      const { page, limit, q, category } = req.query
+      const { page, limit, q } = req.query
 
       let { branch } = req.query
       branch = branch.split(' ')[0]
 
-      const url = `${process.env.API_URL}/mobile/inventories?page=${page}&limit=${limit}&q=${q}&category=${category}&branch=${branch}`
+      const url = `${process.env.API_URL}/mobile/inventories/search?page=${page}&limit=${limit}&branch=${branch}&q=${q}`
 
       const { data } = await axios.get(url, config())
-      console.log(data)
 
       res.status(200).json(data)
     } catch (error: any) {
