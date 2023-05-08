@@ -28,7 +28,6 @@ handler.get(
       const url = `${process.env.API_URL}/mobile/inventories?page=${page}&limit=${limit}&q=${q}&category=${category}&branch=${branch}`
 
       const { data } = await axios.get(url, config())
-      console.log(data)
 
       res.status(200).json(data)
     } catch (error: any) {
