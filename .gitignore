@@ -42,3 +42,6 @@ next-env.d.ts
 /public/uploads/*.pdf
 /public/uploads/*.docx
 /public/uploads/*.doc
+
+# custom
+*.todo

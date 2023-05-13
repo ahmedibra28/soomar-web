@@ -387,6 +387,50 @@ const permissions = [
     name: 'Order',
     method: 'POST',
   },
+
+  // Mobile
+  {
+    _id: '645f38e0ca681a19c40dad97',
+    name: 'Mobile Category',
+    route: '/api/mobile/categories',
+    method: 'GET',
+    description: 'Get all categories',
+  },
+  {
+    _id: '645f38e0ca681a19c40dad98',
+    name: 'Mobile Sub-Category',
+    route: '/api/mobile/sub-categories',
+    method: 'GET',
+    description: 'Get all sub-categories',
+  },
+  {
+    _id: '645f38e0ca681a19c40dad99',
+    name: 'Mobile Order',
+    route: '/api/mobile/orders',
+    method: 'POST',
+    description: 'Create order',
+  },
+  {
+    _id: '645f38e0ca681a19c40dad9a',
+    name: 'Mobile Inventory',
+    route: '/api/mobile/inventories',
+    method: 'GET',
+    description: 'Get all inventories',
+  },
+  {
+    _id: '645f38e0ca681a19c40dad9b',
+    name: 'Mobile Inventory',
+    route: '/api/mobile/inventories/:id',
+    method: 'GET',
+    description: 'Get inventory details',
+  },
+  {
+    _id: '645f38e0ca681a19c40dad9c',
+    name: 'Mobile Inventory',
+    route: '/api/mobile/inventories/search',
+    method: 'GET',
+    description: 'Search inventory',
+  },
 ]
 
 export { roles, users, profile, permissions, clientPermissions }

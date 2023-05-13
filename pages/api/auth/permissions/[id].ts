@@ -55,7 +55,7 @@ handler.delete(
         })
       }
 
-      await object.remove()
+      await schemaName.findByIdAndDelete(id)
       res.status(200).json({ message: `${schemaNameString} removed` })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
