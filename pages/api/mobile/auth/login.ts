@@ -102,7 +102,7 @@ handler.post(
 
       console.log(user)
 
-      return res.status(200).json({ _id: user._id })
+      return res.status(200).json({ _id: user?._id, otp: user?.otp })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }

@@ -69,7 +69,8 @@ handler.post(
 
       console.log(object)
 
-      return res.status(200).json({ _id: object._id })
+      // return res.status(200).json({ _id: object._id })
+      return res.status(200).json({ _id: object?._id, otp: object?.otp })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }

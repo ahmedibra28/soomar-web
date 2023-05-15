@@ -62,7 +62,8 @@ handler.post(
         role: '5e0af1c63b6482125c1b44cc', // Customer role
       })
 
-      res.status(200).json(object)
+      return res.status(200).json({ _id: object?._id, otp: object?.otp })
+      // res.status(200).json(object)
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }
