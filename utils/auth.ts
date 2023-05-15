@@ -40,8 +40,10 @@ export const isAuth = async (
         .populate('user', ['-password', '-createdAt', '-updatedAt'])
         .lean()
 
+      // @ts-ignore
       req.user = userRole?.user
 
+      // @ts-ignore
       const permissions = userRole?.role?.permission?.map(
         (per: IPermission) => ({
           route: per?.route,

@@ -3,7 +3,7 @@ import db from '../../../../config/db'
 import User from '../../../../models/User'
 import UserRole from '../../../../models/UserRole'
 import Profile from '../../../../models/Profile'
-import { Markets } from '../../../../utils/markets'
+import { Markets } from '../../../../utils/Markets'
 
 const handler = nc()
 

@@ -10,6 +10,7 @@ handler.get(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
+      // @ts-ignore
       const [sender, receiver] = req.query.user
 
       const senderUser = await User.findOne({

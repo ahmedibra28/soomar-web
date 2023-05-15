@@ -40,6 +40,7 @@ handler.post(
             .status(404)
             .json({ error: 'This user does not have associated role' })
 
+        // @ts-ignore
         const routes = roleObj?.role?.clientPermission?.map(
           (a: { menu: string; name: string; path: string; sort: number }) => ({
             menu: a?.menu,
@@ -56,6 +57,7 @@ handler.post(
           blocked: user.blocked,
           confirmed: user.confirmed,
           image: profile.image,
+          // @ts-ignore
           role: roleObj.role.type,
           routes: routes,
           token: generateToken(user._id),

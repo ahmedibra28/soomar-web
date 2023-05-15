@@ -115,6 +115,7 @@ const Profile = () => {
       )}
 
       {getApi?.isLoading && <Spinner />}
+      {/* @ts-ignore */}
       <form onSubmit={handleSubmit(submitHandler)}>
         {getApi?.data?.image && (
           <div className="text-center rounded-pill">

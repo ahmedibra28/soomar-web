@@ -3,6 +3,7 @@ import db from '../../../../config/db'
 import Profile from '../../../../models/Profile'
 import User from '../../../../models/User'
 import UserRole from '../../../../models/UserRole'
+import { Markets } from '../../../../utils/Markets'
 
 const handler = nc()
 
@@ -25,6 +26,9 @@ handler.post(
 
       if (mobile.length !== 9)
         return res.status(400).json({ error: 'Invalid mobile number' })
+
+      if (market && !Markets.includes(market))
+        return res.status(400).json({ error: 'Invalid market' })
 
       const email = `${mobile}@soomar.app`
       const confirmed = true
@@ -50,6 +54,7 @@ handler.post(
         name: object.name,
         image: `https://ui-avatars.com/api/?uppercase=true&name=${object.name}&background=random&color=random&size=128`,
         mobile,
+        market,
       })
 
       await UserRole.create({

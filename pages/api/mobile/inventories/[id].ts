@@ -5,7 +5,7 @@ import axios from 'axios'
 
 const handler = nc()
 
-// handler.use(isAuth)
+handler.use(isAuth)
 
 const config = () => {
   return {

@@ -3,7 +3,7 @@ import db from '../../../../config/db'
 import Profile from '../../../../models/Profile'
 import { isAuth } from '../../../../utils/auth'
 import User from '../../../../models/User'
-import { Markets } from '../../../../utils/markets'
+import { Markets } from '../../../../utils/Markets'
 
 const handler = nc()
 

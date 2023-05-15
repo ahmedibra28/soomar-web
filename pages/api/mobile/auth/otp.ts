@@ -59,6 +59,7 @@ handler.post(
         email: user.email,
         market: profile.market,
         points: profile.points,
+        // @ts-ignore
         role: roleObj.role.type,
         token: generateToken(user._id),
       })
