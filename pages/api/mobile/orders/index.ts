@@ -1,6 +1,6 @@
 import nc from 'next-connect'
 import db from '../../../../config/db'
-import { isAuth } from '../../../../utils/auth'
+// import { isAuth } from '../../../../utils/auth'
 import axios from 'axios'
 import Order from '../../../../models/Order'
 import Payment from '../../../../models/Payment'
@@ -9,7 +9,7 @@ import evc from 'evc-api'
 
 const handler = nc()
 
-handler.use(isAuth)
+// handler.use(isAuth)
 
 const login = async (branch: string) => {
   const email = `${branch}@soomar.so`
