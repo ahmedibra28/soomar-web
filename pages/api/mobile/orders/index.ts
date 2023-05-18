@@ -96,6 +96,8 @@ handler.post(
         description: '',
       }
 
+      // hear check if inventory is available before payment
+
       const amount = localFormat.products.reduce(
         (acc: number, cur: any) => acc + cur.price * cur.quantity,
         0

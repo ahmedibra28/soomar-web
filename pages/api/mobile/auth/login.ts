@@ -4,6 +4,7 @@ import User from '../../../../models/User'
 import UserRole from '../../../../models/UserRole'
 import Profile from '../../../../models/Profile'
 import { Markets } from '../../../../utils/Markets'
+import { getToken, sendSMS } from '../../../../utils/SMS'
 
 const handler = nc()
 
@@ -100,9 +101,14 @@ handler.post(
       if (!otpGenerate)
         return res.status(400).json({ error: 'OTP not generated' })
 
-      console.log(user)
+      const token = await getToken()
+      const sms = await sendSMS({
+        token: token.access_token,
+        mobile,
+        message: `Your OTP is ${user.otp}`,
+      })
 
-      return res.status(200).json({ _id: user?._id, otp: user?.otp })
+      if (sms) return res.status(200).json({ _id: user?._id, otp: user?.otp })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }

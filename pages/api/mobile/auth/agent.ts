@@ -4,6 +4,7 @@ import Profile from '../../../../models/Profile'
 import User from '../../../../models/User'
 import UserRole from '../../../../models/UserRole'
 import { Markets } from '../../../../utils/Markets'
+import { getToken, sendSMS } from '../../../../utils/SMS'
 
 const handler = nc()
 
@@ -67,10 +68,15 @@ handler.post(
         role: '5e0af1c63b6482125c1b44ce', // Agent role
       })
 
-      console.log(object)
+      const token = await getToken()
+      const sms = await sendSMS({
+        token: token.access_token,
+        mobile,
+        message: `Your OTP is ${object.otp}`,
+      })
 
-      // return res.status(200).json({ _id: object._id })
-      return res.status(200).json({ _id: object?._id, otp: object?.otp })
+      if (sms)
+        return res.status(200).json({ _id: object?._id, otp: object?.otp })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }
