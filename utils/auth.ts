@@ -31,7 +31,7 @@ export const isAuth = async (
       const userRole = await UserRole.findOne({ user: decoded.id }, { role: 1 })
         .populate({
           path: 'role',
-          select: 'permission',
+          select: 'permission type',
           populate: {
             path: 'permission',
             select: ['method', 'route'],
@@ -41,7 +41,7 @@ export const isAuth = async (
         .lean()
 
       // @ts-ignore
-      req.user = userRole?.user
+      req.user = { ...userRole?.user, role: userRole?.role?.type }
 
       // @ts-ignore
       const permissions = userRole?.role?.permission?.map(

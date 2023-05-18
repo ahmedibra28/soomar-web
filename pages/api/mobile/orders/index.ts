@@ -6,6 +6,7 @@ import Order from '../../../../models/Order'
 import Payment from '../../../../models/Payment'
 // @ts-ignore
 import evc from 'evc-api'
+import Profile from '../../../../models/Profile'
 
 const handler = nc()
 
@@ -68,6 +69,39 @@ handler.post(
         deliveryAddress,
       }
 
+      const points = req.body?.cartItems?.reduce(
+        (acc: number, cur: any) => acc + cur.product?.points * cur.newQuantity,
+        0
+      )
+
+      const inventoryIds = localFormat.products.map((item: any) => item._id)
+
+      const checkQuantity = localFormat.products.map((item: any) => ({
+        _id: item._id,
+        quantity: item.quantity,
+      }))
+
+      const { data } = await axios.post(
+        `${process.env.API_URL}/mobile/inventories/quantity?branch=${branch}`,
+        { inventoryIds },
+        await config(branch)
+      )
+
+      const quantityComparison = checkQuantity.map((check: any) => {
+        const db = data.find((db: any) => db._id === check._id)
+
+        if (db && db?.quantity < check.quantity) {
+          return false
+        } else {
+          return true
+        }
+      })
+
+      if (quantityComparison?.includes(false))
+        return res
+          .status(400)
+          .json({ error: 'Ordered quantity is not available' })
+
       req.body = {
         products: req.body.cartItems?.map((item: any) => ({
           _id: item._id,
@@ -96,8 +130,6 @@ handler.post(
         description: '',
       }
 
-      // hear check if inventory is available before payment
-
       const amount = localFormat.products.reduce(
         (acc: number, cur: any) => acc + cur.price * cur.quantity,
         0
@@ -124,8 +156,6 @@ handler.post(
         merchantNo: '*********',
       })
 
-      console.log(paymentInfo)
-
       if (paymentInfo.responseCode !== '2001')
         return res.status(401).json({ error: `Payment failed` })
 
@@ -140,7 +170,25 @@ handler.post(
         .post(url, req.body, await config(branch))
         .then(() => {
           Order.create(localFormat)
-            .then(() => {
+            .then(async () => {
+              if (req.user.role === 'CUSTOMER') {
+                await Profile.findOneAndUpdate(
+                  { user: req.user._id },
+                  {
+                    $inc: { points: points / 2 },
+                  }
+                )
+              }
+
+              if (req.user.role === 'AGENT') {
+                await Profile.findOneAndUpdate(
+                  { user: req.user._id },
+                  {
+                    $inc: { points: points },
+                  }
+                )
+              }
+
               return res.status(200).json('success')
             })
             .catch(async (error) => {
