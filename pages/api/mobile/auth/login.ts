@@ -101,18 +101,18 @@ handler.post(
       if (!otpGenerate)
         return res.status(400).json({ error: 'OTP not generated' })
 
-      if (process.env.NODE_ENV === 'production') {
-        const token = await getToken()
-        const sms = await sendSMS({
-          token: token.access_token,
-          mobile,
-          message: `Your OTP is ${user.otp}`,
-        })
+      const token = await getToken()
+      const sms = await sendSMS({
+        token: token.access_token,
+        mobile,
+        message: `Your OTP is ${user.otp}`,
+      })
 
-        if (sms) return res.status(200).json({ _id: user?._id, otp: user?.otp })
-      }
-      console.log(user)
-      return res.status(200).json({ _id: user?._id, otp: user?.otp })
+      if (sms) return res.status(200).json({ _id: user?._id, otp: user?.otp })
+
+      return res
+        .status(500)
+        .json({ error: 'Something went wrong, please try again' })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }

@@ -4,9 +4,8 @@ import { isAuth } from '../../../../utils/auth'
 import axios from 'axios'
 import Order from '../../../../models/Order'
 import Payment from '../../../../models/Payment'
-// @ts-ignore
-import evc from 'evc-api'
 import Profile from '../../../../models/Profile'
+import { useEVCPayment } from '../../../../hooks/useEVCPayment'
 
 const handler = nc()
 
@@ -137,23 +136,22 @@ handler.post(
 
       const url = `${process.env.API_URL}/mobile/orders`
 
-      const { MERCHANT_U_ID, API_USER_ID, API_KEY } = process.env
+      const { MERCHANT_U_ID, API_USER_ID, API_KEY, MERCHANT_ACCOUNT_NO } =
+        process.env
 
-      const paymentInfo = await evc({
+      const paymentInfo = await useEVCPayment({
         merchantUId: MERCHANT_U_ID,
         apiUserId: API_USER_ID,
         apiKey: API_KEY,
         customerMobileNumber: `252${deliveryAddress.mobile}`,
-        // customerMobileNumber: `252770022200`,
         description: `${req.user.name} has paid ${amount?.toFixed(
           2
         )} for product price and ${deliveryAddress.deliveryPrice?.toFixed(
           2
         )} for delivery cost from ${branch} branch`,
         amount: amount + deliveryAddress.deliveryPrice,
-        // amount: 0.01,
-        autoWithdraw: false,
-        merchantNo: '*********',
+        withdrawTo: 'MERCHANT',
+        withdrawNumber: MERCHANT_ACCOUNT_NO,
       })
 
       if (paymentInfo.responseCode !== '2001')

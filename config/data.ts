@@ -394,6 +394,15 @@ const permissions = [
     name: 'Order',
     method: 'POST',
   },
+
+  // Payment
+  {
+    _id: '643bdfca6e2f031ae50db36b',
+    description: 'Exchange points',
+    route: '/api/mobile/payments/exchange',
+    name: 'Payment',
+    method: 'POST',
+  },
 ]
 
 export { roles, users, profile, permissions, clientPermissions }

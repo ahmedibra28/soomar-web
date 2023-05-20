@@ -72,7 +72,10 @@ handler.post(
 
       if (sms)
         return res.status(200).json({ _id: object?._id, otp: object?.otp })
-      // res.status(200).json(object)
+
+      return res
+        .status(500)
+        .json({ error: 'Something went wrong, please try again' })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }
