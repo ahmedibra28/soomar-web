@@ -13,8 +13,8 @@ const Meta = (props: Props) => {
 
   const title = 'soomar | Ahmed Ibrahim'
   const description = `Next.js typescript boilerplate`
-  const image = 'https://www.ahmedibra.com/logo.png'
-  const url = `https://www.ahmedibra.com${pathname}`
+  const image = 'https://www.soomar.so/logo.png'
+  const url = `https://www.soomar.so${pathname}`
   const author = 'Ahmed Ibrahim'
 
   return (
@@ -39,7 +39,7 @@ const Meta = (props: Props) => {
 
       <meta
         name="keywords"
-        content="ahmedibra, ahmedibra.com, https://ahmedibra.com, https://github.com/ahmedibradotcom, github.com/ahmedibradotcom, next.js, soomar, typescript, next-typescript, boilerplate, soomar, next-boilerplate, next.js-boilerplate"
+        content="ahmedibra, soomar.so, https://soomar.so, https://github.com/ahmedibradotcom, github.com/ahmedibradotcom, next.js, soomar, typescript, next-typescript, boilerplate, soomar, next-boilerplate, next.js-boilerplate"
       />
       <meta name="author" content={props?.author ? props?.author : author} />
       <meta name="publisher" content={props?.author ? props?.author : author} />
@@ -78,7 +78,7 @@ const Meta = (props: Props) => {
       />
       <meta
         itemProp="image"
-        content={props?.image ? `https://ahmedibra.com${props?.image}` : image}
+        content={props?.image ? `https://soomar.so${props?.image}` : image}
         key="g:image"
       />
 
@@ -97,7 +97,7 @@ const Meta = (props: Props) => {
       />
       <meta
         property="og:image"
-        content={props?.image ? `https://ahmedibra.com${props?.image}` : image}
+        content={props?.image ? `https://soomar.so${props?.image}` : image}
         key="og:image"
       />
 
@@ -115,7 +115,7 @@ const Meta = (props: Props) => {
       />
       <meta
         name="twitter:image"
-        content={props?.image ? `https://ahmedibra.com${props?.image}` : image}
+        content={props?.image ? `https://soomar.so${props?.image}` : image}
         key="twitter:image"
       />
     </Head>

@@ -35,7 +35,7 @@ const roles = [
 const users = {
   _id: '5063114bd386d8fadbd6b00a',
   name: 'Ahmed Ibrahim',
-  email: 'info@ahmedibra.com',
+  email: 'info@soomar.so',
   password: '123456',
   mobile: 615301507,
   confirmed: true,
@@ -54,6 +54,7 @@ const sort = {
   hidden: 0,
   profile: 1,
   admin: 2,
+  internet: 3,
 }
 
 const clientPermissions = [
@@ -120,6 +121,30 @@ const clientPermissions = [
     menu: 'admin',
     sort: sort.admin,
     description: 'User Profiles page',
+  },
+  {
+    _id: '646e3462b086bb61e1081477',
+    name: 'Internet Providers',
+    path: '/internets/providers',
+    menu: 'internet',
+    sort: sort.internet,
+    description: 'Internet Providers page',
+  },
+  {
+    _id: '646e3462b086bb61e1081478',
+    name: 'Internet Categories',
+    path: '/internets/categories',
+    menu: 'internet',
+    sort: sort.internet,
+    description: 'Internet Categories page',
+  },
+  {
+    _id: '646e3462b086bb61e1081479',
+    name: 'Internet Bundles',
+    path: '/internets/bundles',
+    menu: 'internet',
+    sort: sort.internet,
+    description: 'Internet Bundles page',
   },
 ]
 
@@ -301,6 +326,96 @@ const permissions = [
     description: 'Client Permission',
     route: '/api/auth/client-permissions/:id',
     name: 'ClientPermissions',
+    method: 'DELETE',
+  },
+
+  //   Internet Provider
+  {
+    _id: '646e334db086bb61e1081466',
+    description: 'Internet Providers',
+    route: '/api/internets/providers',
+    name: 'Internet Providers',
+    method: 'GET',
+  },
+  {
+    _id: '646e334db086bb61e1081467',
+    description: 'Internet Provider',
+    route: '/api/internets/providers',
+    name: 'Internet Providers',
+    method: 'POST',
+  },
+  {
+    _id: '646e334db086bb61e1081468',
+    description: 'Internet Provider',
+    route: '/api/internets/providers/:id',
+    name: 'Internet Providers',
+    method: 'PUT',
+  },
+  {
+    _id: '646e334db086bb61e1081469',
+    description: 'Internet Provider',
+    route: '/api/internets/providers/:id',
+    name: 'Internet Providers',
+    method: 'DELETE',
+  },
+
+  //   Internet Category
+  {
+    _id: '646e3462b086bb61e1081477',
+    description: 'Internet Categories',
+    route: '/api/internets/categories',
+    name: 'Internet Categories',
+    method: 'GET',
+  },
+  {
+    _id: '646e3462b086bb61e1081478',
+    description: 'Internet Category',
+    route: '/api/internets/categories',
+    name: 'Internet Categories',
+    method: 'POST',
+  },
+  {
+    _id: '646e3462b086bb61e1081479',
+    description: 'Internet Category',
+    route: '/api/internets/categories/:id',
+    name: 'Internet Categories',
+    method: 'PUT',
+  },
+  {
+    _id: '646e3462b086bb61e108147a',
+    description: 'Internet Category',
+    route: '/api/internets/categories/:id',
+    name: 'Internet Categories',
+    method: 'DELETE',
+  },
+
+  //   Bundle
+  {
+    _id: '646e344eb086bb61e1081473',
+    description: 'Bundles',
+    route: '/api/internets/bundles',
+    name: 'Internet Bundles',
+    method: 'GET',
+  },
+  {
+    _id: '646e344eb086bb61e1081474',
+    description: 'Bundle',
+    route: '/api/internets/bundles',
+    name: 'Internet Bundles',
+    method: 'POST',
+  },
+  {
+    _id: '646e344eb086bb61e1081475',
+    description: 'Bundle',
+    route: '/api/internets/bundles/:id',
+    name: 'Internet Bundles',
+    method: 'PUT',
+  },
+  {
+    _id: '646e344eb086bb61e1081476',
+    description: 'Bundle',
+    route: '/api/internets/bundles/:id',
+    name: 'Internet Bundles',
     method: 'DELETE',
   },
 

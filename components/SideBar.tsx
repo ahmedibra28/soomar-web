@@ -204,7 +204,7 @@ const SideBar = () => {
           </Link>
         </div>
         <h1 className="text-wrap text-center fs-6 fw-bold text-uppercase my-1 font-monospace text-primary">
-          {getApi?.data?.name?.slice(0, 50) || `ahmedibra.com`}
+          {getApi?.data?.name?.slice(0, 50) || `soomar.so`}
         </h1>
         <hr />
       </div>

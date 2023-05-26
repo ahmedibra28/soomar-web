@@ -9,7 +9,7 @@ const Footer = () => {
           <a
             className="text-muted"
             target="_blank"
-            href="https://ahmedibra.com"
+            href="https://soomar.so"
             rel="noreferrer"
           >
             Ahmed Ibrahim
