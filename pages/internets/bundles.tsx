@@ -201,7 +201,7 @@ const Categories = () => {
 
   return (
     <>
-      <Meta title="Internet Categories" />
+      <Meta title="Internet Bundles" />
 
       {deleteApi?.isSuccess && (
         <Message

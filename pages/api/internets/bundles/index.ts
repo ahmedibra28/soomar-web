@@ -65,6 +65,7 @@ handler.post(
       const exist = await Bundle.findOne({
         label: { $regex: `^${label?.trim()}$`, $options: 'i' },
         internetCategory,
+        amount,
       })
       if (exist)
         return res

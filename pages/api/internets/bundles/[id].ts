@@ -20,6 +20,7 @@ handler.put(
       const exist = await Bundle.findOne({
         label: { $regex: `^${label?.trim()}$`, $options: 'i' },
         internetCategory,
+        amount,
         _id: { $ne: id },
       })
 

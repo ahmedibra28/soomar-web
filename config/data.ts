@@ -518,6 +518,36 @@ const permissions = [
     name: 'Payment',
     method: 'POST',
   },
+
+  // Internet
+  {
+    _id: '64719ac71155b3dbaa0d38d2',
+    description: 'Internet providers',
+    route: '/api/mobile/internets/providers',
+    name: 'Mobile Internet',
+    method: 'GET',
+  },
+  {
+    _id: '64719ac71155b3dbaa0d38d3',
+    description: 'Internet categories',
+    route: '/api/mobile/internets/categories',
+    name: 'Mobile Internet',
+    method: 'GET',
+  },
+  {
+    _id: '64719ac71155b3dbaa0d38d4',
+    description: 'Internet bundles',
+    route: '/api/mobile/internets/bundles',
+    name: 'Mobile Internet',
+    method: 'GET',
+  },
+  {
+    _id: '64719ac71155b3dbaa0d38d5',
+    description: 'Internet recharge',
+    route: '/api/mobile/internets/recharge',
+    name: 'Mobile Internet',
+    method: 'POST',
+  },
 ]
 
 export { roles, users, profile, permissions, clientPermissions }
