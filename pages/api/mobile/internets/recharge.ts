@@ -1,7 +1,9 @@
 import nc from 'next-connect'
 import db from '../../../../config/db'
+// import InternetTransaction from '../../../../models/InternetTransaction'
 // import Bundle from '../../../../models/Bundle'
 import { isAuth } from '../../../../utils/auth'
+import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
 
 const handler = nc()
 handler.use(isAuth)
@@ -9,7 +11,42 @@ handler.post(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      console.log(req.body)
+      const {
+        senderMobile,
+        receiverMobile,
+        selectBundle: {
+          _id: bundleId,
+          internetCategory: {
+            _id: categoryId,
+            internetProvider: { _id: providerId, name: provider },
+          },
+        },
+      } = req.body
+
+      console.log({
+        senderMobile,
+        receiverMobile,
+        bundleId,
+        categoryId,
+        providerId,
+      })
+
+      const providerSender = ProviderNumberValidation(senderMobile).validSender
+      if (!providerSender)
+        return res.status(400).json({ error: 'Invalid sender mobile number' })
+
+      const providerReceiver =
+        ProviderNumberValidation(receiverMobile).validReceiver
+      if (!providerReceiver)
+        return res.status(400).json({ error: 'Invalid receiver mobile number' })
+
+      const providerName =
+        ProviderNumberValidation(receiverMobile).validProviderName
+      if (!providerName || providerName !== provider.toLowerCase())
+        return res.status(400).json({
+          error: 'Invalid receiver mobile number or mismatch provider name',
+        })
+
       //   const { id: category } = req.query
 
       //   if (!category) {
@@ -34,6 +71,7 @@ handler.post(
 
       //   return res.json(bundles)
       return res.json('success')
+      // return res.status(400).json({ error: 'srry' })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }

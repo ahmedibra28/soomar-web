@@ -6,6 +6,7 @@ import Order from '../../../../models/Order'
 import Payment from '../../../../models/Payment'
 import Profile from '../../../../models/Profile'
 import { useEVCPayment } from '../../../../hooks/useEVCPayment'
+import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
 
 const handler = nc()
 
@@ -45,6 +46,12 @@ handler.post(
       branch = branch.split(' ')[0]
 
       const deliveryAddress = req.body.deliveryAddress
+
+      const provider = ProviderNumberValidation(
+        deliveryAddress.mobile
+      ).validSender
+      if (!provider)
+        return res.status(400).json({ error: 'Invalid payment mobile number' })
 
       const localFormat = {
         products: req.body.cartItems?.map((item: any) => ({

@@ -244,8 +244,8 @@ const Categories = () => {
         edit={edit}
         formCleanHandler={formCleanHandler}
         form={form}
-        isLoadingUpdate={updateApi?.isLoading}
-        isLoadingPost={postApi?.isLoading}
+        isLoadingUpdate={updateApi?.isLoading || uploadApi?.isLoading}
+        isLoadingPost={postApi?.isLoading || uploadApi?.isLoading}
         handleSubmit={handleSubmit}
         submitHandler={submitHandler}
         modal={modal}

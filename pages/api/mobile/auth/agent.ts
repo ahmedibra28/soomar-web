@@ -6,6 +6,7 @@ import UserRole from '../../../../models/UserRole'
 import { Markets } from '../../../../utils/Markets'
 import { getToken, sendSMS } from '../../../../utils/SMS'
 import { useEVCPayment } from '../../../../hooks/useEVCPayment'
+import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
 
 const handler = nc()
 
@@ -13,21 +14,11 @@ handler.post(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const { name, market } = req.body
+      const { name, market, mobile } = req.body
 
-      let mobile = req.body.mobile
-
-      if (mobile.length !== 9) {
-        if (mobile.startsWith('0')) {
-          mobile = mobile.slice(1)
-        } else if (mobile.startsWith('252')) {
-          mobile = mobile.slice(3)
-        } else {
-          mobile = mobile.slice(0, 9)
-        }
-      }
-
-      if (mobile.length !== 9)
+      const provider = ProviderNumberValidation(mobile).validRegistration
+      const providerSender = ProviderNumberValidation(mobile).validSender
+      if (!provider || !providerSender)
         return res.status(400).json({ error: 'Invalid mobile number' })
 
       if (market && !Markets.includes(market))

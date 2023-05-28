@@ -4,6 +4,7 @@ import { isAuth } from '../../../../utils/auth'
 // @ts-ignore
 import Profile from '../../../../models/Profile'
 import { useEVCPayment } from '../../../../hooks/useEVCPayment'
+import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
 
 const handler = nc()
 
@@ -23,6 +24,12 @@ handler.post(
         return res.status(400).json({ error: 'Insufficient points' })
 
       const { MERCHANT_U_ID, API_USER_ID, API_KEY } = process.env
+
+      const provider = ProviderNumberValidation(profile.mobile).validEVCReceiver
+      if (!provider)
+        return res
+          .status(400)
+          .json({ error: 'Invalid payment receiver mobile number' })
 
       const paymentInfo = await useEVCPayment({
         merchantUId: MERCHANT_U_ID,

@@ -5,6 +5,7 @@ import UserRole from '../../../../models/UserRole'
 import Profile from '../../../../models/Profile'
 import { Markets } from '../../../../utils/Markets'
 import { getToken, sendSMS } from '../../../../utils/SMS'
+import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
 
 const handler = nc()
 
@@ -13,29 +14,19 @@ handler.post(
     try {
       await db()
 
-      let { mobile } = req.body
-      const { market } = req.body
+      const { market, mobile } = req.body
 
       if (market && !Markets.includes(market))
         return res.status(400).json({ error: 'Invalid market' })
+
+      const provider = ProviderNumberValidation(mobile).validOTP
+      if (!provider)
+        return res.status(400).json({ error: 'Invalid mobile number' })
 
       const user = await User.findOne({ mobile })
 
       // Register user if not found
       if (!user) {
-        if (mobile.length !== 9) {
-          if (mobile.startsWith('0')) {
-            mobile = mobile.slice(1)
-          } else if (mobile.startsWith('252')) {
-            mobile = mobile.slice(3)
-          } else {
-            mobile = mobile.slice(0, 9)
-          }
-        }
-
-        if (mobile.length !== 9)
-          return res.status(400).json({ error: 'Invalid mobile number' })
-
         const email = `${mobile}@soomar.app`
         const confirmed = true
         const blocked = false
