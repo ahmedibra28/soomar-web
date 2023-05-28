@@ -4,6 +4,7 @@ import User from './User'
 export interface IPayment {
   user: Schema.Types.ObjectId
   amount: number
+  transaction: 'PRODUCT GOODS' | 'INTERNET' | 'AGENT REGISTRATION'
   currency: 'USD' | 'SOS'
   status: {
     stepOne: 'success' | 'failed'
@@ -19,6 +20,11 @@ const paymentSchema = new Schema<IPayment>(
       ref: User,
     },
     amount: { type: Number, required: true },
+    transaction: {
+      type: String,
+      enum: ['PRODUCT GOODS', 'INTERNET', 'AGENT REGISTRATION'],
+      default: 'PRODUCT GOODS',
+    },
     currency: {
       type: String,
       enum: ['USD', 'SOS'],

@@ -166,6 +166,7 @@ handler.post(
 
       const payment = await Payment.create({
         user: req.user._id,
+        transaction: 'PRODUCT GOODS',
         amount,
         currency: 'USD',
         status: { stepOne: 'success', stepTwo: 'success' },

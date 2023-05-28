@@ -11,7 +11,7 @@ export interface IInternetTransaction {
   bundle: IBundle
 }
 
-const orderSchema = new Schema<IInternetTransaction>(
+const internetTransactionSchema = new Schema<IInternetTransaction>(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -39,6 +39,6 @@ const orderSchema = new Schema<IInternetTransaction>(
 
 const InternetTransaction =
   models.InternetTransaction ||
-  model<IInternetTransaction>('InternetTransaction', orderSchema)
+  model<IInternetTransaction>('InternetTransaction', internetTransactionSchema)
 
 export default InternetTransaction

@@ -7,6 +7,7 @@ import { Markets } from '../../../../utils/Markets'
 import { getToken, sendSMS } from '../../../../utils/SMS'
 import { useEVCPayment } from '../../../../hooks/useEVCPayment'
 import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
+import Payment from '../../../../models/Payment'
 
 const handler = nc()
 
@@ -55,6 +56,14 @@ handler.post(
         mobile,
         confirmed,
         blocked,
+      })
+
+      await Payment.create({
+        user: object._id,
+        transaction: 'AGENT REGISTRATION',
+        amount: 0.2,
+        currency: 'USD',
+        status: { stepOne: 'success', stepTwo: 'success' },
       })
 
       object.getRandomOtp()
