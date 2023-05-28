@@ -78,7 +78,6 @@ handler.post(
       if (!checkBundle) return res.status(400).json({ error: 'Invalid bundle' })
 
       const validateBundleId = (provider: string) => {
-        console.log(provider)
         const somlink = '6421558efb02b13e6b5f0ace'
         const hormuud = '6421552afb02b13e6b5f07cc'
         const somtel = '6422f8e54f44fa88647f2587'
@@ -132,7 +131,7 @@ handler.post(
         amount: checkBundle.amount,
       })
 
-      if (rechargeResponse.checkBundle !== 200) {
+      if (rechargeResponse.resultCode !== 200) {
         payment.status.stepTwo = 'failed'
         await payment.save()
         return res.status(401).json({ error: `Internet recharge failed` })
