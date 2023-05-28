@@ -23,7 +23,7 @@ export const rechargeData = async ({
       password: INTERNET_RECHARGE_PASSWORD_MG,
       amount,
       sender,
-      recharges: receiver,
+      recharge: receiver,
     },
     {
       headers: {
