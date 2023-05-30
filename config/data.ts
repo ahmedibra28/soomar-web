@@ -426,21 +426,21 @@ const permissions = [
     _id: '643bdfca6e2f031ae50db335',
     description: 'Get list of chats / chat history',
     route: '/api/mobile/chats/:id/:id',
-    name: 'Chats',
+    name: 'Mobile Chats',
     method: 'GET',
   },
   {
     _id: '643bdfca6e2f031ae50db336',
     description: 'Get current chat',
     route: '/api/mobile/chats',
-    name: 'Chats',
+    name: 'Mobile Chats',
     method: 'GET',
   },
   {
     _id: '643bdfca6e2f031ae50db337',
     description: 'Create or update current chat',
     route: '/api/mobile/chats',
-    name: 'Chats',
+    name: 'Mobile Chats',
     method: 'POST',
   },
 
@@ -449,23 +449,23 @@ const permissions = [
     _id: '643bdfca6e2f031ae50db338',
     description: 'Get profile',
     route: '/api/mobile/profile',
-    name: 'Profile',
+    name: 'Mobile Profile',
     method: 'GET',
   },
   {
     _id: '643bdfca6e2f031ae50db339',
     description: 'Update profile',
     route: '/api/mobile/profile',
-    name: 'Profile',
+    name: 'Mobile Profile',
     method: 'POST',
   },
 
   // Category
   {
-    _id: '643bdfca6e2f031ae50db33a',
+    _id: '643bdfca6e2f031ae50db333',
     description: 'Get categories',
     route: '/api/mobile/categories',
-    name: 'Category',
+    name: 'Mobile Category',
     method: 'GET',
   },
 
@@ -474,7 +474,7 @@ const permissions = [
     _id: '643bdfca6e2f031ae50db31a',
     description: 'Get sub-categories',
     route: '/api/mobile/sub-categories',
-    name: 'Sub-Category',
+    name: 'Mobile Sub-Category',
     method: 'GET',
   },
 
@@ -483,19 +483,19 @@ const permissions = [
     _id: '643bdfca6e2f031ae50db34a',
     description: 'Get inventories',
     route: '/api/mobile/inventories',
-    name: 'Inventory',
+    name: 'Mobile Inventory',
     method: 'GET',
   },
   {
     _id: '643bdfca6e2f031ae50db35a',
     description: 'Get product inventory details',
     route: '/api/mobile/inventories/:id',
-    name: 'Inventory',
+    name: 'Mobile Inventory',
     method: 'GET',
   },
   {
     _id: '645f38e0ca681a19c40dad9c',
-    name: 'Mobile Inventory',
+    name: 'Mobile Mobile Inventory',
     route: '/api/mobile/inventories/search',
     method: 'GET',
     description: 'Search inventory',
@@ -506,8 +506,15 @@ const permissions = [
     _id: '643bdfca6e2f031ae50db36a',
     description: 'Create order',
     route: '/api/mobile/orders',
-    name: 'Order',
+    name: 'Mobile Order',
     method: 'POST',
+  },
+  {
+    _id: '643bdfca6e2f031ae50db363',
+    description: 'Get all order transactions by user',
+    route: '/api/mobile/orders/transactions',
+    name: 'Mobile Order',
+    method: 'GET',
   },
 
   // Payment
@@ -515,7 +522,7 @@ const permissions = [
     _id: '643bdfca6e2f031ae50db36b',
     description: 'Exchange points',
     route: '/api/mobile/payments/exchange',
-    name: 'Payment',
+    name: 'Mobile Payment',
     method: 'POST',
   },
 
@@ -547,6 +554,13 @@ const permissions = [
     route: '/api/mobile/internets/recharge',
     name: 'Mobile Internet',
     method: 'POST',
+  },
+  {
+    _id: '64719ac71155b3dbaa0d38d6',
+    description: 'Get all internet transactions by user',
+    route: '/api/mobile/internets/transactions',
+    name: 'Mobile Internet',
+    method: 'GET',
   },
 ]
 
