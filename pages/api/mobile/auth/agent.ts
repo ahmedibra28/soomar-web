@@ -26,8 +26,20 @@ handler.post(
         return res.status(400).json({ error: 'Invalid market' })
 
       const checkExist = await User.findOne({ mobile })
-      if (checkExist)
-        return res.status(400).json({ error: 'Mobile number already exist' })
+      if (checkExist) {
+        const role = await UserRole.findOne(
+          {
+            user: checkExist._id,
+          },
+          { role: 1 }
+        ).populate({
+          path: 'role',
+          select: 'type',
+        })
+        return res
+          .status(400)
+          .json({ error: `Mobile number already exist as ${role?.role?.type}` })
+      }
 
       const email = `${mobile}@soomar.app`
       const confirmed = true

@@ -459,6 +459,13 @@ const permissions = [
     name: 'Mobile Profile',
     method: 'POST',
   },
+  {
+    _id: '647728a82849d153ae03f37b',
+    description: 'Upgrade account to agent',
+    route: '/api/mobile/profile/:id',
+    name: 'Mobile Profile',
+    method: 'PUT',
+  },
 
   // Category
   {

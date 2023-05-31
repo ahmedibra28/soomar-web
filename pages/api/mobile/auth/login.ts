@@ -46,6 +46,15 @@ handler.post(
           return res.status(400).json({ error: 'OTP not generated' })
         }
 
+        if (object.otp?.length !== 4) {
+          object.getRandomOtp()
+          const otpGenerate = await object.save()
+          if (!otpGenerate) {
+            await object.remove()
+            return res.status(400).json({ error: 'OTP not generated' })
+          }
+        }
+
         await Profile.create({
           user: object._id,
           name: object.name,
@@ -59,7 +68,19 @@ handler.post(
           role: '5e0af1c63b6482125c1b44cc', // Customer role
         })
 
-        return res.status(200).json({ _id: object._id })
+        const token = await getToken()
+        const sms = await sendSMS({
+          token: token.access_token,
+          mobile,
+          message: `Your OTP is ${object.otp}`,
+        })
+
+        if (sms)
+          return res.status(200).json({ _id: object?._id, otp: object?.otp })
+
+        return res
+          .status(500)
+          .json({ error: 'Something went wrong, please try again' })
       }
 
       if (user.blocked)

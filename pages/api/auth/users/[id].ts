@@ -74,10 +74,14 @@ handler.delete(
         user: object._id,
       })
 
-      const userRole = await UserRole.findOne({ user: object._id })
-      userRole && (await userRole.remove())
+      await UserRole.findOneAndDelete({
+        user: object._id,
+      })
 
-      await object.remove()
+      await schemaName.findOneAndDelete({
+        _id: id,
+      })
+
       res.status(200).json({ message: `${schemaNameString} removed` })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
