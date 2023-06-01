@@ -47,10 +47,15 @@ handler.post(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const { name, image, status } = req.body
+      const { name, image, branch, status } = req.body
+
+      const branches = ['Mogadishu', 'Kismayo', 'Hargeisa', 'Baidoa']
+      if (!branches.includes(branch))
+        return res.status(400).json({ error: 'Invalid branch' })
 
       const exist = await InternetProvider.findOne({
         name: { $regex: `^${name?.trim()}$`, $options: 'i' },
+        branch,
       })
       if (exist)
         return res
@@ -60,6 +65,7 @@ handler.post(
       const object = await InternetProvider.create({
         name,
         image,
+        branch,
         status,
         createdBy: req.user._id,
       })

@@ -16,14 +16,24 @@ export const ProviderNumberValidation = (number: number) => {
     somnet: ['68'],
     golis: ['90'],
     telesom: ['63'],
-    somtel: ['62', '65', '66'],
+    somtel: ['62'],
+    somtelSL: ['65'],
     somlink: ['64'],
     amtel: ['71'],
     soltelco: ['67'],
   }
 
-  const { hormuud, somnet, golis, telesom, somtel, somlink, amtel, soltelco } =
-    ProviderNumber
+  const {
+    hormuud,
+    somnet,
+    golis,
+    telesom,
+    somtel,
+    somlink,
+    amtel,
+    soltelco,
+    somtelSL,
+  } = ProviderNumber
 
   const validProviderName = () => {
     if (hormuud.includes(key)) return 'hormuud'
@@ -34,6 +44,7 @@ export const ProviderNumberValidation = (number: number) => {
     if (somlink.includes(key)) return 'somlink'
     if (amtel.includes(key)) return 'amtel'
     if (soltelco.includes(key)) return 'soltelco'
+    if (somtelSL.includes(key)) return 'somtelSL'
 
     return false
   }
@@ -59,9 +70,7 @@ export const ProviderNumberValidation = (number: number) => {
   }
 
   const validReceiver = () => {
-    const newSomtel = somtel.filter((item) => item !== '66')
-
-    const valid = [...hormuud, ...somnet, ...newSomtel, ...somlink]
+    const valid = [...hormuud, ...somnet, ...somtel, ...somlink, ...somtelSL]
     return valid.includes(key)
   }
 

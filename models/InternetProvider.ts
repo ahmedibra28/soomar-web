@@ -4,7 +4,8 @@ import User, { IUser } from './User'
 export interface IInternetProvider {
   readonly _id: Schema.Types.ObjectId
   name: string
-  image: string
+  image?: string
+  branch?: 'Mogadishu' | 'Kismayo' | 'Hargeisa' | 'Baidoa'
   createdBy: IUser
   updatedBy?: IUser
   status: 'active' | 'deleted' | 'inactive'
@@ -13,7 +14,12 @@ export interface IInternetProvider {
 const internetProviderSchema = new Schema<IInternetProvider>(
   {
     name: { type: String, required: true },
-    image: { type: String, required: true },
+    image: String,
+    branch: {
+      type: String,
+      enum: ['Mogadishu', 'Kismayo', 'Hargeisa', 'Baidoa'],
+      default: 'Mogadishu',
+    },
     createdBy: { type: Schema.Types.ObjectId, ref: User, required: true },
     updatedBy: { type: Schema.Types.ObjectId, ref: User },
     status: {

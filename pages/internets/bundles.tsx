@@ -277,6 +277,7 @@ const Categories = () => {
             <thead className="border-0">
               <tr>
                 <th>Provider</th>
+                <th>Branch</th>
                 <th>Category</th>
                 <th>Label</th>
                 <th>Amount</th>
@@ -290,6 +291,7 @@ const Categories = () => {
               {getApi?.data?.data?.map((item: IBundle, i: number) => (
                 <tr key={i}>
                   <td>{item?.internetCategory?.internetProvider?.name}</td>
+                  <td>{item?.internetCategory?.internetProvider?.branch}</td>
                   <td>{item?.internetCategory?.name}</td>
                   <td>{item?.label}</td>
                   <td>{currency(item?.amount)}</td>

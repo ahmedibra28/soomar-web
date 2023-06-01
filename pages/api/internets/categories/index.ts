@@ -29,7 +29,7 @@ handler.get(
         .limit(pageSize)
         .sort({ createdAt: -1 })
         .lean()
-        .populate('internetProvider', ['name', 'image'])
+        .populate('internetProvider', ['name', 'image', 'branch'])
 
       const result = await query
 

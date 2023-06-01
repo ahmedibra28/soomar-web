@@ -9,11 +9,14 @@ handler.get(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const q = req.query && req.query.q
+      const { q } = req.query
+
+      const branch = req.query?.branch?.split(' ')[0]
+      console.log(branch)
 
       const queryCondition = q
-        ? { name: { $regex: q, $options: 'i' }, status: 'active' }
-        : { status: 'active' }
+        ? { name: { $regex: q, $options: 'i' }, status: 'active', branch }
+        : { status: 'active', branch }
 
       let query = InternetProvider.find(queryCondition)
 

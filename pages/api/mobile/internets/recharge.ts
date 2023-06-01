@@ -27,6 +27,18 @@ handler.post(
           },
         },
       } = req.body
+      let { branch } = req.query
+      branch = branch?.split(' ')[0]
+
+      // console.log({
+      //   senderMobile,
+      //   receiverMobile,
+      //   bundleId,
+      //   categoryId,
+      //   providerId,
+      //   provider,
+      //   branch,
+      // })
 
       const providerSender = ProviderNumberValidation(senderMobile).validSender
       if (!providerSender)
@@ -39,18 +51,15 @@ handler.post(
 
       const providerName =
         ProviderNumberValidation(receiverMobile).validProviderName
-      if (!providerName || providerName !== provider.toLowerCase())
+
+      if (
+        !providerName ||
+        providerName?.toString()?.toLowerCase() !==
+          provider.toLowerCase()?.replaceAll(' ', '')
+      )
         return res.status(400).json({
           error: 'Invalid receiver mobile number or mismatch provider name',
         })
-
-      // console.log({
-      //   senderMobile,
-      //   receiverMobile,
-      //   bundleId,
-      //   categoryId,
-      //   providerId,
-      // })
 
       // check provider if exist and active
       const checkProvider = await InternetProvider.findOne({
@@ -81,6 +90,7 @@ handler.post(
         const somlink = '6421558efb02b13e6b5f0ace'
         const hormuud = '6421552afb02b13e6b5f07cc'
         const somtel = '6422f8e54f44fa88647f2587'
+        const somtelSL = '6422f8e54f44fa88647f2589'
         const somnet = '64215500fb02b13e6b5efeac'
         const amtel = null
 
@@ -89,6 +99,7 @@ handler.post(
         if (provider == 'amtel') return amtel
         if (provider == 'hormuud') return hormuud
         if (provider == 'somlink') return somlink
+        if (provider == 'somtel sl') return somtelSL
 
         return false
       }
@@ -96,6 +107,21 @@ handler.post(
       // implement IMS sales here...
       if (!validateBundleId(provider?.toLowerCase()))
         return res.status(400).json({ error: 'Invalid bundle reference' })
+
+      // implement SOMALI LAND DATA here...
+      if (branch === 'Hargeisa' && provider === 'Somtel SL') {
+        if (!senderMobile || senderMobile.toString().length !== 9)
+          return res.status(400).json({ error: 'Invalid sender mobile number' })
+
+        const key = senderMobile.toString().substring(0, 2)
+
+        if (key !== '62')
+          return res.status(400).json({
+            error: 'Invalid sender mobile number or provider is not Telesom',
+          })
+      }
+
+      // return res.status(406).json({ error: 'sorr' })
 
       // Payment Implementation
       const { MERCHANT_U_ID, API_USER_ID, API_KEY, MERCHANT_ACCOUNT_NO } =
@@ -112,6 +138,8 @@ handler.post(
         amount: checkBundle.amount,
         withdrawTo: 'MERCHANT',
         withdrawNumber: MERCHANT_ACCOUNT_NO,
+        currency:
+          branch === 'Hargeisa' && provider === 'Somtel SL' ? 'SLSH' : 'USD',
       })
 
       if (paymentInfo.responseCode !== '2001')
@@ -121,7 +149,8 @@ handler.post(
         user: req.user._id,
         transaction: 'INTERNET',
         amount: checkBundle.amount,
-        currency: 'USD',
+        currency:
+          branch === 'Hargeisa' && provider === 'Somtel SL' ? 'SLSH' : 'USD',
         status: { stepOne: 'success', stepTwo: 'success' },
       })
 
@@ -129,6 +158,7 @@ handler.post(
         sender: senderMobile,
         receiver: receiverMobile,
         amount: checkBundle.amount,
+        branch,
       })
 
       if (rechargeResponse.resultCode !== 200) {

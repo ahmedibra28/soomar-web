@@ -34,7 +34,7 @@ handler.get(
           select: ['name', 'image', 'internetProvider'],
           populate: {
             path: 'internetProvider',
-            select: ['name', 'image'],
+            select: ['name', 'image', 'branch'],
           },
         })
 

@@ -6,7 +6,7 @@ export interface IInternetCategory {
   readonly _id: Schema.Types.ObjectId
   internetProvider: IInternetProvider
   name: string
-  image: string
+  image?: string
   createdBy: IUser
   updatedBy?: IUser
   status: 'active' | 'deleted' | 'inactive'
@@ -15,7 +15,7 @@ export interface IInternetCategory {
 const internetCategorySchema = new Schema<IInternetCategory>(
   {
     name: { type: String, required: true },
-    image: { type: String, required: true },
+    image: String,
     internetProvider: {
       type: Schema.Types.ObjectId,
       ref: InternetProvider,

@@ -10,6 +10,7 @@ interface Prop {
   amount?: number
   withdrawTo?: 'MERCHANT' | 'TEL'
   withdrawNumber?: string
+  currency?: 'USD' | 'SLSH'
 }
 
 export const useEVCPayment = async ({
@@ -21,6 +22,7 @@ export const useEVCPayment = async ({
   amount,
   withdrawTo,
   withdrawNumber,
+  currency = 'USD',
 }: Prop) => {
   try {
     const responseMsg = (status: number, message: string) => ({
@@ -61,7 +63,7 @@ export const useEVCPayment = async ({
           referenceId: uuidv4(),
           invoiceId: `${uuidv4().slice(0, 5)}-${customerMobileNumber}`,
           amount: Number(amount),
-          currency: 'USD',
+          currency,
           description: description,
         },
       },
@@ -90,7 +92,7 @@ export const useEVCPayment = async ({
           referenceId: uuidv4(),
           invoiceId: `${uuidv4().slice(0, 5)}-${withdrawNumber}`,
           amount: Number(amount) - (withdrawTo === 'MERCHANT' ? netAmount : 0),
-          currency: 'USD',
+          currency,
           description: description,
         },
       },

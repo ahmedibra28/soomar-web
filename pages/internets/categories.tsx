@@ -284,6 +284,7 @@ const Categories = () => {
             <thead className="border-0">
               <tr>
                 <th>Internet Provider</th>
+                <th>Branch</th>
                 <th>Name</th>
                 <th>Status</th>
                 <th>Actions</th>
@@ -293,6 +294,8 @@ const Categories = () => {
               {getApi?.data?.data?.map((item: IInternetCategory, i: number) => (
                 <tr key={i}>
                   <td>{item?.internetProvider?.name}</td>
+                  <td>{item?.internetProvider?.branch}</td>
+
                   <td>{item?.name}</td>
                   <td>
                     {item?.status === 'active' ? (

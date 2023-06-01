@@ -95,6 +95,7 @@ const Providers = () => {
   const editHandler = (item: IInternetProvider) => {
     setId(item._id)
     setValue('name', item?.name)
+    setValue('branch', item?.branch)
     setValue('status', item?.status)
     setEdit(true)
   }
@@ -118,15 +119,19 @@ const Providers = () => {
       edit
         ? updateApi?.mutateAsync({
             _id: id,
-            ...data,
+            name: data?.name,
+            branch: data?.branch,
+            status: data?.status,
           })
         : postApi?.mutateAsync(data)
     } else {
       edit
         ? updateApi?.mutateAsync({
             _id: id,
-            ...data,
-            image: fileLink,
+            name: data?.name,
+            branch: data?.branch,
+            image: file && fileLink ? fileLink : null,
+            status: data?.status,
           })
         : postApi?.mutateAsync({ ...data, image: fileLink })
     }
@@ -158,6 +163,23 @@ const Providers = () => {
         placeholder: 'Enter name',
       } as DynamicFormProps)}
     </div>,
+
+    <div key={3} className="col-12">
+      {staticInputSelect({
+        register,
+        errors,
+        label: 'Branch',
+        name: 'branch',
+        placeholder: 'Branch',
+        data: [
+          { name: 'Mogadishu' },
+          { name: 'Kismayo' },
+          { name: 'Hargeisa' },
+          { name: 'Baidoa' },
+        ],
+      } as DynamicFormProps)}
+    </div>,
+
     <div key={1} className="col-12">
       {inputFile({
         register,
@@ -262,6 +284,7 @@ const Providers = () => {
             <thead className="border-0">
               <tr>
                 <th>Name</th>
+                <th>Branch</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
@@ -270,6 +293,7 @@ const Providers = () => {
               {getApi?.data?.data?.map((item: IInternetProvider, i: number) => (
                 <tr key={i}>
                   <td>{item?.name}</td>
+                  <td>{item?.branch}</td>
                   <td>
                     {item?.status === 'active' ? (
                       <div className="badge bg-success">{item?.status}</div>

@@ -11,7 +11,11 @@ handler.put(
     await db()
     try {
       const { id } = req.query
-      const { name, image, status } = req.body
+      const { name, image, status, branch } = req.body
+
+      const branches = ['Mogadishu', 'Kismayo', 'Hargeisa', 'Baidoa']
+      if (!branches.includes(branch))
+        return res.status(400).json({ error: 'Invalid branch' })
 
       const object = await InternetProvider.findById(id)
       if (!object)
@@ -19,6 +23,7 @@ handler.put(
 
       const exist = await InternetProvider.findOne({
         name: { $regex: `^${name?.trim()}$`, $options: 'i' },
+        branch,
         _id: { $ne: id },
       })
 
@@ -28,8 +33,11 @@ handler.put(
           .json({ error: 'Duplicate internet provider detected' })
 
       object.name = name
-      object.image = image
+      if (image) {
+        object.image = image
+      }
       object.status = status
+      object.branch = branch
       object.updatedBy = req.user._id
       await object.save()
       res.status(200).json({ message: `Internet provider updated` })

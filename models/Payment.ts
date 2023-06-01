@@ -5,7 +5,7 @@ export interface IPayment {
   user: Schema.Types.ObjectId
   amount: number
   transaction: 'PRODUCT GOODS' | 'INTERNET' | 'AGENT REGISTRATION'
-  currency: 'USD' | 'SOS'
+  currency: 'USD' | 'SLSH'
   status: {
     stepOne: 'success' | 'failed'
     stepTwo: 'success' | 'failed'
@@ -27,7 +27,7 @@ const paymentSchema = new Schema<IPayment>(
     },
     currency: {
       type: String,
-      enum: ['USD', 'SOS'],
+      enum: ['USD', 'SLSH'],
       default: 'USD',
     },
     status: {
