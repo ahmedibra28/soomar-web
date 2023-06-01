@@ -115,29 +115,47 @@ handler.post(
 
         const key = senderMobile.toString().substring(0, 2)
 
-        if (key !== '62')
+        if (key !== '63')
           return res.status(400).json({
             error: 'Invalid sender mobile number or provider is not Telesom',
           })
       }
 
-      // return res.status(406).json({ error: 'sorr' })
-
       // Payment Implementation
-      const { MERCHANT_U_ID, API_USER_ID, API_KEY, MERCHANT_ACCOUNT_NO } =
-        process.env
+      const {
+        MERCHANT_U_ID,
+        API_USER_ID,
+        API_KEY,
+        MERCHANT_ACCOUNT_NO,
+        SL_MERCHANT_U_ID,
+        SL_API_USER_ID,
+        SL_API_KEY,
+        SL_MERCHANT_ACCOUNT_NO,
+      } = process.env
 
       const paymentInfo = await useEVCPayment({
-        merchantUId: MERCHANT_U_ID,
-        apiUserId: API_USER_ID,
-        apiKey: API_KEY,
+        merchantUId:
+          branch === 'Hargeisa' && provider === 'Somtel SL'
+            ? SL_MERCHANT_U_ID
+            : MERCHANT_U_ID,
+        apiUserId:
+          branch === 'Hargeisa' && provider === 'Somtel SL'
+            ? SL_API_USER_ID
+            : API_USER_ID,
+        apiKey:
+          branch === 'Hargeisa' && provider === 'Somtel SL'
+            ? SL_API_KEY
+            : API_KEY,
         customerMobileNumber: `252${senderMobile}`,
         description: `${req.user.name} has paid ${checkBundle.amount?.toFixed(
           2
         )} for ${provider} internet data`,
         amount: checkBundle.amount,
         withdrawTo: 'MERCHANT',
-        withdrawNumber: MERCHANT_ACCOUNT_NO,
+        withdrawNumber:
+          branch === 'Hargeisa' && provider === 'Somtel SL'
+            ? SL_MERCHANT_ACCOUNT_NO
+            : MERCHANT_ACCOUNT_NO,
         currency:
           branch === 'Hargeisa' && provider === 'Somtel SL' ? 'SLSH' : 'USD',
       })
