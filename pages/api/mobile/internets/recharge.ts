@@ -9,6 +9,7 @@ import Bundle from '../../../../models/Bundle'
 import Payment from '../../../../models/Payment'
 import { rechargeData } from '../../../../utils/InternetRecharge'
 import InternetTransaction from '../../../../models/InternetTransaction'
+import { useSomLinkRecharge } from '../../../../hooks/useSomLinkRecharge'
 
 const handler = nc()
 handler.use(isAuth)
@@ -171,6 +172,23 @@ handler.post(
           branch === 'Hargeisa' && provider === 'Somtel SL' ? 'SLSH' : 'USD',
         status: { stepOne: 'success', stepTwo: 'success' },
       })
+
+      if (provider?.toLowerCase() === 'somlink') {
+        const data = await useSomLinkRecharge({
+          msisdn: receiverMobile, // 252645104047
+          offerid: checkBundle?.offerId, //20061
+        })
+
+        if (data !== 'Success') return res.status(400).json({ error: data })
+
+        await InternetTransaction.create({
+          user: req.user._id,
+          provider: providerId,
+          category: categoryId,
+          bundle: bundleId,
+        })
+        return res.json('success')
+      }
 
       const rechargeResponse = await rechargeData({
         sender: senderMobile,

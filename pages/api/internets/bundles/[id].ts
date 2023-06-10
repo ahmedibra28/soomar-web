@@ -11,8 +11,15 @@ handler.put(
     await db()
     try {
       const { id } = req.query
-      const { internetCategory, quantity, amount, label, description, status } =
-        req.body
+      const {
+        internetCategory,
+        quantity,
+        amount,
+        label,
+        description,
+        status,
+        offerId,
+      } = req.body
 
       const object = await Bundle.findById(id)
       if (!object) return res.status(400).json({ error: `Bundle not found` })
@@ -35,6 +42,7 @@ handler.put(
       object.label = label
       object.description = description
       object.status = status
+      object.offerId = offerId
       object.updatedBy = req.user._id
       await object.save()
       res.status(200).json({ message: `Bundle updated` })

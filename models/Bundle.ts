@@ -8,6 +8,7 @@ export interface IBundle {
   quantity: number
   amount: number
   label: string
+  offerId: number
   description?: string
   createdBy: IUser
   updatedBy?: IUser
@@ -19,6 +20,7 @@ const bundleSchema = new Schema<IBundle>(
     quantity: { type: Number, required: true },
     amount: { type: Number, required: true },
     label: { type: String, required: true },
+    offerId: Number,
     description: String,
     internetCategory: {
       type: Schema.Types.ObjectId,

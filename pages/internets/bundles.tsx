@@ -102,6 +102,8 @@ const Categories = () => {
     setValue('label', item?.label)
     setValue('description', item?.description)
     setValue('status', item?.status)
+    setValue('offerId', item?.offerId)
+
     setEdit(true)
   }
 
@@ -174,6 +176,26 @@ const Categories = () => {
         placeholder: 'Enter quantity',
       } as DynamicFormProps)}
     </div>,
+    <div key={33} className="col-md-6 col-12">
+      {inputNumber({
+        register,
+        errors,
+        label: 'SomLink Offer ID',
+        name: 'offerId',
+        isRequired: false,
+        placeholder: 'Enter offer id',
+      } as DynamicFormProps)}
+    </div>,
+    <div key={5} className="col-md-6 col-12">
+      {staticInputSelect({
+        register,
+        errors,
+        label: 'Status',
+        name: 'status',
+        placeholder: 'Status',
+        data: [{ name: 'active' }, { name: 'inactive' }],
+      } as DynamicFormProps)}
+    </div>,
 
     <div key={6} className="col-12">
       {inputTextArea({
@@ -183,16 +205,6 @@ const Categories = () => {
         name: 'description',
         isRequired: false,
         placeholder: 'Enter description',
-      } as DynamicFormProps)}
-    </div>,
-    <div key={5} className="col-12">
-      {staticInputSelect({
-        register,
-        errors,
-        label: 'Status',
-        name: 'status',
-        placeholder: 'Status',
-        data: [{ name: 'active' }, { name: 'inactive' }],
       } as DynamicFormProps)}
     </div>,
   ]
@@ -280,6 +292,7 @@ const Categories = () => {
                 <th>Branch</th>
                 <th>Category</th>
                 <th>Label</th>
+                <th>Offer ID</th>
                 <th>Amount</th>
                 <th>Quantity</th>
                 <th>Description</th>
@@ -294,6 +307,7 @@ const Categories = () => {
                   <td>{item?.internetCategory?.internetProvider?.branch}</td>
                   <td>{item?.internetCategory?.name}</td>
                   <td>{item?.label}</td>
+                  <td>{item?.offerId}</td>
                   <td>{currency(item?.amount)}</td>
                   <td>{item?.quantity}</td>
                   <td>{item?.description}</td>

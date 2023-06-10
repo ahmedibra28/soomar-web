@@ -59,8 +59,15 @@ handler.post(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const { internetCategory, quantity, amount, label, description, status } =
-        req.body
+      const {
+        internetCategory,
+        quantity,
+        amount,
+        label,
+        description,
+        status,
+        offerId,
+      } = req.body
 
       const exist = await Bundle.findOne({
         label: { $regex: `^${label?.trim()}$`, $options: 'i' },
@@ -78,6 +85,7 @@ handler.post(
         amount,
         label,
         description,
+        offerId,
         status,
         createdBy: req.user._id,
       })
