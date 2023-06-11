@@ -32,6 +32,7 @@ handler.post(
 
       user.otp = undefined
       user.otpExpire = undefined
+      user.isReal = true
 
       await user.save()
 

@@ -7,6 +7,7 @@ import Payment from '../../../../models/Payment'
 import Profile from '../../../../models/Profile'
 import { useEVCPayment } from '../../../../hooks/useEVCPayment'
 import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
+import { getToken, sendSMS } from '../../../../utils/SMS'
 
 const handler = nc()
 
@@ -194,8 +195,16 @@ handler.post(
                   }
                 )
               }
+              const profile = await Profile.findOne({ user: req.user._id })
 
-              return res.status(200).json('success')
+              const token = await getToken()
+              await sendSMS({
+                token: token.access_token,
+                mobile: profile.mobile,
+                message: `Mahadsanid macmiil, dalabkaaga wuu nasoo gaaray, waxaana kula soo xiriiri doona qeybta delivery-ga 0619988338, waxaadna heshay ${profile.points} dhibcood.`,
+              })
+
+              return res.status(200).json(profile)
             })
             .catch(async (error) => {
               payment.status.stepTwo = 'failed'

@@ -16,6 +16,7 @@ export interface IUser {
   blocked: boolean
   createdAt?: Date
   role?: string
+  isReal: boolean
 }
 
 const userSchema = new Schema<IUser>(
@@ -30,6 +31,7 @@ const userSchema = new Schema<IUser>(
     otpExpire: Date,
     confirmed: { type: Boolean, default: false },
     blocked: { type: Boolean, default: false },
+    isReal: { type: Boolean, default: false },
   },
   { timestamps: true }
 )

@@ -53,8 +53,8 @@ handler.post(
         apiUserId: API_USER_ID,
         apiKey: API_KEY,
         customerMobileNumber: `252${mobile}`,
-        description: `${name} has paid ${0.2} for agent registration`,
-        amount: 0.2,
+        description: `${name} has paid ${0.25} for agent registration`,
+        amount: 0.25,
         withdrawTo: 'MERCHANT',
         withdrawNumber: MERCHANT_ACCOUNT_NO,
       })
@@ -68,6 +68,7 @@ handler.post(
         mobile,
         confirmed,
         blocked,
+        isReal: false,
       })
 
       await Payment.create({
