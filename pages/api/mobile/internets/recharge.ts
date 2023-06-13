@@ -179,7 +179,8 @@ handler.post(
           offerid: checkBundle?.offerId, //20061
         })
 
-        if (data !== 'Success') return res.status(400).json({ error: data })
+        if (data?.status !== 'Success')
+          return res.status(400).json({ error: data?.message })
 
         await InternetTransaction.create({
           user: req.user._id,

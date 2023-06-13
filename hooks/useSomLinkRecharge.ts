@@ -31,7 +31,7 @@ export const useSomLinkRecharge = async ({
         const parser = new Parser()
         parser.parseString(response.data, (error, result) => {
           if (error) {
-            return error
+            return { status: 'Error', message: error }
           } else {
             let { Status } = result.Result
             const { Reason } = result.Result
@@ -39,16 +39,19 @@ export const useSomLinkRecharge = async ({
             Status = Status[0]['$'].value
 
             if (Status === 'Error')
-              return Reason[0]['$'].value || 'Something went wrong!'
+              return {
+                status: 'Error',
+                message: Reason[0]['$'].value || 'Something went wrong!',
+              }
 
-            return Status
+            return { status: 'Success', message: 'Success' }
           }
         })
       })
       .catch((error) => {
-        return error
+        return { status: 'Error', message: error }
       })
   } catch (error) {
-    return error
+    return { status: 'Error', message: error }
   }
 }
