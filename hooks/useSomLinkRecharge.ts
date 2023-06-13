@@ -13,18 +13,7 @@ export const useSomLinkRecharge = async ({
     INTERNET_SOMLINK_URL,
   } = process.env
 
-  console.log({
-    INTERNET_SOMLINK_USERNAME,
-    INTERNET_SOMLINK_PASSWORD,
-    INTERNET_SOMLINK_URL,
-  })
-
-  console.log({
-    msisdn,
-    offerid,
-  })
-
-  const finalurl = `${INTERNET_SOMLINK_URL}/?Page=OfferPurchaseByCC&UserID=${msisdn}&OfferId=${20060}`
+  const finalurl = `${INTERNET_SOMLINK_URL}/?Page=OfferPurchaseByCC&UserID=252${msisdn}&OfferId=${offerid}`
 
   try {
     const { data } = await axios.get(finalurl, {
@@ -42,8 +31,8 @@ export const useSomLinkRecharge = async ({
     const reasonValue =
       data?.match(/<Reason value="([^"]+)" \/>/)?.[1] || 'Something went wrong!'
 
-    console.log('statusValue', statusValue)
-    console.log('reasonValue', reasonValue)
+    // console.log('statusValue', statusValue)
+    // console.log('reasonValue', reasonValue)
 
     return { status: statusValue, message: reasonValue }
   } catch (error) {
