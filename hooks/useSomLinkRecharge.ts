@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { Parser } from 'xml2js'
 
 export const useSomLinkRecharge = async ({
   msisdn,
@@ -14,43 +13,39 @@ export const useSomLinkRecharge = async ({
     INTERNET_SOMLINK_URL,
   } = process.env
 
-  const finalurl = `${INTERNET_SOMLINK_URL}/?Page=OfferPurchaseByCC&UserID=${msisdn}&OfferId=${offerid}`
+  console.log({
+    INTERNET_SOMLINK_USERNAME,
+    INTERNET_SOMLINK_PASSWORD,
+    INTERNET_SOMLINK_URL,
+  })
+
+  console.log({
+    msisdn,
+    offerid,
+  })
+
+  const finalurl = `${INTERNET_SOMLINK_URL}/?Page=OfferPurchaseByCC&UserID=${msisdn}&OfferId=${20060}`
 
   try {
-    axios
-      .get(finalurl, {
-        headers: {
-          Authorization:
-            'Basic ' +
-            Buffer.from(
-              `${INTERNET_SOMLINK_USERNAME}:${INTERNET_SOMLINK_PASSWORD}`
-            ).toString('base64'),
-        },
-      })
-      .then((response) => {
-        const parser = new Parser()
-        parser.parseString(response.data, (error, result) => {
-          if (error) {
-            return { status: 'Error', message: error }
-          } else {
-            let { Status } = result.Result
-            const { Reason } = result.Result
+    const { data } = await axios.get(finalurl, {
+      headers: {
+        Authorization:
+          'Basic ' +
+          Buffer.from(
+            `${INTERNET_SOMLINK_USERNAME}:${INTERNET_SOMLINK_PASSWORD}`
+          ).toString('base64'),
+      },
+    })
 
-            Status = Status[0]['$'].value
+    const statusValue =
+      data?.match(/<Status value="([^"]+)" \/>/)?.[1] || 'Error'
+    const reasonValue =
+      data?.match(/<Reason value="([^"]+)" \/>/)?.[1] || 'Something went wrong!'
 
-            if (Status === 'Error')
-              return {
-                status: 'Error',
-                message: Reason[0]['$'].value || 'Something went wrong!',
-              }
+    console.log('statusValue', statusValue)
+    console.log('reasonValue', reasonValue)
 
-            return { status: 'Success', message: 'Success' }
-          }
-        })
-      })
-      .catch((error) => {
-        return { status: 'Error', message: error }
-      })
+    return { status: statusValue, message: reasonValue }
   } catch (error) {
     return { status: 'Error', message: error }
   }
