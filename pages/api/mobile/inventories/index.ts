@@ -10,7 +10,7 @@ handler.use(isAuth)
 const config = () => {
   return {
     headers: {
-      'x-db-key': 3020,
+      'x-db-key': 4812,
     },
   }
 }

@@ -20,7 +20,7 @@ const login = async (branch: string) => {
   const { data } = await axios.post(`${process.env.API_URL}/auth/login`, {
     email,
     password,
-    dbCode: 3020,
+    dbCode: 4812,
   })
 
   delete data.routes
@@ -33,7 +33,7 @@ const config = async (branch: string) => {
   return {
     headers: {
       Authorization: `Bearer ${token}`,
-      'x-db-key': 3020,
+      'x-db-key': 4812,
     },
   }
 }
