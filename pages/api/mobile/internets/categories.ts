@@ -1,10 +1,8 @@
 import nc from 'next-connect'
 import db from '../../../../config/db'
 import InternetCategory from '../../../../models/InternetCategory'
-import { isAuth } from '../../../../utils/auth'
 
 const handler = nc()
-handler.use(isAuth)
 handler.get(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()

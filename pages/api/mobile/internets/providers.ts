@@ -1,10 +1,8 @@
 import nc from 'next-connect'
 import db from '../../../../config/db'
 import InternetProvider from '../../../../models/InternetProvider'
-import { isAuth } from '../../../../utils/auth'
 
 const handler = nc()
-handler.use(isAuth)
 handler.get(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
@@ -12,7 +10,6 @@ handler.get(
       const { q } = req.query
 
       const branch = req.query?.branch?.split(' ')[0]
-      console.log(branch)
 
       const queryCondition = q
         ? { name: { $regex: q, $options: 'i' }, status: 'active', branch }

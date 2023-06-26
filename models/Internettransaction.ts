@@ -1,22 +1,27 @@
 import { Schema, model, models } from 'mongoose'
-import User from './User'
+import User, { IUser } from './User'
 import InternetProvider, { IInternetProvider } from './InternetProvider'
 import InternetCategory, { IInternetCategory } from './InternetCategory'
 import Bundle, { IBundle } from './Bundle'
+import Business, { IBusiness } from './Business'
 
 export interface IInternetTransaction {
-  user: Schema.Types.ObjectId
+  user?: IUser
   provider: IInternetProvider
   category: IInternetCategory
   bundle: IBundle
+  business?: IBusiness
 }
 
 const internetTransactionSchema = new Schema<IInternetTransaction>(
   {
     user: {
       type: Schema.Types.ObjectId,
-      required: true,
       ref: User,
+    },
+    business: {
+      type: Schema.Types.ObjectId,
+      ref: Business,
     },
     provider: {
       type: Schema.Types.ObjectId,

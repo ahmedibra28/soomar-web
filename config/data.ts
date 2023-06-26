@@ -52,9 +52,10 @@ const profile = {
 
 const sort = {
   hidden: 0,
-  profile: 1,
-  admin: 2,
-  internet: 3,
+  normal: 1,
+  profile: 2,
+  admin: 3,
+  internet: 4,
 }
 
 const clientPermissions = [
@@ -145,6 +146,14 @@ const clientPermissions = [
     menu: 'internet',
     sort: sort.internet,
     description: 'Internet Bundles page',
+  },
+  {
+    _id: '646e3462b086bb61e1081449',
+    name: 'Business',
+    path: '/businesses',
+    menu: 'normal',
+    sort: sort.normal,
+    description: 'Business page',
   },
 ]
 
@@ -416,6 +425,36 @@ const permissions = [
     description: 'Bundle',
     route: '/api/internets/bundles/:id',
     name: 'Internet Bundles',
+    method: 'DELETE',
+  },
+
+  //   Business
+  {
+    _id: '637e01fbfadbdf65bba855ee',
+    description: 'Businesses',
+    route: '/api/businesses',
+    name: 'Businesses',
+    method: 'GET',
+  },
+  {
+    _id: '637e01fbfadbdf65bba855ef',
+    description: 'Business',
+    route: '/api/businesses',
+    name: 'Businesses',
+    method: 'POST',
+  },
+  {
+    _id: '637e01fbfadbdf65bba855f0',
+    description: 'Business',
+    route: '/api/businesses/:id',
+    name: 'Businesses',
+    method: 'PUT',
+  },
+  {
+    _id: '637e01fbfadbdf65bba855f1',
+    description: 'Business',
+    route: '/api/businesses/:id',
+    name: 'Businesses',
     method: 'DELETE',
   },
 
