@@ -3,7 +3,7 @@ import axios from 'axios'
 let baseUrl = 'http://localhost:3000/api'
 
 if (process.env.NODE_ENV === 'production') {
-  baseUrl = 'http://209.38.239.127/api'
+  baseUrl = 'https://app.soomar.so/api'
 }
 
 export const userInfo = () => {
