@@ -1,6 +1,6 @@
 import nc from 'next-connect'
 import db from '../../../../config/db'
-import User, { IUser } from '../../../../models/User'
+import User from '../../../../models/User'
 import { generateToken } from '../../../../utils/auth'
 import UserRole from '../../../../models/UserRole'
 import Profile from '../../../../models/Profile'
@@ -15,10 +15,10 @@ handler.post(
       const { _id, otp } = req.body
       if (!otp) return res.status(400).json({ error: 'Please enter your OTP' })
 
-      const user = (await User.findOne({
+      const user = await User.findOne({
         _id,
         otpExpire: { $gt: Date.now() },
-      })) as IUser
+      })
 
       if (!user)
         return res.status(400).json({ error: `Invalid OTP or expired` })
