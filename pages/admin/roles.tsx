@@ -40,7 +40,7 @@ const Roles = () => {
   const getApi = apiHook({
     key: ['roles'],
     method: 'GET',
-    url: `auth/roles?page=${page}&q=${q}&limit=${25}`,
+    url: `auth/roles?page=${page}&q=${q}&limit=${50}`,
   })?.get
 
   const postApi = apiHook({

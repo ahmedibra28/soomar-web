@@ -187,6 +187,8 @@ handler.post(
           provider: providerId,
           category: categoryId,
           bundle: bundleId,
+          senderMobile,
+          receiverMobile,
         })
         return res.json('success')
       }
@@ -209,6 +211,8 @@ handler.post(
         provider: providerId,
         category: categoryId,
         bundle: bundleId,
+        senderMobile,
+        receiverMobile,
       })
 
       return res.json('success')

@@ -31,7 +31,7 @@ const Businesses = () => {
   const getApi = apiHook({
     key: ['businesses'],
     method: 'GET',
-    url: `businesses?page=${page}&q=${q}&limit=${25}`,
+    url: `businesses?page=${page}&q=${q}&limit=${50}`,
   })?.get
 
   const postApi = apiHook({

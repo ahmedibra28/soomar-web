@@ -27,18 +27,18 @@ const UserRoles = () => {
   const getRolesApi = apiHook({
     key: ['roles'],
     method: 'GET',
-    url: `auth/roles?page=${page}&q=${q}&limit=${25}`,
+    url: `auth/roles?page=${page}&q=${q}&limit=${50}`,
   })?.get
   const getUsersApi = apiHook({
     key: ['users'],
     method: 'GET',
-    url: `auth/users?page=${page}&q=${q}&limit=${25}`,
+    url: `auth/users?page=${page}&q=${q}&limit=${50}`,
   })?.get
 
   const getApi = apiHook({
     key: ['user-roles'],
     method: 'GET',
-    url: `auth/user-roles?page=${page}&q=${q}&limit=${25}`,
+    url: `auth/user-roles?page=${page}&q=${q}&limit=${50}`,
   })?.get
 
   const postApi = apiHook({

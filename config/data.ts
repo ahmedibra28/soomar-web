@@ -56,6 +56,7 @@ const sort = {
   profile: 2,
   admin: 3,
   internet: 4,
+  report: 5,
 }
 
 const clientPermissions = [
@@ -154,6 +155,31 @@ const clientPermissions = [
     menu: 'normal',
     sort: sort.normal,
     description: 'Business page',
+  },
+
+  {
+    _id: '64aae2bae066a4c23c0bf9e1',
+    name: 'Business Internet',
+    path: '/reports/internets/businesses',
+    menu: 'report',
+    sort: sort.report,
+    description: 'Business internet report page',
+  },
+  {
+    _id: '64aae2bae066a4c23c0bf9e2',
+    name: 'Customer Internet',
+    path: '/reports/internets/customers',
+    menu: 'report',
+    sort: sort.report,
+    description: 'Customer internet report page',
+  },
+  {
+    _id: '64aae2bae066a4c23c0bf9e3',
+    name: 'Order',
+    path: '/reports/orders',
+    menu: 'report',
+    sort: sort.report,
+    description: 'Order report page',
   },
 ]
 
@@ -430,32 +456,55 @@ const permissions = [
 
   //   Business
   {
-    _id: '637e01fbfadbdf65bba855ee',
+    _id: '64aae332e066a4c23c0bf9e7',
     description: 'Businesses',
     route: '/api/businesses',
     name: 'Businesses',
     method: 'GET',
   },
   {
-    _id: '637e01fbfadbdf65bba855ef',
+    _id: '64aae2bae066a4c23c0bf9e7',
     description: 'Business',
     route: '/api/businesses',
     name: 'Businesses',
     method: 'POST',
   },
   {
-    _id: '637e01fbfadbdf65bba855f0',
+    _id: '64aae2bae066a4c23c0bf9e8',
     description: 'Business',
     route: '/api/businesses/:id',
     name: 'Businesses',
     method: 'PUT',
   },
   {
-    _id: '637e01fbfadbdf65bba855f1',
+    _id: '64aae2bae066a4c23c0bf9e9',
     description: 'Business',
     route: '/api/businesses/:id',
     name: 'Businesses',
     method: 'DELETE',
+  },
+
+  //   Report
+  {
+    _id: '64aae2bae066a4c23c0bf9e4',
+    description: 'Internet Report',
+    route: '/api/reports/internets/customers',
+    name: 'Report',
+    method: 'GET',
+  },
+  {
+    _id: '64aae2bae066a4c23c0bf9e5',
+    description: 'Business Internet Report',
+    route: '/api/reports/internets/businesses',
+    name: 'Report',
+    method: 'GET',
+  },
+  {
+    _id: '64aae2bae066a4c23c0bf9e6',
+    description: 'Orders Report',
+    route: '/api/reports/orders',
+    name: 'Report',
+    method: 'GET',
   },
 
   // ================== MOBILE ======================

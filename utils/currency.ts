@@ -6,3 +6,7 @@ export const currency = (amount: number) => {
   })
   return formatter.format(amount)
 }
+
+export const currencySLSH = (amount: number): string => {
+  return `SLSH ${amount}`
+}

@@ -51,7 +51,7 @@ export default InfiniteScroll
 //     key: ['permissions-infinite'],
 //     method: 'InfiniteScroll',
 //     scrollMethod: 'GET',
-//     url: `auth/permissions?q=${q}&limit=${25}`,
+//     url: `auth/permissions?q=${q}&limit=${50}`,
 //   })
 
 // {getInfiniteApi?.data?.pages?.map((page, i: number) => (

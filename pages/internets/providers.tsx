@@ -33,7 +33,7 @@ const Providers = () => {
   const getApi = apiHook({
     key: ['internet-providers'],
     method: 'GET',
-    url: `internets/providers?page=${page}&q=${q}&limit=${25}`,
+    url: `internets/providers?page=${page}&q=${q}&limit=${50}`,
   })?.get
 
   const postApi = apiHook({

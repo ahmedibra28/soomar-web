@@ -11,6 +11,10 @@ export interface IInternetTransaction {
   category: IInternetCategory
   bundle: IBundle
   business?: IBusiness
+  senderMobile?: string
+  receiverMobile?: string
+
+  createdAt?: Date
 }
 
 const internetTransactionSchema = new Schema<IInternetTransaction>(
@@ -38,6 +42,8 @@ const internetTransactionSchema = new Schema<IInternetTransaction>(
       required: true,
       ref: Bundle,
     },
+    senderMobile: String,
+    receiverMobile: String,
   },
   { timestamps: true }
 )

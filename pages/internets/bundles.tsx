@@ -41,7 +41,7 @@ const Categories = () => {
   const getApi = apiHook({
     key: ['bundles'],
     method: 'GET',
-    url: `internets/bundles?page=${page}&q=${q}&limit=${25}`,
+    url: `internets/bundles?page=${page}&q=${q}&limit=${50}`,
   })?.get
 
   const postApi = apiHook({

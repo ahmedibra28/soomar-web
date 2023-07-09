@@ -14,7 +14,9 @@ handler.get(
       })
         .sort({ createdAt: -1 })
         .lean()
-        .select('createdAt provider category bundle _id')
+        .select(
+          'createdAt provider category bundle _id senderMobile, receiverMobile'
+        )
         .populate('provider', 'name')
         .populate('category', 'name')
         .populate('bundle', 'amount label description quantity')

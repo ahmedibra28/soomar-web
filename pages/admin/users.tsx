@@ -33,7 +33,7 @@ const Users = () => {
   const getApi = apiHook({
     key: ['users'],
     method: 'GET',
-    url: `auth/users?page=${page}&q=${q}&limit=${25}`,
+    url: `auth/users?page=${page}&q=${q}&limit=${50}`,
   })?.get
 
   const postApi = apiHook({
@@ -269,6 +269,7 @@ const Users = () => {
               <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Approved</th>
                 <th>Confirmed</th>
                 <th>Blocked</th>
                 <th>DateTime</th>
@@ -280,6 +281,13 @@ const Users = () => {
                 <tr key={i}>
                   <td>{item?.name}</td>
                   <td>{item?.email}</td>
+                  <td>
+                    {item?.isReal ? (
+                      <FaCheckCircle className="text-success" />
+                    ) : (
+                      <FaTimesCircle className="text-danger" />
+                    )}
+                  </td>
                   <td>
                     {item?.confirmed ? (
                       <FaCheckCircle className="text-success" />

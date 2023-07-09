@@ -20,7 +20,7 @@ const UserProfiles = () => {
   const getApi = apiHook({
     key: ['user-profiles'],
     method: 'GET',
-    url: `auth/user-profiles?page=${page}&q=${q}&limit=${25}`,
+    url: `auth/user-profiles?page=${page}&q=${q}&limit=${50}`,
   })?.get
 
   useEffect(() => {

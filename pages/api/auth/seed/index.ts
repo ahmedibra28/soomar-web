@@ -21,7 +21,8 @@ const handler = nc()
 
 handler.get(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
-    return res.status(401).json({ error: 'Hello Hacker! 🤣' })
+    // return res.status(401).json({ error: 'Hello Hacker! 🤣' })
+
     await db()
     try {
       const { secret, option } = req.query

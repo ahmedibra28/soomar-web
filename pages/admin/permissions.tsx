@@ -32,7 +32,7 @@ const Permissions = () => {
   const getApi = apiHook({
     key: ['permissions'],
     method: 'GET',
-    url: `auth/permissions?page=${page}&q=${q}&limit=${25}`,
+    url: `auth/permissions?page=${page}&q=${q}&limit=${50}`,
   })?.get
 
   const postApi = apiHook({
