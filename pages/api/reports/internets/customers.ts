@@ -12,8 +12,16 @@ handler.get(
       const q = req.query && req.query.q
 
       const queryCondition = q
-        ? { name: { $regex: q, $options: 'i' }, business: { $exists: false } }
-        : { business: { $exists: false } }
+        ? {
+            business: { $exists: false },
+            $or: [
+              { senderMobile: { $regex: q, $options: 'i' } },
+              { receiverMobile: { $regex: q, $options: 'i' } },
+            ],
+          }
+        : {
+            business: { $exists: false },
+          }
 
       let query = InternetTransaction.find(queryCondition)
 

@@ -1,6 +1,6 @@
 import nc from 'next-connect'
 import db from '../../../config/db'
-import Business from '../../../models/Business'
+import Order from '../../../models/Order'
 import { isAuth } from '../../../utils/auth'
 
 const handler = nc()
@@ -12,19 +12,26 @@ handler.get(
       const q = req.query && req.query.q
 
       const queryCondition = q
-        ? { name: { $regex: q, $options: 'i' }, status: { $ne: 'deleted' } }
-        : { status: { $ne: 'deleted' } }
+        ? {
+            'deliveryAddress.mobile': { $regex: q, $options: 'i' },
+          }
+        : {}
 
-      let query = Business.find(queryCondition)
+      let query = Order.find(queryCondition)
 
       const page = parseInt(req.query.page) || 1
       const pageSize = parseInt(req.query.limit) || 25
       const skip = (page - 1) * pageSize
-      const total = await Business.countDocuments(queryCondition)
+      const total = await Order.countDocuments(queryCondition)
 
       const pages = Math.ceil(total / pageSize)
 
-      query = query.skip(skip).limit(pageSize).sort({ createdAt: -1 }).lean()
+      query = query
+        .skip(skip)
+        .limit(pageSize)
+        .sort({ createdAt: -1 })
+        .lean()
+        .populate('user', ['name', 'mobile'])
 
       const result = await query
 
@@ -42,3 +49,5 @@ handler.get(
     }
   }
 )
+
+export default handler

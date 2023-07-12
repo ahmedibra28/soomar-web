@@ -1,8 +1,8 @@
 import { Schema, model, models } from 'mongoose'
-import User from './User'
+import User, { IUser } from './User'
 
 export interface IOrder {
-  user: Schema.Types.ObjectId
+  user: IUser
   products: [
     {
       _id: string
@@ -28,6 +28,7 @@ export interface IOrder {
     deliveryAddress: string
     deliveryPrice: number
   }
+  createdAt?: Date
 }
 
 const orderSchema = new Schema<IOrder>(
