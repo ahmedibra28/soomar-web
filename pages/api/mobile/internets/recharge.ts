@@ -56,12 +56,12 @@ handler.post(
         const numberLength = receiverMobile.toString().length
         const key = receiverMobile.toString().substring(0, 1)
 
-        if (numberLength !== 7 || numberLength !== 6)
+        if (numberLength !== 7 && numberLength !== 6)
           return res
             .status(400)
             .json({ error: 'Invalid receiver mobile number' })
 
-        if (numberLength === 7 || key !== '1')
+        if (numberLength === 7 && key !== '1')
           return res
             .status(400)
             .json({ error: 'Invalid receiver mobile number' })
