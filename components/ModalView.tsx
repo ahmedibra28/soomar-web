@@ -1,4 +1,4 @@
-import { FaPaperPlane, FaTimesCircle } from 'react-icons/fa'
+import { FaTimesCircle } from 'react-icons/fa'
 
 interface Props {
   modal: string

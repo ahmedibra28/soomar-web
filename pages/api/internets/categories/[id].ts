@@ -2,6 +2,7 @@ import nc from 'next-connect'
 import db from '../../../../config/db'
 import InternetCategory from '../../../../models/InternetCategory'
 import { isAuth } from '../../../../utils/auth'
+import Bundle from '../../../../models/Bundle'
 
 const handler = nc()
 
@@ -49,6 +50,16 @@ handler.delete(
       const object = await InternetCategory.findById(id)
       if (!object)
         return res.status(400).json({ error: `Internet category not found` })
+
+      const deleteBundles = await Bundle.updateMany(
+        { internetCategory: id },
+        { status: 'deleted' }
+      )
+
+      if (!deleteBundles)
+        return res
+          .status(400)
+          .json({ error: `Internet category bundles not found` })
 
       object.status = 'deleted'
       object.updatedBy = req.user._id

@@ -40,6 +40,7 @@ handler.get(
         .populate('user', ['name'])
         .populate('provider', ['name'])
         .populate('bundle', ['name', 'label', 'amount'])
+        .populate('business', ['name'])
 
       const result = await query
 

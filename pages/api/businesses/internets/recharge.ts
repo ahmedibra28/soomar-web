@@ -30,6 +30,19 @@ handler.post(
       if (!['Mogadishu', 'Hargeisa'].includes(city))
         return res.status(400).json({ error: 'Invalid city' })
 
+      if (
+        !senderMobile ||
+        !receiverMobile ||
+        !bundleId ||
+        !categoryId ||
+        !categoryName ||
+        !providerId ||
+        !provider
+      )
+        return res.status(400).json({
+          error: `[senderMobile, receiverMobile, bundleId, categoryId, categoryName, providerId, provider] are required`,
+        })
+
       const business = await Business.findOne({
         apiKey: apikey,
         status: 'active',
@@ -159,7 +172,7 @@ handler.post(
         if (data?.status !== 'Success')
           return res.status(400).json({ error: data?.message })
 
-        await InternetTransaction.create({
+        const result = await InternetTransaction.create({
           business: business._id,
           provider: providerId,
           category: categoryId,
@@ -167,7 +180,7 @@ handler.post(
           senderMobile,
           receiverMobile,
         })
-        return res.json({ message: 'success' })
+        return res.json({ message: 'success', ...result })
       }
 
       const rechargeResponse = await rechargeData({
@@ -181,7 +194,7 @@ handler.post(
         return res.status(401).json({ error: `Internet recharge failed` })
       }
 
-      await InternetTransaction.create({
+      const result = await InternetTransaction.create({
         business: business._id,
         provider: providerId,
         category: categoryId,
@@ -190,7 +203,7 @@ handler.post(
         receiverMobile,
       })
 
-      return res.json({ message: 'success' })
+      return res.json({ message: 'success', ...result })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }

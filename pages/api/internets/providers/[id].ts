@@ -2,6 +2,8 @@ import nc from 'next-connect'
 import db from '../../../../config/db'
 import InternetProvider from '../../../../models/InternetProvider'
 import { isAuth } from '../../../../utils/auth'
+import InternetCategory from '../../../../models/InternetCategory'
+import Bundle from '../../../../models/Bundle'
 
 const handler = nc()
 
@@ -55,6 +57,25 @@ handler.delete(
       const object = await InternetProvider.findById(id)
       if (!object)
         return res.status(400).json({ error: `Internet provider not found` })
+
+      let cats = await InternetCategory.find({ internetProvider: id })
+      if (!cats)
+        return res.status(400).json({ error: `Internet categories not found` })
+      cats = cats.map((cat) => cat._id)
+
+      const deleteCategories = await InternetCategory.updateMany(
+        { internetProvider: id },
+        { status: 'deleted' }
+      )
+      if (!deleteCategories)
+        return res.status(400).json({ error: `Internet categories not found` })
+
+      const deleteBundles = await Bundle.updateMany(
+        { internetCategory: { $in: cats } },
+        { status: 'deleted' }
+      )
+      if (!deleteBundles)
+        return res.status(400).json({ error: `Bundles not found` })
 
       object.status = 'deleted'
       object.updatedBy = req.user._id

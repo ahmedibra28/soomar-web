@@ -1,17 +1,32 @@
 import nc from 'next-connect'
-import db from '../../../../config/db'
-import Bundle, { IBundle } from '../../../../models/Bundle'
+import db from '../../../../../../config/db'
+import Bundle, { IBundle } from '../../../../../../models/Bundle'
+import InternetCategory from '../../../../../../models/InternetCategory'
 
 const handler = nc()
 handler.get(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      let bundles = (await Bundle.find({
+      const { id } = req.query
+      const categories = await InternetCategory.find({
+        internetProvider: id,
         status: 'active',
       })
-        .sort({ createdAt: -1 })
+
+      if (!categories || categories?.length === 0)
+        return res.status(404).json({ error: 'Internet provider not found' })
+
+      const catIds = categories.map((cat) => cat?._id)
+
+      let query = (await Bundle.find({
+        status: 'active',
+        internetCategory: { $in: catIds },
+      })
         .lean()
+        .select(
+          '-createdAt -updatedAt -__v -createdBy -updatedBy -status -branch -quantity'
+        )
         .populate({
           path: 'internetCategory',
           select: ['name', 'image', 'internetProvider'],
@@ -19,12 +34,9 @@ handler.get(
             path: 'internetProvider',
             select: ['name', 'image'],
           },
-        })
-        .select(
-          '-createdAt -updatedAt -__v -createdBy -quantity -status -updatedBy'
-        )) as IBundle[]
+        })) as IBundle[]
 
-      bundles = bundles?.map((bundle) => ({
+      query = query.map((bundle) => ({
         ...bundle,
         internetCategory: {
           ...bundle.internetCategory,
@@ -36,7 +48,7 @@ handler.get(
         },
       }))
 
-      return res.json(bundles)
+      res.status(200).json({ length: query?.length, query })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }

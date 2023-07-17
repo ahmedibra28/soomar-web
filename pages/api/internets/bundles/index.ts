@@ -31,7 +31,7 @@ handler.get(
         .lean()
         .populate({
           path: 'internetCategory',
-          select: ['name', 'image', 'internetProvider'],
+          select: ['_id', 'name', 'image', 'internetProvider'],
           populate: {
             path: 'internetProvider',
             select: ['name', 'image', 'branch'],
