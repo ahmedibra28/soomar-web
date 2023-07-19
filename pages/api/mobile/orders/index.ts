@@ -83,7 +83,7 @@ handler.post(
 
       const inventoryIds = localFormat.products.map((item: any) => item._id)
 
-      const checkQuantity = localFormat.products.map((item: any) => ({
+      const reFormattingQuantity = localFormat.products.map((item: any) => ({
         _id: item._id,
         quantity: item.quantity,
       }))
@@ -94,14 +94,14 @@ handler.post(
         await config(branch)
       )
 
-      const quantityComparison = checkQuantity.map((check: any) => {
+      if (!data || data.length === 0)
+        return res.status(400).json({ error: 'No inventory found' })
+
+      const quantityComparison = reFormattingQuantity.map((check: any) => {
         const db = data.find((db: any) => db._id === check._id)
 
-        if (db && db?.quantity < check.quantity) {
-          return false
-        } else {
-          return true
-        }
+        if (db?.quantity < check.quantity) return false
+        return true
       })
 
       if (quantityComparison?.includes(false))

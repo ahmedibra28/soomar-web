@@ -1,8 +1,8 @@
 import { Schema, model, models } from 'mongoose'
-import User from './User'
+import User, { IUser } from './User'
 
 export interface IPayment {
-  user: Schema.Types.ObjectId
+  user: IUser
   amount: number
   transaction: 'PRODUCT GOODS' | 'INTERNET' | 'AGENT REGISTRATION'
   currency: 'USD' | 'SLSH'
@@ -10,6 +10,7 @@ export interface IPayment {
     stepOne: 'success' | 'failed'
     stepTwo: 'success' | 'failed'
   }
+  createdAt: Date
 }
 
 const paymentSchema = new Schema<IPayment>(

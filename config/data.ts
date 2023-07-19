@@ -181,6 +181,14 @@ const clientPermissions = [
     sort: sort.report,
     description: 'Order report page',
   },
+  {
+    _id: '64aae2bae066a4c23c0bf5e5',
+    name: 'Payment',
+    path: '/reports/payments',
+    menu: 'report',
+    sort: sort.report,
+    description: 'Payment report page',
+  },
 ]
 
 const permissions = [
@@ -503,6 +511,13 @@ const permissions = [
     _id: '64aae2bae066a4c23c0bf9e6',
     description: 'Orders Report',
     route: '/api/reports/orders',
+    name: 'Report',
+    method: 'GET',
+  },
+  {
+    _id: '64aae2bae066a4c23c0bf966',
+    description: 'Payments Report',
+    route: '/api/reports/payments',
     name: 'Report',
     method: 'GET',
   },
