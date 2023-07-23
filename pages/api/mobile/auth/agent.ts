@@ -74,7 +74,7 @@ handler.post(
       await Payment.create({
         user: object._id,
         transaction: 'AGENT REGISTRATION',
-        amount: 0.2,
+        amount: 0.25,
         currency: 'USD',
         status: { stepOne: 'success', stepTwo: 'success' },
       })

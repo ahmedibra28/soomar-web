@@ -148,13 +148,9 @@ const Order = () => {
             <th>
               {currency(
                 productDetails?.products?.reduce(
-                  (acc: any, cur: any) => acc + cur?.quantity,
+                  (acc: any, cur: any) => acc + cur?.quantity * cur?.price,
                   0
-                ) *
-                  productDetails?.products?.reduce(
-                    (acc: any, cur: any) => acc + cur?.price,
-                    0
-                  )
+                )
               )}
             </th>
           </tr>
@@ -228,14 +224,9 @@ const Order = () => {
                   <td>
                     {currency(
                       item?.products?.reduce(
-                        (acc, cur) => acc + cur?.quantity,
+                        (acc, cur) => acc + cur?.quantity * cur?.price,
                         0
-                      ) *
-                        item?.products?.reduce(
-                          (acc, cur) => acc + cur?.price,
-                          0
-                        ) +
-                        (item?.deliveryAddress?.deliveryPrice || 0)
+                      ) + (item?.deliveryAddress?.deliveryPrice || 0)
                     )}
                   </td>
                   <td>{moment(item?.createdAt).format('lll')}</td>
