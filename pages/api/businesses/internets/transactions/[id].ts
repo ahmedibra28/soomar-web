@@ -26,7 +26,7 @@ handler.get(
       let query = (await InternetTransaction.findOne(queryCondition)
         .lean()
         .select(
-          'createdAt provider category bundle _id business senderMobile receiverMobile'
+          'createdAt provider category bundle _id business senderMobile receiverMobile reference'
         )
         .populate('provider', ['name', 'image'])
         .populate('category', ['name', 'image'])
