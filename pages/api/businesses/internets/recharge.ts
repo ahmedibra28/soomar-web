@@ -15,6 +15,7 @@ handler.post(
     await db()
     try {
       const {
+        reference,
         senderMobile,
         receiverMobile,
         selectBundle: {
@@ -128,6 +129,15 @@ handler.post(
       })
       if (!checkBundle) return res.status(400).json({ error: 'Invalid bundle' })
 
+      if (reference) {
+        const checkReferenceExistence = await InternetTransaction.findOne({
+          reference,
+        })
+        if (checkReferenceExistence) {
+          return res.status(400).json({ error: 'Reference already exists' })
+        }
+      }
+
       const validateBundleId = (provider: string) => {
         const somlink = '6421558efb02b13e6b5f0ace'
         const hormuud = '6421552afb02b13e6b5f07cc'
@@ -179,6 +189,7 @@ handler.post(
           bundle: bundleId,
           senderMobile,
           receiverMobile,
+          reference,
         })
         return res.json({ message: 'success', ...result })
       }
@@ -201,6 +212,7 @@ handler.post(
         bundle: bundleId,
         senderMobile,
         receiverMobile,
+        reference,
       })
 
       return res.json({ message: 'success', ...result })

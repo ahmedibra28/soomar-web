@@ -13,6 +13,7 @@ export interface IInternetTransaction {
   business?: IBusiness
   senderMobile?: string
   receiverMobile?: string
+  reference?: string
 
   createdAt?: Date
 }
@@ -44,6 +45,7 @@ const internetTransactionSchema = new Schema<IInternetTransaction>(
     },
     senderMobile: String,
     receiverMobile: String,
+    reference: String,
   },
   { timestamps: true }
 )
