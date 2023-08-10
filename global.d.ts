@@ -32,6 +32,7 @@ declare global {
       endDate: Date
       category: string
       branch: string
+      mode?: string
     }
   }
   interface NextApiResponseExtended extends NextApiResponse {

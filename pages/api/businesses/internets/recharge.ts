@@ -28,6 +28,8 @@ handler.post(
         },
       } = req.body
       const { apikey, city } = req.query as any
+      const mode = req.query?.mode
+
       if (!['Mogadishu', 'Hargeisa'].includes(city))
         return res.status(400).json({ error: 'Invalid city' })
 
@@ -171,6 +173,19 @@ handler.post(
           return res.status(400).json({
             error: 'Invalid sender mobile number or provider is not Telesom',
           })
+      }
+
+      if (mode === 'development') {
+        return res.json({
+          business: business._id,
+          provider: providerId,
+          category: categoryId,
+          bundle: bundleId,
+          senderMobile,
+          receiverMobile,
+          reference,
+          message: 'success',
+        })
       }
 
       if (provider?.toLowerCase() === 'somlink') {
