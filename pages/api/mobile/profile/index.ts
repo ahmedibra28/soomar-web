@@ -26,7 +26,7 @@ handler.post(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const { name, market, points } = req.body
+      const { name, market, points, settings } = req.body
 
       const profile = await Profile.findOne({ user: req.user._id })
 
@@ -38,6 +38,9 @@ handler.post(
       profile.name = name || profile.name
       profile.market = market || profile.market
       profile.points = points || profile.points
+      profile.settings = {
+        pushToken: settings?.pushToken || profile.settings?.pushToken,
+      }
 
       await profile.save()
 

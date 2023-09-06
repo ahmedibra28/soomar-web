@@ -11,6 +11,9 @@ export interface IProfile {
   bio?: string
   user: Schema.Types.ObjectId
   points: number
+  settings?: {
+    pushToken: string
+  }
 
   createdAt?: Date
 }
@@ -28,6 +31,9 @@ const profileSchema = new Schema<IProfile>(
     user: {
       type: Schema.Types.ObjectId,
       ref: User,
+    },
+    settings: {
+      pushToken: String,
     },
   },
   { timestamps: true }

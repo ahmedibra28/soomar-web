@@ -522,6 +522,44 @@ const permissions = [
     method: 'GET',
   },
 
+  //   Notification
+  {
+    _id: '64e453eec9eb251f670996a5',
+    description: 'WEB: Get notifications',
+    route: '/api/notifications',
+    name: 'Notifications',
+    method: 'GET',
+  },
+  {
+    _id: '64e453eec9eb251f670996a6',
+    description: 'WEB: Create notification',
+    route: '/api/notifications',
+    name: 'Notifications',
+    method: 'POST',
+  },
+  {
+    _id: '64e453eec9eb251f670996a7',
+    description: 'WEB: Update notification/:id',
+    route: '/api/notifications',
+    name: 'Notifications',
+    method: 'PUT',
+  },
+  {
+    _id: '64e45406c9eb251f670996a8',
+    description: 'WEB: Delete notification/:id',
+    route: '/api/notifications',
+    name: 'Notifications',
+    method: 'DELETE',
+  },
+
+  {
+    _id: '64e453eec9eb251f670996a8',
+    description: 'WEB: Send notification',
+    route: '/api/notifications/send',
+    name: 'Notifications',
+    method: 'POST',
+  },
+
   // ================== MOBILE ======================
 
   //   Chat
@@ -670,6 +708,15 @@ const permissions = [
     description: 'Get all internet transactions by user',
     route: '/api/mobile/internets/transactions',
     name: 'Mobile Internet',
+    method: 'GET',
+  },
+
+  //   Notification
+  {
+    _id: '64e453eec9eb251f670996a4',
+    description: 'Get notifications',
+    route: '/api/mobile/notifications',
+    name: 'Notifications',
     method: 'GET',
   },
 ]
