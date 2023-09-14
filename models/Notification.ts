@@ -4,6 +4,7 @@ export interface INotification {
   _id: Schema.Types.ObjectId
   title: string
   message: string
+  image?: string
   type: 'system' | 'user'
 
   createdAt?: Date
@@ -13,6 +14,7 @@ const notificationSchema = new Schema<INotification>(
   {
     title: { type: String, required: true },
     message: { type: String, required: true },
+    image: String,
     type: { type: String, required: true, enum: ['system', 'user'] },
   },
   { timestamps: true }

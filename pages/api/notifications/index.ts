@@ -49,13 +49,13 @@ handler.post(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const { title, message, type } = req.body
-      if (!title || !message || !type)
+      const { title, message, type, image } = req.body
+      if (!title || !message || !type || !image)
         return res
           .status(400)
           .json({ error: `title, message and type are required` })
 
-      const object = await schemaName.create({ title, message, type })
+      const object = await schemaName.create({ title, message, type, image })
       res.status(200).send(object)
     } catch (error: any) {
       res.status(500).json({ error: error.message })

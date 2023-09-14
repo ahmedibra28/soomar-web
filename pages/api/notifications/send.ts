@@ -50,6 +50,7 @@ handler.post(
             data: {
               screen: 'Notification',
               params: { _id: '' },
+              image: object?.image,
             },
           }))
           // const all = {

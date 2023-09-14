@@ -55,9 +55,9 @@ handler.post(
           .status(400)
           .json({ error: 'Invalid business apikey or business is not active' })
 
-      const providerSender = ProviderNumberValidation(senderMobile).validSender
-      if (!providerSender)
-        return res.status(400).json({ error: 'Invalid sender mobile number' })
+      // const providerSender = ProviderNumberValidation(senderMobile).validSender
+      // if (!providerSender)
+      //   return res.status(400).json({ error: 'Invalid sender mobile number' })
 
       // ADSL PLUS validation
       if (categoryName === 'ADSL PLUS') {

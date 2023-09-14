@@ -14,8 +14,8 @@ handler.put(
     await db()
     try {
       const { id } = req.query
-      const { title, message, type } = req.body
-      if (!title || !message || !type)
+      const { title, message, type, image } = req.body
+      if (!title || !message || !type || !image)
         return res
           .status(400)
           .json({ error: `title, message and type are required` })
@@ -27,6 +27,7 @@ handler.put(
       object.title = title
       object.message = message
       object.type = type
+      object.image = image
       await object.save()
       res.status(200).json({ message: `${schemaNameString} updated` })
     } catch (error: any) {
