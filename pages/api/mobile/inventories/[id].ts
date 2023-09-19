@@ -10,7 +10,7 @@ handler.use(isAuth)
 const config = () => {
   return {
     headers: {
-      'x-db-key': 4812,
+      'x-db-key': 3020,
     },
   }
 }
@@ -29,7 +29,15 @@ handler.get(
 
       const { data } = await axios.get(url, config())
 
-      res.status(200).json(data)
+      const filter = data?.map((item: any) => ({
+        ...item,
+        product: {
+          ...item.product,
+          image: item.product.images,
+        },
+      }))
+
+      res.status(200).json(filter)
     } catch (error: any) {
       res
         .status(500)

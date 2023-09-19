@@ -10,7 +10,7 @@ handler.use(isAuth)
 const config = () => {
   return {
     headers: {
-      'x-db-key': 4812,
+      'x-db-key': 3020,
     },
   }
 }
@@ -26,11 +26,15 @@ handler.get(
 
       const { data } = await axios.get(url, config())
 
-      const filter = data?.data?.map((item: any) => ({
-        _id: item._id,
+      let filter = data?.data?.map((item: any) => ({
+        _id: item.id,
         name: item.name,
         image: item.image,
       }))
+
+      filter = filter?.filter(
+        (item: any) => item?.name?.toUpperCase() !== 'INTERNET'
+      )
 
       res.status(200).json({ ...data, data: filter })
     } catch (error: any) {

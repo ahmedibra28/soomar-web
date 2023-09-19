@@ -32,16 +32,6 @@ handler.post(
       let { branch } = req.query
       branch = branch?.split(' ')[0]
 
-      // console.log({
-      //   senderMobile,
-      //   receiverMobile,
-      //   bundleId,
-      //   categoryId,
-      //   providerId,
-      //   provider,
-      //   branch,
-      // })
-
       const providerSender = ProviderNumberValidation(senderMobile).validSender
       if (!providerSender)
         return res.status(400).json({ error: 'Invalid sender mobile number' })

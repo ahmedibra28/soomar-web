@@ -12,10 +12,12 @@ export interface IOrder {
         sku: string
         name: string
         image: string[]
+        variations?: []
       }
       cost: number
       price: number
       quantity: number
+      discount?: number
       color?: string
       size?: string
       weight?: number
@@ -46,10 +48,12 @@ const orderSchema = new Schema<IOrder>(
           _id: { type: String, required: true },
           sku: { type: String, required: true },
           name: { type: String, required: true },
+          variations: [],
           image: { type: [String], required: true },
         },
         cost: { type: Number, required: true },
         price: { type: Number, required: true },
+        discount: { type: Number },
         quantity: { type: Number, required: true },
         color: String,
         size: String,

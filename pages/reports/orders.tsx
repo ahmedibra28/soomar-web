@@ -8,7 +8,7 @@ import { currency } from '../../utils/currency'
 import { IOrder } from '../../models/Order'
 import { FaInfoCircle } from 'react-icons/fa'
 import ModalView from '../../components/ModalView'
-import Variation from '../../utils/Variation'
+import Variation from '../../components/Variation'
 import Image from 'next/image'
 
 const Order = () => {
@@ -127,13 +127,16 @@ const Order = () => {
               <td>{item?.product?.sku}</td>
               <td>{item?.product?.name}</td>
               <td>
-                <Variation
-                  item={{
-                    color: item?.color,
-                    size: item?.size,
-                    weight: item?.weight,
-                  }}
-                />
+                {item?.product?.variations?.length > 0 && (
+                  <Variation variations={item.product?.variations} />
+                )}
+                {/* <Variation
+                   item={{
+                     color: item?.color,
+                     size: item?.size,
+                     weight: item?.weight,
+                   }}
+                 /> */}
               </td>
               <td>{item?.quantity}</td>
               <td>{currency(item?.quantity * item?.price)}</td>
