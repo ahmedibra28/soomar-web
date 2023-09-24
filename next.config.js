@@ -8,7 +8,9 @@ const nextConfig = {
       'github.com',
       'ims-space.sgp1.cdn.digitaloceanspaces.com',
       'sahalbook.sgp1.cdn.digitaloceanspaces.com',
-      'ahmedibra.com'
+      'ahmedibra.com',
+      'cdn.thewirecutter.com',
+      'thewirecutter.com'
     ],
   },
 }

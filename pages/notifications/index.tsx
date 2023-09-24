@@ -90,7 +90,11 @@ const Notifications = () => {
     setId(item._id)
     setValue('type', item?.type)
     setValue('title', item?.title)
-    setValue('message', item?.message)
+    setValue('body', item?.body)
+    setValue('screen', item?.data?.screen)
+    setValue('image', item?.data?.image)
+    setValue('_id', item?.data?.params?._id)
+    setValue('name', item?.data?.params?.name)
 
     setEdit(true)
   }
@@ -110,13 +114,28 @@ const Notifications = () => {
   }
 
   const submitHandler = (data: Omit<INotification, '_id'>) => {
+    const obj = {
+      title: data?.title,
+      data: {
+        screen: data?.screen,
+        image: data?.image,
+        params: {
+          _id: data?._id,
+          name: data?.name,
+        },
+      },
+      body: data?.body,
+    }
+
+    console.log(obj)
+
     edit
       ? updateApi?.mutateAsync({
           _id: id,
-          ...data,
+          ...obj,
           type: 'system',
         })
-      : postApi?.mutateAsync({ ...data, type: 'system' })
+      : postApi?.mutateAsync({ ...obj, type: 'system' })
   }
 
   const form = [
@@ -129,14 +148,52 @@ const Notifications = () => {
         placeholder: 'Enter title',
       } as DynamicFormProps)}
     </div>,
-
+    <div key={1} className="col-12">
+      {inputText({
+        register,
+        errors,
+        label: 'Screen',
+        name: 'screen',
+        placeholder: 'Enter screen',
+        isRequired: false,
+      } as DynamicFormProps)}
+    </div>,
+    <div key={2} className="col-12">
+      {inputText({
+        register,
+        errors,
+        label: 'Image link',
+        name: 'image',
+        placeholder: 'Enter image link',
+      } as DynamicFormProps)}
+    </div>,
     <div key={3} className="col-12">
+      {inputText({
+        register,
+        errors,
+        label: 'Params ID',
+        name: '_id',
+        placeholder: 'Enter params ID',
+        isRequired: false,
+      } as DynamicFormProps)}
+    </div>,
+    <div key={4} className="col-12">
+      {inputText({
+        register,
+        errors,
+        label: 'Params name',
+        name: 'name',
+        placeholder: 'Enter params name',
+        isRequired: false,
+      } as DynamicFormProps)}
+    </div>,
+    <div key={5} className="col-12">
       {inputTextArea({
         register,
         errors,
-        label: 'Message',
-        name: 'message',
-        placeholder: 'Message',
+        label: 'Body',
+        name: 'body',
+        placeholder: 'Enter body message',
       } as DynamicFormProps)}
     </div>,
   ]
@@ -225,9 +282,10 @@ const Notifications = () => {
           <table className="table table-sm table-border">
             <thead className="border-0">
               <tr>
+                <th>Image</th>
                 <th>Title</th>
-                <th>Type</th>
-                <th>Message</th>
+                <th>Screen</th>
+                <th>Body Message</th>
                 <th>DateTime</th>
                 <th>Actions</th>
               </tr>
@@ -235,19 +293,22 @@ const Notifications = () => {
             <tbody>
               {getApi?.data?.data?.map((item: INotification, i: number) => (
                 <tr key={i}>
-                  <td>{item?.title}</td>
                   <td>
-                    {item?.type === 'system' ? (
-                      <div className="badge rounded-0s bg-success">
-                        {item?.type.toUpperCase()}
-                      </div>
-                    ) : (
-                      <div className="badge rounded-0s bg-info">
-                        {item?.type.toUpperCase()}
-                      </div>
-                    )}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={item?.data?.image}
+                      alt={item.title}
+                      className="rounded-pill img-fluid"
+                      style={{
+                        objectFit: 'cover',
+                        width: '40px',
+                        height: '40px',
+                      }}
+                    />
                   </td>
-                  <td>{item?.message}</td>
+                  <td>{item?.title}</td>
+                  <td>{item?.data?.screen}</td>
+                  <td>{item?.body}</td>
                   <td>{moment(item?.createdAt).format('lll')}</td>
                   <td>
                     <div className="btn-group">

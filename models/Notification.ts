@@ -3,8 +3,15 @@ import { Schema, model, models } from 'mongoose'
 export interface INotification {
   _id: Schema.Types.ObjectId
   title: string
-  message: string
-  image?: string
+  data: {
+    screen: string
+    image?: string
+    params?: {
+      _id: string
+      name?: string
+    }
+  }
+  body: string
   type: 'system' | 'user'
 
   createdAt?: Date
@@ -13,9 +20,16 @@ export interface INotification {
 const notificationSchema = new Schema<INotification>(
   {
     title: { type: String, required: true },
-    message: { type: String, required: true },
-    image: String,
+    body: { type: String, required: true },
     type: { type: String, required: true, enum: ['system', 'user'] },
+    data: {
+      screen: String,
+      image: String,
+      params: {
+        _id: String,
+        name: String,
+      },
+    },
   },
   { timestamps: true }
 )

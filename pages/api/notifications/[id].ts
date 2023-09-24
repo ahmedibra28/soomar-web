@@ -14,21 +14,34 @@ handler.put(
     await db()
     try {
       const { id } = req.query
-      const { title, message, type, image } = req.body
-      if (!title || !message || !type || !image)
+      const {
+        title,
+        body,
+        type,
+        data: {
+          screen,
+          params: { _id, name },
+          image,
+        },
+      } = req.body
+      if (!title || !body || !type || !screen)
         return res
           .status(400)
-          .json({ error: `title, message and type are required` })
+          .json({ error: `title, body, type and screen are required` })
 
       const object = await schemaName.findById(id)
       if (!object)
         return res.status(400).json({ error: `${schemaNameString} not found` })
 
       object.title = title
-      object.message = message
-      object.type = type
-      object.image = image
+      object.body = body
+      object.type = 'system'
+      object.data.screen = screen
+      object.data.params._id = _id
+      object.data.params.name = name
+      object.data.image = image
       await object.save()
+
       res.status(200).json({ message: `${schemaNameString} updated` })
     } catch (error: any) {
       res.status(500).json({ error: error.message })

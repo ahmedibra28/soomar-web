@@ -189,6 +189,15 @@ const clientPermissions = [
     sort: sort.report,
     description: 'Payment report page',
   },
+
+  {
+    _id: '646e3462b086bb61e1084449',
+    name: 'Notification',
+    path: '/notifications',
+    menu: 'normal',
+    sort: sort.normal,
+    description: 'Notification page',
+  },
 ]
 
 const permissions = [
@@ -539,15 +548,15 @@ const permissions = [
   },
   {
     _id: '64e453eec9eb251f670996a7',
-    description: 'WEB: Update notification/:id',
-    route: '/api/notifications',
+    description: 'WEB: Update notification',
+    route: '/api/notifications/:id',
     name: 'Notifications',
     method: 'PUT',
   },
   {
     _id: '64e45406c9eb251f670996a8',
-    description: 'WEB: Delete notification/:id',
-    route: '/api/notifications',
+    description: 'WEB: Delete notification',
+    route: '/api/notifications/:id',
     name: 'Notifications',
     method: 'DELETE',
   },

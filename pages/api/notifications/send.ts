@@ -1,6 +1,6 @@
 import nc from 'next-connect'
 import db from '../../../config/db'
-import Notification from '../../../models/Notification'
+import Notification, { INotification } from '../../../models/Notification'
 import { isAuth } from '../../../utils/auth'
 import axios from 'axios'
 import Profile from '../../../models/Profile'
@@ -15,7 +15,10 @@ handler.post(
     const { _id } = req.body
 
     try {
-      const object = await Notification.findOne({ _id, type: 'system' })
+      const object = (await Notification.findOne({
+        _id,
+        type: 'system',
+      })) as INotification
 
       if (!object)
         return res.status(404).json({ error: 'Notification not found' })
@@ -46,17 +49,16 @@ handler.post(
           const messages = tokens.map((token: string) => ({
             to: token,
             title: object?.title,
-            body: object?.message,
+            body: object?.body,
             data: {
-              screen: 'Notification',
-              params: { _id: '' },
-              image: object?.image,
+              screen: object.data?.screen,
+              image: object?.data?.image,
+              params: {
+                _id: object.data?.params?._id,
+                name: object.data?.params?.name,
+              },
             },
           }))
-          // const all = {
-          //   to: tokens,
-          //   body: object?.message,
-          // }
 
           const { data } = await axios.post(
             'https://exp.host/--/api/v2/push/send',

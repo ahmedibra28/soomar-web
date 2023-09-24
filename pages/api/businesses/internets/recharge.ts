@@ -55,6 +55,7 @@ handler.post(
           .status(400)
           .json({ error: 'Invalid business apikey or business is not active' })
 
+      // disabled this for purpose of mybank
       // const providerSender = ProviderNumberValidation(senderMobile).validSender
       // if (!providerSender)
       //   return res.status(400).json({ error: 'Invalid sender mobile number' })
@@ -167,12 +168,13 @@ handler.post(
         if (!senderMobile || senderMobile.toString().length !== 9)
           return res.status(400).json({ error: 'Invalid sender mobile number' })
 
-        const key = senderMobile.toString().substring(0, 2)
+        // disabled this for purpose of mybank
+        // const key = senderMobile.toString().substring(0, 2)
 
-        if (key !== '63')
-          return res.status(400).json({
-            error: 'Invalid sender mobile number or provider is not Telesom',
-          })
+        // if (key !== '63')
+        //   return res.status(400).json({
+        //     error: 'Invalid sender mobile number or provider is not Telesom',
+        //   })
       }
 
       if (mode === 'development') {
