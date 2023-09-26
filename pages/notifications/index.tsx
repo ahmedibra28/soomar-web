@@ -113,7 +113,7 @@ const Notifications = () => {
     setEdit(false)
   }
 
-  const submitHandler = (data: Omit<INotification, '_id'>) => {
+  const submitHandler = (data: any) => {
     const obj = {
       title: data?.title,
       data: {

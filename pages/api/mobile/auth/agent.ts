@@ -22,8 +22,13 @@ handler.post(
       if (!provider || !providerSender)
         return res.status(400).json({ error: 'Invalid mobile number' })
 
-      if (market && !Markets.includes(market))
-        return res.status(400).json({ error: 'Invalid market' })
+      const checkMarket = Markets.find(
+        (item) =>
+          item.product &&
+          item.name?.toLowerCase() === market?.split(' ')?.[0]?.toLowerCase()
+      )
+
+      if (!checkMarket) return res.status(400).json({ error: 'Invalid market' })
 
       const checkExist = await User.findOne({ mobile })
       if (checkExist) {

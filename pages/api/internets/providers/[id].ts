@@ -4,6 +4,7 @@ import InternetProvider from '../../../../models/InternetProvider'
 import { isAuth } from '../../../../utils/auth'
 import InternetCategory from '../../../../models/InternetCategory'
 import Bundle from '../../../../models/Bundle'
+import { Markets } from '../../../../utils/Markets'
 
 const handler = nc()
 
@@ -15,7 +16,8 @@ handler.put(
       const { id } = req.query
       const { name, image, status, branch } = req.body
 
-      const branches = ['Mogadishu', 'Kismayo', 'Hargeisa', 'Baidoa']
+      const branches = Markets.map((item) => item.name)
+
       if (!branches.includes(branch))
         return res.status(400).json({ error: 'Invalid branch' })
 

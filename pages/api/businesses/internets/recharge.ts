@@ -8,6 +8,7 @@ import { rechargeData } from '../../../../utils/InternetRecharge'
 import InternetTransaction from '../../../../models/InternetTransaction'
 import { useSomLinkRecharge } from '../../../../hooks/useSomLinkRecharge'
 import Business from '../../../../models/Business'
+import { Markets } from '../../../../utils/Markets'
 
 const handler = nc()
 handler.post(
@@ -30,8 +31,12 @@ handler.post(
       const { apikey, city } = req.query as any
       const mode = req.query?.mode
 
-      if (!['Mogadishu', 'Hargeisa'].includes(city))
-        return res.status(400).json({ error: 'Invalid city' })
+      const checkCity = Markets.find(
+        (item) =>
+          item.internet && item.name?.toLowerCase() === city?.toLowerCase()
+      )
+
+      if (!checkCity) return res.status(400).json({ error: 'Invalid city' })
 
       if (
         !senderMobile ||

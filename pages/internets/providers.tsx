@@ -21,6 +21,7 @@ import FormView from '../../components/FormView'
 import { FaPenAlt, FaTrash } from 'react-icons/fa'
 import apiHook from '../../api'
 import { IInternetProvider } from '../../models/InternetProvider'
+import { Markets } from '../../utils/Markets'
 
 const Providers = () => {
   const [page, setPage] = useState(1)
@@ -171,12 +172,7 @@ const Providers = () => {
         label: 'Branch',
         name: 'branch',
         placeholder: 'Branch',
-        data: [
-          { name: 'Mogadishu' },
-          { name: 'Kismayo' },
-          { name: 'Hargeisa' },
-          { name: 'Baidoa' },
-        ],
+        data: Markets.map((item) => item.name),
       } as DynamicFormProps)}
     </div>,
 

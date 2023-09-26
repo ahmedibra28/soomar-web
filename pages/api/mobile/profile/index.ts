@@ -32,8 +32,13 @@ handler.post(
 
       if (!profile) return res.status(404).json({ error: 'Profile not found' })
 
-      if (market && !Markets.includes(market))
-        return res.status(400).json({ error: 'Invalid market' })
+      const checkMarket = Markets.find(
+        (item) =>
+          item.product &&
+          item.name?.toLowerCase() === market?.split(' ')?.[0]?.toLowerCase()
+      )
+
+      if (!checkMarket) return res.status(400).json({ error: 'Invalid market' })
 
       profile.name = name || profile.name
       profile.market = market || profile.market
