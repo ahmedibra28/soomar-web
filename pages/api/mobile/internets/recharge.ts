@@ -146,7 +146,7 @@ handler.post(
       // Payment Implementation
       const {
         MERCHANT_U_ID,
-        API_USER_ID,
+        DATA_API_USER_ID,
         API_KEY,
         MERCHANT_ACCOUNT_NO,
         SL_MERCHANT_U_ID,
@@ -163,7 +163,7 @@ handler.post(
         apiUserId:
           branch === 'Hargeisa' && provider === 'Somtel SL'
             ? SL_API_USER_ID
-            : API_USER_ID,
+            : DATA_API_USER_ID,
         apiKey:
           branch === 'Hargeisa' && provider === 'Somtel SL'
             ? SL_API_KEY

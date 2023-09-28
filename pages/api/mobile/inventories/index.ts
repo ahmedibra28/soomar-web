@@ -47,16 +47,22 @@ handler.get(
         },
       }))
 
-      const mergedData: any = {}
-      for (const item of filter) {
-        if (mergedData[item.productId]) {
-          mergedData[item.productId].quantity += item.quantity
-        } else {
-          mergedData[item.productId] = { ...item }
-        }
-      }
+      const uniqueProducts = filter?.reduce(
+        (accumulator: any, product: any) => {
+          const existingProduct = accumulator.find(
+            (item: any) => item?.product?.name === product.product?.name
+          )
 
-      filter = Object.values(mergedData)
+          if (!existingProduct) {
+            accumulator.push(product)
+          }
+
+          return accumulator
+        },
+        []
+      )
+
+      filter = uniqueProducts
 
       res.status(200).json({ ...data, data: filter })
     } catch (error: any) {
