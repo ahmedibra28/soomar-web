@@ -146,9 +146,9 @@ handler.post(
       // Payment Implementation
       const {
         MERCHANT_U_ID,
-        DATA_API_USER_ID,
+        API_USER_ID,
         API_KEY,
-        MERCHANT_ACCOUNT_NO,
+        DATA_MERCHANT_ACCOUNT_NO,
         SL_MERCHANT_U_ID,
         SL_API_USER_ID,
         SL_API_KEY,
@@ -163,7 +163,7 @@ handler.post(
         apiUserId:
           branch === 'Hargeisa' && provider === 'Somtel SL'
             ? SL_API_USER_ID
-            : DATA_API_USER_ID,
+            : API_USER_ID,
         apiKey:
           branch === 'Hargeisa' && provider === 'Somtel SL'
             ? SL_API_KEY
@@ -177,7 +177,7 @@ handler.post(
         withdrawNumber:
           branch === 'Hargeisa' && provider === 'Somtel SL'
             ? SL_MERCHANT_ACCOUNT_NO
-            : MERCHANT_ACCOUNT_NO,
+            : DATA_MERCHANT_ACCOUNT_NO,
         currency:
           branch === 'Hargeisa' && provider === 'Somtel SL' ? 'SLSH' : 'USD',
       })

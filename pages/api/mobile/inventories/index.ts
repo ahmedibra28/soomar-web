@@ -47,14 +47,23 @@ handler.get(
         },
       }))
 
+      console.log(data?.data?.length)
+      console.log(filter?.length)
+
       const uniqueProducts = filter?.reduce(
         (accumulator: any, product: any) => {
           const existingProduct = accumulator.find(
-            (item: any) => item?.product?.name === product.product?.name
+            (item: any) =>
+              item?.product?.name?.trim()?.toLowerCase() ===
+              product.product?.name?.trim()?.toLowerCase()
           )
 
           if (!existingProduct) {
             accumulator.push(product)
+          }
+
+          if (existingProduct) {
+            existingProduct.product.image?.push(product.product.image)
           }
 
           return accumulator
@@ -63,6 +72,8 @@ handler.get(
       )
 
       filter = uniqueProducts
+
+      console.log(filter?.length)
 
       res.status(200).json({ ...data, data: filter })
     } catch (error: any) {
