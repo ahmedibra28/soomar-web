@@ -47,9 +47,6 @@ handler.get(
         },
       }))
 
-      // console.log(data?.data?.length)
-      // console.log(filter?.length)
-
       const uniqueProducts = filter?.reduce(
         (accumulator: any, product: any) => {
           const existingProduct = accumulator.find(
@@ -75,8 +72,6 @@ handler.get(
       )
 
       filter = uniqueProducts
-
-      // console.log(JSON.stringify(filter))
 
       res.status(200).json({ ...data, data: filter })
     } catch (error: any) {
