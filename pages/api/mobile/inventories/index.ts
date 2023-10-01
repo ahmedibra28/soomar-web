@@ -71,7 +71,17 @@ handler.get(
         []
       )
 
-      filter = uniqueProducts
+      filter = uniqueProducts?.map((item: any) => {
+        delete item?.status
+        return {
+          ...item,
+          product: {
+            ...item?.product,
+            // @ts-ignore
+            image: [...new Set(item?.product?.image)],
+          },
+        }
+      })
 
       res.status(200).json({ ...data, data: filter })
     } catch (error: any) {

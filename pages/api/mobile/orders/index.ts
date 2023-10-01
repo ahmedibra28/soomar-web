@@ -94,7 +94,7 @@ handler.post(
       if (!provider)
         return res.status(400).json({ error: 'Invalid payment mobile number' })
 
-      await axios.post(
+      const { data } = await axios.post(
         `${process.env.API_URL}/mobile/inventories/check-quantity?branch=${branch}`,
         body.products,
         {
@@ -103,6 +103,12 @@ handler.post(
           },
         }
       )
+
+      if (data?.status !== 200)
+        return res
+          .status(404)
+          .json({ error: `Inventory not found or not available` })
+
       const amount = body.products.reduce(
         (prev, curr) =>
           prev +
@@ -176,32 +182,35 @@ handler.post(
         .then(() => {
           Order.create(reFormat)
             .then(async () => {
-              if (req.user.role === 'CUSTOMER') {
-                await Profile.findOneAndUpdate(
-                  { user: req.user._id },
-                  {
-                    $inc: { points: points / 2 },
-                  }
-                )
+              if (points > 0) {
+                if (req.user.role === 'CUSTOMER') {
+                  await Profile.findOneAndUpdate(
+                    { user: req.user._id },
+                    {
+                      $inc: { points: points / 2 },
+                    }
+                  )
+                }
+
+                if (req.user.role === 'AGENT') {
+                  await Profile.findOneAndUpdate(
+                    { user: req.user._id },
+                    {
+                      $inc: { points: points },
+                    }
+                  )
+                }
+
+                if (req.user.role === 'SUPER_ADMIN') {
+                  await Profile.findOneAndUpdate(
+                    { user: req.user._id },
+                    {
+                      $inc: { points: points },
+                    }
+                  )
+                }
               }
 
-              if (req.user.role === 'AGENT') {
-                await Profile.findOneAndUpdate(
-                  { user: req.user._id },
-                  {
-                    $inc: { points: points },
-                  }
-                )
-              }
-
-              if (req.user.role === 'SUPER_ADMIN') {
-                await Profile.findOneAndUpdate(
-                  { user: req.user._id },
-                  {
-                    $inc: { points: points },
-                  }
-                )
-              }
               const profile = await Profile.findOne({ user: req.user._id })
 
               const token = await getToken()
