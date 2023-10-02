@@ -26,7 +26,9 @@ handler.post(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const { name, market, points, settings } = req.body
+      const { name, points, settings } = req.body
+      // @ts-ignore
+      const market = req.body.market || req.query.market
 
       const profile = await Profile.findOne({ user: req.user._id })
 
