@@ -1,11 +1,11 @@
 import nc from 'next-connect'
 import db from '../../../../config/db'
-// import { isAuth } from '../../../../utils/auth'
+import { isAuth } from '../../../../utils/auth'
 import axios from 'axios'
 
 const handler = nc()
 
-// handler.use(isAuth)
+handler.use(isAuth)
 
 const config = () => {
   return {
@@ -20,14 +20,14 @@ handler.get(
     await db()
 
     try {
-      const { page, q } = req.query
+      const { page = 1, q } = req.query
 
       let { branch } = req.query
+      const { limit } = req.query
+
       branch = branch.split(' ')[0]
 
-      const url = `${
-        process.env.API_URL
-      }/mobile/inventories?page=${page}&limit=${50}&q=${q}&branch=${branch}`
+      const url = `${process.env.API_URL}/mobile/inventories?page=${page}&limit=${limit}&q=${q}&branch=${branch}`
 
       const { data } = await axios.get(url, config())
 
@@ -47,16 +47,41 @@ handler.get(
         },
       }))
 
-      const mergedData: any = {}
-      for (const item of filter) {
-        if (mergedData[item.productId]) {
-          mergedData[item.productId].quantity += item.quantity
-        } else {
-          mergedData[item.productId] = { ...item }
-        }
-      }
+      const uniqueProducts = filter?.reduce(
+        (accumulator: any, product: any) => {
+          const existingProduct = accumulator.find(
+            (item: any) =>
+              item?.product?.name?.trim()?.toLowerCase() ===
+              product.product?.name?.trim()?.toLowerCase()
+          )
 
-      filter = Object.values(mergedData)
+          if (!existingProduct) {
+            accumulator.push(product)
+          }
+
+          if (existingProduct) {
+            existingProduct.product?.image?.push(product?.product?.image)
+          }
+
+          return accumulator?.map((item: any) => ({
+            ...item,
+            product: { ...item?.product, image: item?.product?.image?.flat() },
+          }))
+        },
+        []
+      )
+
+      filter = uniqueProducts?.map((item: any) => {
+        delete item?.status
+        return {
+          ...item,
+          product: {
+            ...item?.product,
+            // @ts-ignore
+            image: [...new Set(item?.product?.image)],
+          },
+        }
+      })
 
       res.status(200).json({ ...data, data: filter })
     } catch (error: any) {

@@ -20,14 +20,12 @@ handler.get(
     await db()
 
     try {
-      const { page, q, category } = req.query
+      const { page, q, category, limit } = req.query
 
       let { branch } = req.query
       branch = branch.split(' ')[0]
 
-      const url = `${
-        process.env.API_URL
-      }/mobile/inventories?page=${page}&limit=${500}&q=${q}&category=${category}&branch=${branch}`
+      const url = `${process.env.API_URL}/mobile/inventories?page=${page}&limit=${limit}&q=${q}&category=${category}&branch=${branch}`
 
       const { data } = await axios.get(url, config())
 
