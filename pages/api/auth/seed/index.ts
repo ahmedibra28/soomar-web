@@ -21,11 +21,9 @@ const handler = nc()
 
 handler.get(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
-    return res.status(401).json({ error: 'Hello Hacker! 🤣' })
-
     await db()
     try {
-      const { secret, option } = req.query
+      const { secret } = req.query
 
       if (!secret || secret !== 'ts')
         return res.status(401).json({ error: 'Unauthorized' })
@@ -44,27 +42,15 @@ handler.get(
         }
       })
 
-      if (option === 'reset') {
-        // Delete all existing data
-        await User.deleteMany({})
-        await Profile.deleteMany({})
-        await Role.deleteMany({})
-        await Permission.deleteMany({})
-        await UserRole.deleteMany({})
-        await ClientPermission.deleteMany({})
-      }
+      // await User.updateMany(
+      //   { email: { $regex: '@soomar.app', $options: 'i' } },
+      //   { platform: 'soomar' }
+      // )
 
-      // Create users
-      let userObject = await User.findById(users._id)
-      if (userObject) {
-        userObject.name = users.name
-        userObject.email = users.email
-        userObject.mobile = users.mobile
-        userObject.password = users.password
-        userObject.confirmed = true
-        userObject.blocked = false
-      } else {
-        userObject = await User.create({
+      // find user update or create
+      const userObject = await User.findOneAndUpdate(
+        { _id: users._id },
+        {
           _id: users._id,
           name: users.name,
           email: users.email,
@@ -72,8 +58,10 @@ handler.get(
           password: users.password,
           confirmed: true,
           blocked: false,
-        })
-      }
+          platform: users.platform,
+        },
+        { new: true, upsert: true }
+      )
 
       // Create profiles for users
       await Profile.findOneAndUpdate(
@@ -91,7 +79,7 @@ handler.get(
       )
 
       // Create permissions
-      const permissionsObj = Promise.all(
+      const permissionsObjects = await Promise.all(
         permissions?.map(
           async (obj) =>
             await Permission.findOneAndUpdate({ _id: obj._id }, obj, {
@@ -100,10 +88,9 @@ handler.get(
             })
         )
       )
-      const permissionsObjects = await permissionsObj
 
       // Create client permissions
-      const clientPermissionsObj = Promise.all(
+      const clientPermissionsObjects = await Promise.all(
         clientPermissions?.map(
           async (obj) =>
             await ClientPermission.findOneAndUpdate({ _id: obj._id }, obj, {
@@ -112,7 +99,6 @@ handler.get(
             })
         )
       )
-      const clientPermissionsObjects = await clientPermissionsObj
 
       // Create roles
       const roleObj = Promise.all(

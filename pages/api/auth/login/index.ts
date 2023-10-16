@@ -50,13 +50,17 @@ handler.post(
           })
         )
         const profile = await Profile.findOne({ user: user._id }, { image: 1 })
+
         return res.send({
           _id: user._id,
           name: user.name,
+          mobile: user.mobile,
           email: user.email,
           blocked: user.blocked,
           confirmed: user.confirmed,
           image: profile.image,
+          market: profile.market,
+          points: profile.points,
           // @ts-ignore
           role: roleObj.role.type,
           routes: routes,

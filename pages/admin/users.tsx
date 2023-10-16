@@ -16,7 +16,9 @@ import {
   inputCheckBox,
   inputEmail,
   inputPassword,
+  inputTel,
   inputText,
+  staticInputSelect,
 } from '../../utils/dForms'
 import FormView from '../../components/FormView'
 import { FaCheckCircle, FaPenAlt, FaTimesCircle, FaTrash } from 'react-icons/fa'
@@ -101,6 +103,8 @@ const Users = () => {
     setValue('confirmed', item?.confirmed)
     setValue('name', item?.name)
     setValue('email', item?.email)
+    setValue('platform', item?.platform)
+    setValue('mobile', item?.mobile)
 
     setEdit(true)
   }
@@ -147,6 +151,15 @@ const Users = () => {
         placeholder: 'Enter email address',
       } as DynamicFormProps)}
     </div>,
+    <div key={1} className="col-12">
+      {inputTel({
+        register,
+        errors,
+        label: 'Mobile',
+        name: 'mobile',
+        placeholder: 'Enter mobile address',
+      } as DynamicFormProps)}
+    </div>,
     <div key={2} className="col-lg-6 col-md-6 col-12">
       {inputPassword({
         register,
@@ -165,6 +178,15 @@ const Users = () => {
         name: 'confirmPassword',
         placeholder: 'Enter confirm password',
         isRequired: false,
+      } as DynamicFormProps)}
+    </div>,
+    <div key={6} className="col-12">
+      {staticInputSelect({
+        register,
+        errors,
+        label: 'Platform',
+        name: 'platform',
+        data: [{ name: 'web' }, { name: 'soomar' }, { name: 'dankaab' }],
       } as DynamicFormProps)}
     </div>,
 
@@ -269,6 +291,9 @@ const Users = () => {
               <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Mobile</th>
+                <th>Platform</th>
+                <th>Role</th>
                 <th>Approved</th>
                 <th>Confirmed</th>
                 <th>Blocked</th>
@@ -281,6 +306,23 @@ const Users = () => {
                 <tr key={i}>
                   <td>{item?.name}</td>
                   <td>{item?.email}</td>
+                  <td>{item?.mobile}</td>
+                  <td>
+                    {item?.platform === 'web' && (
+                      <span className="badge bg-primary">{item?.platform}</span>
+                    )}
+                    {item?.platform === 'soomar' && (
+                      <span className="badge bg-success">{item?.platform}</span>
+                    )}
+                    {item?.platform === 'dankaab' && (
+                      <span className="badge bg-info">{item?.platform}</span>
+                    )}
+                    {!['web', 'soomar', 'dankaab'].includes(item?.platform) && (
+                      <span className="badge bg-danger">Error!</span>
+                    )}
+                  </td>
+                  {/* @ts-ignore */}
+                  <td>{item?.role?.name}</td>
                   <td>
                     {item?.isReal ? (
                       <FaCheckCircle className="text-success" />

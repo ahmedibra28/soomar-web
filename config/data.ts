@@ -30,16 +30,29 @@ const roles = [
     description: 'Default role given to agent user.',
     type: 'AGENT',
   },
+  {
+    _id: '5e0af1c63b6482125c1b44c4',
+    name: 'Dankaab Dealer',
+    description: 'Default role given to dankaab dealer user.',
+    type: 'DANKAAB_DEALER',
+  },
+  {
+    _id: '5e0af1c63b6482125c1b44cb',
+    name: 'Dankaab Customer',
+    description: 'Default role given to dankaab customer user.',
+    type: 'DANKAAB_CUSTOMER',
+  },
 ]
 
 const users = {
   _id: '5063114bd386d8fadbd6b00a',
   name: 'Ahmed Ibrahim',
-  email: 'info@soomar.so',
+  email: 'info@ahmedibra.com',
   password: '123456',
   mobile: 615301507,
   confirmed: true,
   blocked: false,
+  platform: 'web',
 }
 
 const profile = {
@@ -571,29 +584,6 @@ const permissions = [
 
   // ================== MOBILE ======================
 
-  //   Chat
-  {
-    _id: '643bdfca6e2f031ae50db335',
-    description: 'Get list of chats / chat history',
-    route: '/api/mobile/chats/:id/:id',
-    name: 'Mobile Chats',
-    method: 'GET',
-  },
-  {
-    _id: '643bdfca6e2f031ae50db336',
-    description: 'Get current chat',
-    route: '/api/mobile/chats',
-    name: 'Mobile Chats',
-    method: 'GET',
-  },
-  {
-    _id: '643bdfca6e2f031ae50db337',
-    description: 'Create or update current chat',
-    route: '/api/mobile/chats',
-    name: 'Mobile Chats',
-    method: 'POST',
-  },
-
   // Profile
   {
     _id: '643bdfca6e2f031ae50db338',
@@ -652,10 +642,10 @@ const permissions = [
   },
   {
     _id: '645f38e0ca681a19c40dad9c',
-    name: 'Mobile Mobile Inventory',
-    route: '/api/mobile/inventories/search',
-    method: 'GET',
     description: 'Search inventory',
+    route: '/api/mobile/inventories/search',
+    name: 'Mobile Search Inventory',
+    method: 'GET',
   },
 
   // Order

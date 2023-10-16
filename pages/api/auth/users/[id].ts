@@ -4,6 +4,7 @@ import Profile from '../../../../models/Profile'
 import User from '../../../../models/User'
 import UserRole from '../../../../models/UserRole'
 import { isAuth } from '../../../../utils/auth'
+import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
 
 const schemaName = User
 const schemaNameString = 'User'
@@ -35,16 +36,31 @@ handler.put(
     await db()
     try {
       const { id } = req.query
-      const { name, confirmed, blocked, password, email } = req.body
+      const { name, confirmed, blocked, password, email, platform, mobile } =
+        req.body
 
       const object = await schemaName.findById(id)
       if (!object)
         return res.status(400).json({ error: `${schemaNameString} not found` })
 
+      const provider = ProviderNumberValidation(mobile).validOTP
+      if (!provider)
+        return res.status(400).json({ error: 'Invalid mobile number' })
+
+      const checkDuplicateMobile = await User.findOne({
+        mobile: req.body.mobile,
+        platform: req.body.platform,
+        _id: { $ne: id },
+      })
+      if (checkDuplicateMobile)
+        return res.status(400).json({ error: 'Mobile number already exists' })
+
       object.name = name
       object.email = email
       object.confirmed = confirmed
       object.blocked = blocked
+      object.platform = platform
+      object.mobile = mobile
 
       password && (object.password = await object.encryptPassword(password))
 

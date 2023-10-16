@@ -14,7 +14,9 @@ handler.post(
     try {
       await db()
 
-      const { market, mobile } = req.body
+      const { market, mobile, name } = req.body
+
+      const platform = req.headers['platform'] || 'soomar'
 
       const checkMarket = Markets.find(
         (item) =>
@@ -28,21 +30,22 @@ handler.post(
       if (!provider)
         return res.status(400).json({ error: 'Invalid mobile number' })
 
-      const user = await User.findOne({ mobile })
+      const user = await User.findOne({ mobile, platform })
 
       // Register user if not found
       if (!user) {
-        const email = `${mobile}@soomar.app`
+        const email = `${mobile}@${platform}.app`
         const confirmed = true
         const blocked = false
 
         const object = await User.create({
-          name: mobile,
+          name: name || mobile,
           email,
           mobile,
           confirmed,
           blocked,
           isReal: false,
+          platform,
         })
 
         object.getRandomOtp()
@@ -66,12 +69,15 @@ handler.post(
           name: object.name,
           image: `https://ui-avatars.com/api/?uppercase=true&name=${object.name}&background=random&color=random&size=128`,
           mobile,
-          market: req.body.market,
+          market: req.body.market || 'Mogadishu Market',
         })
 
         await UserRole.create({
           user: object._id,
-          role: '5e0af1c63b6482125c1b44cc', // Customer role
+          role:
+            platform === 'dankaab'
+              ? '5e0af1c63b6482125c1b44cb'
+              : '5e0af1c63b6482125c1b44cc', // Customer role
         })
 
         const token = await getToken()
@@ -110,7 +116,7 @@ handler.post(
       await Profile.findOneAndUpdate(
         { user: user._id },
         {
-          market: req.body.market,
+          market: req.body.market || 'Mogadishu Market',
         }
       )
 

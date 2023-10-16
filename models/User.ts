@@ -15,8 +15,8 @@ export interface IUser {
   confirmed: boolean
   blocked: boolean
   createdAt?: Date
-  role?: string
   isReal: boolean
+  platform: 'web' | 'soomar' | 'dankaab'
 }
 
 const userSchema = new Schema<IUser>(
@@ -32,6 +32,11 @@ const userSchema = new Schema<IUser>(
     confirmed: { type: Boolean, default: false },
     blocked: { type: Boolean, default: false },
     isReal: { type: Boolean, default: false },
+    platform: {
+      type: String,
+      enum: ['web', 'soomar', 'dankaab'],
+      required: true,
+    },
   },
   { timestamps: true }
 )

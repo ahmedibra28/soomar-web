@@ -14,15 +14,22 @@ handler.get(
     try {
       const q = req.query && req.query.q
 
-      const role = q ? await Role.findOne({ name: q }) : null
+      let usersId = []
 
-      let query = schemaName.find(role ? { role: role._id } : {})
+      if (q) {
+        usersId = await User.find({ name: { $regex: q, $options: 'i' } })
+        usersId = usersId.map((user) => user._id)
+      }
+
+      let query = schemaName.find(
+        usersId?.length > 0 ? { user: { $in: usersId } } : {}
+      )
 
       const page = parseInt(req.query.page as string) || 1
       const pageSize = parseInt(req.query.limit as string) || 25
       const skip = (page - 1) * pageSize
       const total = await schemaName.countDocuments(
-        role ? { role: role._id } : {}
+        usersId?.length > 0 ? { user: { $in: usersId } } : {}
       )
 
       const pages = Math.ceil(total / pageSize)
