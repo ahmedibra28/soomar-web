@@ -172,7 +172,9 @@ const Providers = () => {
         label: 'Branch',
         name: 'branch',
         placeholder: 'Branch',
-        data: Markets.map((item) => item.name),
+        data: Markets.filter((item) => item.internet)?.map((item) => ({
+          name: item.name,
+        })),
       } as DynamicFormProps)}
     </div>,
 

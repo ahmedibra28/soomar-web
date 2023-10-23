@@ -50,10 +50,7 @@ handler.post(
           .status(404)
           .json({ error: 'This user does not have associated role' })
 
-      const profile = await Profile.findOne(
-        { user: user._id },
-        { market: 1, points: 1 }
-      )
+      const profile = await Profile.findOne({ user: user._id })
 
       return res.send({
         _id: user._id,
@@ -62,6 +59,8 @@ handler.post(
         email: user.email,
         market: profile.market,
         points: profile.points,
+        image: profile.image,
+        address: profile.address,
         // @ts-ignore
         role: roleObj.role.type,
         token: generateToken(user._id),

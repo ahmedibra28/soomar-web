@@ -11,8 +11,8 @@ interface Props {
 const Meta = (props: Props) => {
   const { pathname } = useRouter()
 
-  const title = 'soomar | Ahmed Ibrahim'
-  const description = `Next.js typescript boilerplate`
+  const title = 'Soomar'
+  const description = `Soomar | eCommerce Store`
   const image = 'https://www.soomar.so/logo.png'
   const url = `https://www.soomar.so${pathname}`
   const author = 'Ahmed Ibrahim'

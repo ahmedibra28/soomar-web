@@ -718,6 +718,40 @@ const permissions = [
     name: 'Notifications',
     method: 'GET',
   },
+
+  // Dankaab
+
+  // Product / Internet
+  {
+    _id: '64e453eec9eb251f670996a3',
+    description: 'Get products',
+    route: '/api/mobile/dankaab/dealer-my-product',
+    name: 'My Product',
+    method: 'GET',
+  },
+  {
+    _id: '64e453eec9eb251f670996a2',
+    description: 'Post product',
+    route: '/api/mobile/dankaab/dealer-my-product',
+    name: 'My Product',
+    method: 'POST',
+  },
+  {
+    _id: '64e453eec9eb251f670996a1',
+    description: 'Delete product',
+    route: '/api/mobile/dankaab/dealer-my-product/:id',
+    name: 'My Product',
+    method: 'DELETE',
+  },
+
+  // Promo
+  {
+    _id: '64e453eecceb251f670996a2',
+    description: 'Update promo code',
+    route: '/api/mobile/dankaab/customer-promo',
+    name: 'Promo Code',
+    method: 'POST',
+  },
 ]
 
 export { roles, users, profile, permissions, clientPermissions }

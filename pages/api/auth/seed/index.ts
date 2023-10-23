@@ -16,6 +16,7 @@ import {
   permissions,
   clientPermissions,
 } from '../../../../config/data'
+import { encryptPassword } from '../../../../utils/encryptPassword'
 
 const handler = nc()
 
@@ -55,7 +56,7 @@ handler.get(
           name: users.name,
           email: users.email,
           mobile: users.mobile,
-          password: users.password,
+          password: await encryptPassword(users.password),
           confirmed: true,
           blocked: false,
           platform: users.platform,

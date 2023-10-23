@@ -17,13 +17,14 @@ export interface IUser {
   createdAt?: Date
   isReal: boolean
   platform: 'web' | 'soomar' | 'dankaab'
+  dealerCode?: number
 }
 
 const userSchema = new Schema<IUser>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true, lowercase: true },
-    mobile: { type: Number, required: true, unique: true },
+    mobile: { type: Number, required: true },
     password: String,
     resetPasswordToken: String,
     resetPasswordExpire: Date,
@@ -32,6 +33,7 @@ const userSchema = new Schema<IUser>(
     confirmed: { type: Boolean, default: false },
     blocked: { type: Boolean, default: false },
     isReal: { type: Boolean, default: false },
+    dealerCode: Number,
     platform: {
       type: String,
       enum: ['web', 'soomar', 'dankaab'],
@@ -49,14 +51,6 @@ userSchema.methods.encryptPassword = async function (password: string) {
   const salt = await bcrypt.genSalt(10)
   return await bcrypt.hash(password, salt)
 }
-
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) {
-    next()
-  }
-  const salt = await bcrypt.genSalt(10)
-  this.password = await bcrypt.hash(this.password, salt)
-})
 
 userSchema.methods.getResetPasswordToken = function () {
   const resetToken = crypto.randomBytes(20).toString('hex')

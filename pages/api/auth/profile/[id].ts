@@ -3,6 +3,7 @@ import db from '../../../../config/db'
 import Profile from '../../../../models/Profile'
 import User from '../../../../models/User'
 import { isAuth } from '../../../../utils/auth'
+import { encryptPassword } from '../../../../utils/encryptPassword'
 
 const schemaName = Profile
 const schemaNameString = 'Profile'
@@ -33,7 +34,7 @@ handler.put(
 
         await User.findOneAndUpdate(
           { _id: id },
-          { password: await object.user.encryptPassword(password) }
+          { password: await encryptPassword(password) }
         )
       }
 

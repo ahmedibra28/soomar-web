@@ -15,6 +15,7 @@ import {
   DynamicFormProps,
   inputCheckBox,
   inputEmail,
+  inputNumber,
   inputPassword,
   inputTel,
   inputText,
@@ -61,6 +62,7 @@ const Users = () => {
     handleSubmit,
     setValue,
     reset,
+    watch,
     formState: { errors },
   } = useForm({})
 
@@ -105,6 +107,7 @@ const Users = () => {
     setValue('email', item?.email)
     setValue('platform', item?.platform)
     setValue('mobile', item?.mobile)
+    setValue('dealerCode', item?.dealerCode)
 
     setEdit(true)
   }
@@ -187,6 +190,28 @@ const Users = () => {
         label: 'Platform',
         name: 'platform',
         data: [{ name: 'web' }, { name: 'soomar' }, { name: 'dankaab' }],
+      } as DynamicFormProps)}
+    </div>,
+    <div key={7}>
+      {watch().platform === 'dankaab' && (
+        <div className="col-12">
+          {inputNumber({
+            register,
+            errors,
+            label: 'Dealer Code',
+            name: 'dealerCode',
+            placeholder: 'Enter dealer code',
+          } as DynamicFormProps)}
+        </div>
+      )}
+    </div>,
+    <div key={1} className="col-12">
+      {inputTel({
+        register,
+        errors,
+        label: 'Mobile',
+        name: 'mobile',
+        placeholder: 'Enter mobile address',
       } as DynamicFormProps)}
     </div>,
 
@@ -315,7 +340,9 @@ const Users = () => {
                       <span className="badge bg-success">{item?.platform}</span>
                     )}
                     {item?.platform === 'dankaab' && (
-                      <span className="badge bg-info">{item?.platform}</span>
+                      <span className="badge bg-info">
+                        {item?.platform} - {item?.dealerCode}
+                      </span>
                     )}
                     {!['web', 'soomar', 'dankaab'].includes(item?.platform) && (
                       <span className="badge bg-danger">Error!</span>

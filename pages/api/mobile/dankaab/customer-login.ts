@@ -3,7 +3,6 @@ import db from '../../../../config/db'
 import User from '../../../../models/User'
 import UserRole from '../../../../models/UserRole'
 import Profile from '../../../../models/Profile'
-import { Markets } from '../../../../utils/Markets'
 import { getToken, sendSMS } from '../../../../utils/SMS'
 import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
 
@@ -14,36 +13,28 @@ handler.post(
     try {
       await db()
 
-      const { market, mobile } = req.body
-
-      const checkMarket = Markets.find(
-        (item) =>
-          item.product &&
-          item.name?.toLowerCase() === market?.split(' ')?.[0]?.toLowerCase()
-      )
-
-      if (!checkMarket) return res.status(400).json({ error: 'Invalid market' })
+      const { mobile, name } = req.body
 
       const provider = ProviderNumberValidation(mobile).validOTP
       if (!provider)
         return res.status(400).json({ error: 'Invalid mobile number' })
 
-      const user = await User.findOne({ mobile, platform: 'soomar' })
+      const user = await User.findOne({ mobile, platform: 'dankaab' })
 
       // Register user if not found
       if (!user) {
-        const email = `${mobile}@soomar.app`
+        const email = `${mobile}@dankaab.app`
         const confirmed = true
         const blocked = false
 
         const object = await User.create({
-          name: mobile,
+          name,
           email,
           mobile,
           confirmed,
           blocked,
           isReal: false,
-          platform: 'soomar',
+          platform: 'dankaab',
         })
 
         object.getRandomOtp()
@@ -67,20 +58,22 @@ handler.post(
           name: object.name,
           image: `https://ui-avatars.com/api/?uppercase=true&name=${object.name}&background=random&color=random&size=128`,
           mobile,
-          market: req.body.market,
+          market: 'Mogadishu Market',
         })
 
         await UserRole.create({
           user: object._id,
-          role: '5e0af1c63b6482125c1b44cc', // Customer role
+          role: '5e0af1c63b6482125c1b44cb', // Customer role
         })
 
-        const token = await getToken()
-        const sms = await sendSMS({
-          token: token.access_token,
-          mobile,
-          message: `Your OTP is ${object.otp}`,
-        })
+        // const token = await getToken()
+        // const sms = await sendSMS({
+        //   token: token.access_token,
+        //   mobile,
+        //   message: `Dankaab Your OTP is ${object.otp}`,
+        // })
+
+        const sms = true
 
         if (sms)
           return res.status(200).json({ _id: object?._id, otp: object?.otp })
@@ -108,24 +101,18 @@ handler.post(
           .status(404)
           .json({ error: 'This user does not have associated role' })
 
-      await Profile.findOneAndUpdate(
-        { user: user._id },
-        {
-          market: req.body.market,
-        }
-      )
-
       user.getRandomOtp()
       const otpGenerate = await user.save()
       if (!otpGenerate)
         return res.status(400).json({ error: 'OTP not generated' })
 
-      const token = await getToken()
-      const sms = await sendSMS({
-        token: token.access_token,
-        mobile,
-        message: `Your OTP is ${user.otp}`,
-      })
+      // const token = await getToken()
+      // const sms = await sendSMS({
+      //   token: token.access_token,
+      //   mobile,
+      //   message: `Dankaab Your OTP is ${user.otp}`,
+      // })
+      const sms = true
 
       if (sms) return res.status(200).json({ _id: user?._id, otp: user?.otp })
 

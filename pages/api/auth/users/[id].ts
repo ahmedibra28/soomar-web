@@ -5,6 +5,7 @@ import User from '../../../../models/User'
 import UserRole from '../../../../models/UserRole'
 import { isAuth } from '../../../../utils/auth'
 import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
+import { encryptPassword } from '../../../../utils/encryptPassword'
 
 const schemaName = User
 const schemaNameString = 'User'
@@ -62,7 +63,7 @@ handler.put(
       object.platform = platform
       object.mobile = mobile
 
-      password && (object.password = await object.encryptPassword(password))
+      password && (object.password = await encryptPassword(password))
 
       if (name) {
         await Profile.findOneAndUpdate({ user: id }, { name })

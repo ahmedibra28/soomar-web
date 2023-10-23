@@ -6,6 +6,7 @@ import { isAuth } from '../../../../utils/auth'
 import Role from '../../../../models/Role'
 import UserRole from '../../../../models/UserRole'
 import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
+import { encryptPassword } from '../../../../utils/encryptPassword'
 
 const schemaName = User
 
@@ -80,8 +81,21 @@ handler.post(
       if (checkDuplicateMobile)
         return res.status(400).json({ error: 'Mobile number already exists' })
 
-      const object = await schemaName.create(req.body)
+      if (req.body?.platform === 'dankaab' && !req.body?.dealerCode)
+        return res.status(400).json({ error: 'Dealer code is required' })
 
+      if (req.body?.dealerCode) {
+        const checkDealer = await Profile.findOne({
+          dealerCode: req.body.dealerCode,
+        })
+        if (checkDealer)
+          return res.status(400).json({ error: 'Dealer code already exists' })
+      }
+
+      const object = await schemaName.create({
+        ...req.body,
+        password: await encryptPassword(req.body.password),
+      })
       await Profile.create({
         user: object._id,
         name: object.name,
