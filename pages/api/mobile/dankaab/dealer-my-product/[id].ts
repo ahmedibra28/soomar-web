@@ -19,6 +19,7 @@ handler.delete(
         return res.status(400).json({ error: 'Invalid platform' })
 
       await myProduct.deleteOne({
+        dealer: req.user._id,
         ...(id?.length === 21 ? { product: id } : { _id: id }),
       })
 

@@ -64,7 +64,7 @@ handler.post(
 
       await User.updateOne(
         { _id: req.user._id },
-        { mobile, platform, name, email: 'dealer@ahmedibra.com' }
+        { mobile, platform, name, email: req.user.email }
       )
 
       if (password) {

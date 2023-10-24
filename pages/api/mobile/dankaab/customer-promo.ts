@@ -26,12 +26,17 @@ handler.post(
         return res.status(400).json({ error: 'Invalid promo code' })
       }
 
-      return res
-        .status(200)
-        .json({
-          message: 'Promo code applied successfully',
-          dealerCode: dealerCodeObj.dealerCode,
-        })
+      await User.findOneAndUpdate(
+        { _id: req.user._id },
+        {
+          dealerCode: promo,
+        }
+      )
+
+      return res.status(200).json({
+        message: 'Promo code applied successfully',
+        dealerCode: dealerCodeObj.dealerCode,
+      })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }

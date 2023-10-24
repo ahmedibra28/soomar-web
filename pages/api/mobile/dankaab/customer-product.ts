@@ -1,8 +1,8 @@
 import nc from 'next-connect'
-import db from '../../../../../config/db'
-import User, { IUser } from '../../../../../models/User'
-import myProduct from '../../../../../models/myProduct'
-import { isAuth } from '../../../../../utils/auth'
+import db from '../../../../config/db'
+import User, { IUser } from '../../../../models/User'
+import myProduct from '../../../../models/myProduct'
+import { isAuth } from '../../../../utils/auth'
 import axios from 'axios'
 
 const handler = nc()
@@ -20,7 +20,7 @@ handler.get(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const { q, type } = req.query
+      const { q, type, dealerCode } = req.query
       const platform = req.headers['platform']
 
       if (platform !== 'dankaab')
@@ -29,13 +29,13 @@ handler.get(
       const queryCondition = q
         ? {
             name: { $regex: q, $options: 'i' },
-            dealer: req.user._id,
+            dealerCode: dealerCode,
             ...(type === 'Internet'
               ? { internet: { $exists: true } }
               : { product: { $exists: true } }),
           }
         : {
-            dealer: req.user._id,
+            dealerCode: dealerCode,
             ...(type === 'Internet'
               ? { internet: { $exists: true } }
               : { product: { $exists: true } }),
@@ -180,7 +180,6 @@ handler.post(
           {
             internet,
             dealer: user._id,
-            dealerCode: user.dealerCode,
           },
           { upsert: true, new: true }
         )
@@ -195,7 +194,6 @@ handler.post(
           {
             product,
             dealer: user._id,
-            dealerCode: user.dealerCode,
           },
           { upsert: true, new: true }
         )

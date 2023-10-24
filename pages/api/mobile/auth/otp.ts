@@ -61,6 +61,7 @@ handler.post(
         points: profile.points,
         image: profile.image,
         address: profile.address,
+        dealerCode: user?.dealerCode,
         // @ts-ignore
         role: roleObj.role.type,
         token: generateToken(user._id),

@@ -724,7 +724,7 @@ const permissions = [
   // Product / Internet
   {
     _id: '64e453eec9eb251f670996a3',
-    description: 'Get products',
+    description: 'Get dealer products',
     route: '/api/mobile/dankaab/dealer-my-product',
     name: 'My Product',
     method: 'GET',
@@ -751,6 +751,16 @@ const permissions = [
     route: '/api/mobile/dankaab/customer-promo',
     name: 'Promo Code',
     method: 'POST',
+  },
+
+  // Customer
+  // Product / Internet
+  {
+    _id: '64e453eec9eb251f670999a3',
+    description: 'Get customer products',
+    route: '/api/mobile/dankaab/customer-product',
+    name: 'Customer Product',
+    method: 'GET',
   },
 ]
 
