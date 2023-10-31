@@ -8,6 +8,8 @@ import Profile from '../../../../models/Profile'
 import { useEVCPayment } from '../../../../hooks/useEVCPayment'
 import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
 import { getToken, sendSMS } from '../../../../utils/SMS'
+import myProduct from '../../../../models/myProduct'
+import DealerTransaction from '../../../../models/DealerTransaction'
 
 const handler = nc()
 
@@ -56,7 +58,20 @@ handler.post(
 
     try {
       let { branch } = req.query
+      const { dealerCode } = req.query
+      let dealerId: string | null = null
+
       branch = branch.split(' ')[0]
+      const platform = req.headers['platform'] || 'soomar'
+
+      if (dealerCode && platform === 'dankaab') {
+        const checkDealerProduct = await myProduct.findOne({
+          dealerCode,
+        })
+        if (!checkDealerProduct)
+          return res.status(400).json({ error: 'Invalid dealer code' })
+        dealerId = checkDealerProduct?.dealer
+      }
 
       type Product = {
         inventoryId: string
@@ -121,23 +136,25 @@ handler.post(
       const { MERCHANT_U_ID, API_USER_ID, API_KEY, MERCHANT_ACCOUNT_NO } =
         process.env
 
-      const paymentInfo = await useEVCPayment({
-        merchantUId: MERCHANT_U_ID,
-        apiUserId: API_USER_ID,
-        apiKey: API_KEY,
-        customerMobileNumber: `252${body.deliveryAddress.mobile}`,
-        description: `${req.user.name} has paid ${amount?.toFixed(
-          2
-        )} for product price and ${body.deliveryAddress.deliveryPrice?.toFixed(
-          2
-        )} for delivery cost from ${branch} branch`,
-        amount: amount + Number(body.deliveryAddress.deliveryPrice),
-        withdrawTo: 'MERCHANT',
-        withdrawNumber: MERCHANT_ACCOUNT_NO,
-      })
+      // return res.status(402).json({ error: 'P Failed' })
 
-      if (paymentInfo.responseCode !== '2001')
-        return res.status(401).json({ error: `Payment failed` })
+      // const paymentInfo = await useEVCPayment({
+      //   merchantUId: MERCHANT_U_ID,
+      //   apiUserId: API_USER_ID,
+      //   apiKey: API_KEY,
+      //   customerMobileNumber: `252${body.deliveryAddress.mobile}`,
+      //   description: `${req.user.name} has paid ${amount?.toFixed(
+      //     2
+      //   )} for product price and ${body.deliveryAddress.deliveryPrice?.toFixed(
+      //     2
+      //   )} for delivery cost from ${branch} branch`,
+      //   amount: amount + Number(body.deliveryAddress.deliveryPrice),
+      //   withdrawTo: 'MERCHANT',
+      //   withdrawNumber: MERCHANT_ACCOUNT_NO,
+      // })
+
+      // if (paymentInfo.responseCode !== '2001')
+      //   return res.status(401).json({ error: `Payment failed` })
 
       const payment = await Payment.create({
         user: req.user._id,
@@ -149,6 +166,10 @@ handler.post(
 
       const reFormat = {
         user: req.user._id,
+        platform,
+        ...(platform === 'dankaab' && {
+          dealer: dealerId,
+        }),
         products: body.products?.map((item) => ({
           _id: item.inventoryId,
           warehouse: item.warehouseId,
@@ -164,6 +185,7 @@ handler.post(
           quantity: item?.quantity,
           discount: item?.discount,
           name: item?.name,
+          points: item?.points,
         })),
         deliveryAddress: {
           mobile: body.deliveryAddress.mobile,
@@ -183,6 +205,24 @@ handler.post(
           Order.create(reFormat)
             .then(async () => {
               if (points > 0) {
+                if (
+                  req.user.role === 'DANKAAB_CUSTOMER' &&
+                  platform === 'dankaab'
+                ) {
+                  await Profile.findOneAndUpdate(
+                    { user: dealerId },
+                    {
+                      $inc: { points },
+                    }
+                  )
+
+                  await DealerTransaction.create({
+                    amount: points,
+                    type: 'DEPOSIT',
+                    user: dealerId,
+                  })
+                }
+
                 if (req.user.role === 'CUSTOMER') {
                   await Profile.findOneAndUpdate(
                     { user: req.user._id },
@@ -217,7 +257,11 @@ handler.post(
               await sendSMS({
                 token: token.access_token,
                 mobile: profile.mobile,
-                message: `Mahadsanid macmiil, dalabkaaga wuu nasoo gaaray, waxaana kula soo xiriiri doona qeybta delivery-ga 0619988338, waxaadna heshay ${profile.points} dhibcood.`,
+                message: `Mahadsanid macmiil, dalabkaaga wuu nasoo gaaray, waxaana kula soo xiriiri doona qeybta delivery-ga 0619988338. ${
+                  platform === 'dankaab'
+                    ? ``
+                    : `Waxaadna heshay ${profile.points} dhibcood.`
+                }`,
               })
 
               return res.status(200).json(profile)

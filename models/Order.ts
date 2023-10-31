@@ -3,6 +3,8 @@ import User, { IUser } from './User'
 
 export interface IOrder {
   user: IUser
+  platform: 'web' | 'soomar' | 'dankaab'
+  dealer: IUser
   products: [
     {
       _id: string
@@ -22,6 +24,7 @@ export interface IOrder {
       size?: string
       weight?: number
       name: string
+      points?: number
     }
   ]
   deliveryAddress: {
@@ -40,6 +43,8 @@ const orderSchema = new Schema<IOrder>(
       required: true,
       ref: User,
     },
+    platform: String,
+    dealer: Schema.Types.ObjectId,
     products: [
       {
         _id: { type: String, required: true },
@@ -59,6 +64,7 @@ const orderSchema = new Schema<IOrder>(
         size: String,
         weight: Number,
         name: { type: String, required: true },
+        points: { type: Number },
       },
     ],
     deliveryAddress: {

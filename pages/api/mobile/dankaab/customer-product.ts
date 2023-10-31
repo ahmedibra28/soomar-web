@@ -66,7 +66,9 @@ handler.get(
       }
 
       if (type === 'Product') {
-        const url = `${process.env.API_URL}/mobile/inventories/bulk?branch=Mogadishu`
+        const url = `${
+          process.env.API_URL
+        }/mobile/inventories/bulk?branch=Mogadishu&q=${q || ''}`
         const ids = result.map((item) => item.product)
 
         const { data } = await axios.post(url, { ids }, config())

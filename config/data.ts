@@ -762,6 +762,29 @@ const permissions = [
     name: 'Customer Product',
     method: 'GET',
   },
+
+  // Transaction
+  {
+    _id: '64e453ee99eb251f670999a3',
+    description: 'Get last sale transactions',
+    route: '/api/mobile/dankaab/sale-transactions',
+    name: 'Transactions',
+    method: 'GET',
+  },
+  {
+    _id: '64e453ee99eb251f67099933',
+    description: 'Get last history transactions',
+    route: '/api/mobile/dankaab/history-transactions',
+    name: 'Transactions',
+    method: 'GET',
+  },
+  {
+    _id: '64e453ee99e5251f67099933',
+    description: 'Withdraw money',
+    route: '/api/mobile/dankaab/withdraw',
+    name: 'Withdraw',
+    method: 'POST',
+  },
 ]
 
 export { roles, users, profile, permissions, clientPermissions }
