@@ -180,7 +180,7 @@ handler.post(
           {
             internet,
             dealer: user._id,
-            dealerCode: user.dealerCode,
+            dealerCode: user.dealerCode?.toUpperCase(),
           },
           { upsert: true, new: true }
         )
@@ -195,7 +195,7 @@ handler.post(
           {
             product,
             dealer: user._id,
-            dealerCode: user.dealerCode,
+            dealerCode: user.dealerCode?.toUpperCase(),
           },
           { upsert: true, new: true }
         )

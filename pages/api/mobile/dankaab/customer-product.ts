@@ -29,13 +29,13 @@ handler.get(
       const queryCondition = q
         ? {
             name: { $regex: q, $options: 'i' },
-            dealerCode: dealerCode,
+            dealerCode: dealerCode?.toUpperCase(),
             ...(type === 'Internet'
               ? { internet: { $exists: true } }
               : { product: { $exists: true } }),
           }
         : {
-            dealerCode: dealerCode,
+            dealerCode: dealerCode?.toUpperCase(),
             ...(type === 'Internet'
               ? { internet: { $exists: true } }
               : { product: { $exists: true } }),

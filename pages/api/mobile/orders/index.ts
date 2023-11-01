@@ -66,7 +66,7 @@ handler.post(
 
       if (dealerCode && platform === 'dankaab') {
         const checkDealerProduct = await myProduct.findOne({
-          dealerCode,
+          dealerCode: dealerCode?.toUpperCase(),
         })
         if (!checkDealerProduct)
           return res.status(400).json({ error: 'Invalid dealer code' })
@@ -185,7 +185,7 @@ handler.post(
           quantity: item?.quantity,
           discount: item?.discount,
           name: item?.name,
-          points: item?.points,
+          points: item?.points * item?.quantity,
         })),
         deliveryAddress: {
           mobile: body.deliveryAddress.mobile,
@@ -196,7 +196,7 @@ handler.post(
       }
 
       const points =
-        body.products.reduce((prev, curr) => prev + curr.points, 0) || 0
+        reFormat.products?.reduce((prev, curr) => prev + curr.points, 0) || 0
 
       const url = `${process.env.API_URL}/mobile/orders?branch=${branch}`
       axios
@@ -223,7 +223,7 @@ handler.post(
                   })
                 }
 
-                if (req.user.role === 'CUSTOMER') {
+                if (req.user.role === 'CUSTOMER' && platform === 'soomar') {
                   await Profile.findOneAndUpdate(
                     { user: req.user._id },
                     {
@@ -232,7 +232,7 @@ handler.post(
                   )
                 }
 
-                if (req.user.role === 'AGENT') {
+                if (req.user.role === 'AGENT' && platform === 'soomar') {
                   await Profile.findOneAndUpdate(
                     { user: req.user._id },
                     {
@@ -241,7 +241,7 @@ handler.post(
                   )
                 }
 
-                if (req.user.role === 'SUPER_ADMIN') {
+                if (req.user.role === 'SUPER_ADMIN' && platform === 'soomar') {
                   await Profile.findOneAndUpdate(
                     { user: req.user._id },
                     {

@@ -126,4 +126,19 @@ export const addressPricing = [
       { name: 'Baydhabo', price: 1, deliveryTime: '90 min', perItem: false },
     ],
   },
+  {
+    name: 'Puntland',
+    districts: [
+      { name: 'Garowe', price: 1, deliveryTime: '60 min', perItem: false },
+      { name: 'Boosaaso', price: 1, deliveryTime: '2 days', perItem: false },
+      { name: 'Gaalkacyo', price: 1, deliveryTime: '2 days', perItem: false },
+      { name: 'Qardho', price: 1, deliveryTime: '2 days', perItem: false },
+      { name: 'Burtinle', price: 1, deliveryTime: '2 days', perItem: false },
+      { name: 'Carmo', price: 1, deliveryTime: '2 days', perItem: false },
+      { name: 'Laascaanood', price: 2, deliveryTime: '2 days', perItem: false },
+      { name: 'Galdogob', price: 2, deliveryTime: '2 days', perItem: false },
+      { name: 'Hargeisa', price: 2, deliveryTime: '2 days', perItem: false },
+      { name: 'Mogadishu', price: 2, deliveryTime: '3 days', perItem: false },
+    ],
+  },
 ]

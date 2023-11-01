@@ -195,7 +195,7 @@ const Users = () => {
     <div key={7}>
       {watch().platform === 'dankaab' && (
         <div className="col-12">
-          {inputNumber({
+          {inputText({
             register,
             errors,
             label: 'Dealer Code',

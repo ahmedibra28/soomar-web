@@ -7,7 +7,7 @@ export interface ImyProduct {
   internet: IInternetProvider
   product?: string
   dealer: IUser
-  dealerCode: number
+  dealerCode: string
 
   createdBy: IUser
   updatedBy?: IUser
@@ -18,7 +18,7 @@ const myProductSchema = new Schema<ImyProduct>(
     internet: { type: Schema.Types.ObjectId, ref: InternetProvider },
     product: String,
     dealer: { type: Schema.Types.ObjectId, ref: User, required: true },
-    dealerCode: { type: Number, required: true },
+    dealerCode: { type: String, required: true, uppercase: true },
 
     createdBy: { type: Schema.Types.ObjectId, ref: User, required: true },
     updatedBy: { type: Schema.Types.ObjectId, ref: User },

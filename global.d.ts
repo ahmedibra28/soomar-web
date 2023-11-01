@@ -33,7 +33,7 @@ declare global {
       category: string
       branch: string
       mode?: string
-      dealerCode?: number
+      dealerCode?: string
     }
   }
   interface NextApiResponseExtended extends NextApiResponse {

@@ -17,7 +17,7 @@ export interface IUser {
   createdAt?: Date
   isReal: boolean
   platform: 'web' | 'soomar' | 'dankaab'
-  dealerCode?: number
+  dealerCode?: string
 }
 
 const userSchema = new Schema<IUser>(
@@ -33,7 +33,7 @@ const userSchema = new Schema<IUser>(
     confirmed: { type: Boolean, default: false },
     blocked: { type: Boolean, default: false },
     isReal: { type: Boolean, default: false },
-    dealerCode: Number,
+    dealerCode: { type: String, uppercase: true },
     platform: {
       type: String,
       enum: ['web', 'soomar', 'dankaab'],

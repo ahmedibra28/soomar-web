@@ -18,7 +18,7 @@ handler.post(
       }
 
       const dealerCodeObj = await User.findOne({
-        dealerCode: promo,
+        dealerCode: promo?.toUpperCase(),
         platform: 'dankaab',
       })
 
@@ -29,7 +29,7 @@ handler.post(
       await User.findOneAndUpdate(
         { _id: req.user._id },
         {
-          dealerCode: promo,
+          dealerCode: promo?.toUpperCase(),
         }
       )
 

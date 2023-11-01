@@ -86,7 +86,7 @@ handler.post(
 
       if (req.body?.dealerCode) {
         const checkDealer = await Profile.findOne({
-          dealerCode: req.body.dealerCode,
+          dealerCode: req.body.dealerCode?.toUpperCase(),
         })
         if (checkDealer)
           return res.status(400).json({ error: 'Dealer code already exists' })
