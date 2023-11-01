@@ -15,7 +15,6 @@ import {
   DynamicFormProps,
   inputCheckBox,
   inputEmail,
-  inputNumber,
   inputPassword,
   inputTel,
   inputText,

@@ -35,19 +35,19 @@ handler.post(
           .status(400)
           .json({ error: 'Invalid payment receiver mobile number' })
 
-      // const paymentInfo = await useEVCPayment({
-      //   merchantUId: MERCHANT_U_ID,
-      //   apiUserId: API_USER_ID,
-      //   apiKey: API_KEY,
-      //   customerMobileNumber: `252${profile.mobile}`,
-      //   description: `Dealer ${req.user.name} has got ${amount} for profit withdraw`,
-      //   amount: amount,
-      //   withdrawTo: 'TEL',
-      //   withdrawNumber: `252${profile.mobile}`,
-      // })
+      const paymentInfo = await useEVCPayment({
+        merchantUId: MERCHANT_U_ID,
+        apiUserId: API_USER_ID,
+        apiKey: API_KEY,
+        customerMobileNumber: `252${profile.mobile}`,
+        description: `Dealer ${req.user.name} has got ${amount} for profit withdraw`,
+        amount: amount,
+        withdrawTo: 'TEL',
+        withdrawNumber: `252${profile.mobile}`,
+      })
 
-      // if (paymentInfo.responseCode !== '2001')
-      //   return res.status(401).json({ error: `Payment failed` })
+      if (paymentInfo.responseCode !== '2001')
+        return res.status(401).json({ error: `Payment failed` })
 
       const updatedProfile = await Profile.findOneAndUpdate(
         { user: _id },

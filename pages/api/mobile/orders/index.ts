@@ -136,25 +136,23 @@ handler.post(
       const { MERCHANT_U_ID, API_USER_ID, API_KEY, MERCHANT_ACCOUNT_NO } =
         process.env
 
-      // return res.status(402).json({ error: 'P Failed' })
+      const paymentInfo = await useEVCPayment({
+        merchantUId: MERCHANT_U_ID,
+        apiUserId: API_USER_ID,
+        apiKey: API_KEY,
+        customerMobileNumber: `252${body.deliveryAddress.mobile}`,
+        description: `${req.user.name} has paid ${amount?.toFixed(
+          2
+        )} for product price and ${body.deliveryAddress.deliveryPrice?.toFixed(
+          2
+        )} for delivery cost from ${branch} branch`,
+        amount: amount + Number(body.deliveryAddress.deliveryPrice),
+        withdrawTo: 'MERCHANT',
+        withdrawNumber: MERCHANT_ACCOUNT_NO,
+      })
 
-      // const paymentInfo = await useEVCPayment({
-      //   merchantUId: MERCHANT_U_ID,
-      //   apiUserId: API_USER_ID,
-      //   apiKey: API_KEY,
-      //   customerMobileNumber: `252${body.deliveryAddress.mobile}`,
-      //   description: `${req.user.name} has paid ${amount?.toFixed(
-      //     2
-      //   )} for product price and ${body.deliveryAddress.deliveryPrice?.toFixed(
-      //     2
-      //   )} for delivery cost from ${branch} branch`,
-      //   amount: amount + Number(body.deliveryAddress.deliveryPrice),
-      //   withdrawTo: 'MERCHANT',
-      //   withdrawNumber: MERCHANT_ACCOUNT_NO,
-      // })
-
-      // if (paymentInfo.responseCode !== '2001')
-      //   return res.status(401).json({ error: `Payment failed` })
+      if (paymentInfo.responseCode !== '2001')
+        return res.status(401).json({ error: `Payment failed` })
 
       const payment = await Payment.create({
         user: req.user._id,

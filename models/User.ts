@@ -18,6 +18,7 @@ export interface IUser {
   isReal: boolean
   platform: 'web' | 'soomar' | 'dankaab'
   dealerCode?: string
+  role?: string
 }
 
 const userSchema = new Schema<IUser>(
