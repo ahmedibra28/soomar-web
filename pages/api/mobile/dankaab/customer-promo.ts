@@ -13,10 +13,6 @@ handler.post(
 
       const { promo } = req.body
 
-      if (!promo || promo.length !== 5) {
-        return res.status(400).json({ error: 'Invalid promo code' })
-      }
-
       const dealerCodeObj = await User.findOne({
         dealerCode: promo?.toUpperCase(),
         platform: 'dankaab',

@@ -204,15 +204,6 @@ const Users = () => {
         </div>
       )}
     </div>,
-    <div key={1} className="col-12">
-      {inputTel({
-        register,
-        errors,
-        label: 'Mobile',
-        name: 'mobile',
-        placeholder: 'Enter mobile address',
-      } as DynamicFormProps)}
-    </div>,
 
     <div key={4} className="col-12">
       {inputCheckBox({
