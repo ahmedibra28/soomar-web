@@ -14,15 +14,12 @@ handler.post(
       const { promo } = req.body
 
       const dealerCodeObj = await User.findOne({
+        dealerCode: `${promo}`.toUpperCase(),
         platform: 'dankaab',
       })
 
-      if (
-        !dealerCodeObj ||
-        dealerCodeObj?.dealerCode?.toString() !==
-          promo?.toString()?.toUpperCase()
-      ) {
-        return res.status(400).json({ error: 'Invalid promo code' })
+      if (!dealerCodeObj) {
+        return res.status(400).json({ error: 'Invalid shop code' })
       }
 
       await User.findOneAndUpdate(
@@ -33,7 +30,7 @@ handler.post(
       )
 
       return res.status(200).json({
-        message: 'Promo code applied successfully',
+        message: 'Shop code applied successfully',
         dealerCode: dealerCodeObj.dealerCode,
       })
     } catch (error: any) {
