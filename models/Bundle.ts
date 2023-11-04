@@ -13,6 +13,7 @@ export interface IBundle {
   createdBy: IUser
   updatedBy?: IUser
   status: 'active' | 'deleted' | 'inactive'
+  points?: number
 }
 
 const bundleSchema = new Schema<IBundle>(
@@ -32,6 +33,7 @@ const bundleSchema = new Schema<IBundle>(
       enum: ['active', 'deleted', 'inactive'],
       default: 'active',
     },
+    points: Number,
 
     createdBy: { type: Schema.Types.ObjectId, ref: User, required: true },
     updatedBy: { type: Schema.Types.ObjectId, ref: User },

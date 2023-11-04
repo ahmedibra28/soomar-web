@@ -103,8 +103,11 @@ const Categories = () => {
     setValue('description', item?.description)
     setValue('status', item?.status)
     setValue('offerId', item?.offerId)
+    setValue('points', item?.points)
 
     setEdit(true)
+
+    console.log(item)
   }
 
   const deleteHandler = (id: any) => {
@@ -184,6 +187,16 @@ const Categories = () => {
         name: 'offerId',
         isRequired: false,
         placeholder: 'Enter offer id',
+      } as DynamicFormProps)}
+    </div>,
+    <div key={7} className="col-md-6 col-12">
+      {inputNumber({
+        register,
+        errors,
+        label: 'Points',
+        name: 'points',
+        placeholder: 'Enter points',
+        isRequired: false,
       } as DynamicFormProps)}
     </div>,
     <div key={5} className="col-md-6 col-12">

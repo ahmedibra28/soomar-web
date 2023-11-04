@@ -14,11 +14,14 @@ handler.post(
       const { promo } = req.body
 
       const dealerCodeObj = await User.findOne({
-        dealerCode: promo?.toUpperCase(),
         platform: 'dankaab',
       })
 
-      if (!dealerCodeObj) {
+      if (
+        !dealerCodeObj ||
+        dealerCodeObj?.dealerCode?.toString() !==
+          promo?.toString()?.toUpperCase()
+      ) {
         return res.status(400).json({ error: 'Invalid promo code' })
       }
 

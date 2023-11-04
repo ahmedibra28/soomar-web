@@ -19,6 +19,7 @@ handler.put(
         description,
         status,
         offerId,
+        points,
       } = req.body
 
       const object = await Bundle.findById(id)
@@ -44,6 +45,7 @@ handler.put(
       object.status = status
       object.offerId = offerId
       object.updatedBy = req.user._id
+      object.points = points
       await object.save()
       res.status(200).json({ message: `Bundle updated` })
     } catch (error: any) {

@@ -10,6 +10,9 @@ import Payment from '../../../../models/Payment'
 import { rechargeData } from '../../../../utils/InternetRecharge'
 import InternetTransaction from '../../../../models/InternetTransaction'
 import { useSomLinkRecharge } from '../../../../hooks/useSomLinkRecharge'
+import myProduct from '../../../../models/myProduct'
+import Profile from '../../../../models/Profile'
+import DealerTransaction from '../../../../models/DealerTransaction'
 
 const handler = nc()
 handler.use(isAuth)
@@ -31,6 +34,18 @@ handler.post(
       } = req.body
       let { branch } = req.query
       branch = branch?.split(' ')[0]
+
+      const platform = req.headers['platform'] || 'soomar'
+      let dealerId: string | null = null
+
+      if (req.query?.dealerCode && platform === 'dankaab') {
+        const checkDealerProduct = await myProduct.findOne({
+          dealerCode: req.query?.dealerCode?.toUpperCase(),
+        })
+        if (!checkDealerProduct)
+          return res.status(400).json({ error: 'Invalid dealer code' })
+        dealerId = checkDealerProduct?.dealer
+      }
 
       const providerSender = ProviderNumberValidation(senderMobile).validSender
       if (!providerSender)
@@ -210,7 +225,29 @@ handler.post(
           bundle: bundleId,
           senderMobile,
           receiverMobile,
+          ...(platform === 'dankaab' &&
+            req.user.role === 'DANKAAB_CUSTOMER' &&
+            checkBundle.points > 0 && {
+              points: checkBundle.points,
+              dealer: dealerId,
+            }),
         })
+        if (checkBundle.points > 0) {
+          if (req.user.role === 'DANKAAB_CUSTOMER' && platform === 'dankaab') {
+            await Profile.findOneAndUpdate(
+              { user: dealerId },
+              {
+                $inc: { points: checkBundle.points },
+              }
+            )
+
+            await DealerTransaction.create({
+              amount: checkBundle.points,
+              type: 'DEPOSIT',
+              user: dealerId,
+            })
+          }
+        }
         return res.json('success')
       }
 
@@ -234,7 +271,29 @@ handler.post(
         bundle: bundleId,
         senderMobile,
         receiverMobile,
+        ...(platform === 'dankaab' &&
+          req.user.role === 'DANKAAB_CUSTOMER' &&
+          checkBundle.points > 0 && {
+            points: checkBundle.points,
+            dealer: dealerId,
+          }),
       })
+      if (checkBundle.points > 0) {
+        if (req.user.role === 'DANKAAB_CUSTOMER' && platform === 'dankaab') {
+          await Profile.findOneAndUpdate(
+            { user: dealerId },
+            {
+              $inc: { points: checkBundle.points },
+            }
+          )
+
+          await DealerTransaction.create({
+            amount: checkBundle.points,
+            type: 'DEPOSIT',
+            user: dealerId,
+          })
+        }
+      }
 
       return res.json('success')
     } catch (error: any) {

@@ -14,6 +14,8 @@ export interface IInternetTransaction {
   senderMobile?: string
   receiverMobile?: string
   reference?: string
+  points?: number
+  dealer?: IUser
 
   createdAt?: Date
 }
@@ -46,6 +48,8 @@ const internetTransactionSchema = new Schema<IInternetTransaction>(
     senderMobile: String,
     receiverMobile: String,
     reference: String,
+    points: Number,
+    dealer: Schema.Types.ObjectId,
   },
   { timestamps: true }
 )

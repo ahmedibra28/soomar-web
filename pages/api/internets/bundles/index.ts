@@ -34,7 +34,7 @@ handler.get(
           select: ['_id', 'name', 'image', 'internetProvider'],
           populate: {
             path: 'internetProvider',
-            select: ['name', 'image', 'branch'],
+            select: ['name', 'image', 'branch', 'points'],
           },
         })
 
@@ -67,6 +67,7 @@ handler.post(
         description,
         status,
         offerId,
+        points,
       } = req.body
 
       const exist = await Bundle.findOne({
@@ -88,6 +89,7 @@ handler.post(
         offerId,
         status,
         createdBy: req.user._id,
+        points,
       })
       res.status(200).send(object)
     } catch (error: any) {
