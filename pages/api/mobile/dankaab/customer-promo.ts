@@ -2,6 +2,7 @@ import nc from 'next-connect'
 import db from '../../../../config/db'
 import User from '../../../../models/User'
 import { isAuth } from '../../../../utils/auth'
+import Profile from '../../../../models/Profile'
 
 const handler = nc()
 
@@ -29,9 +30,13 @@ handler.post(
         }
       )
 
+      const profile = await Profile.findOne({ user: dealerCodeObj?._id })
+
       return res.status(200).json({
         message: 'Shop code applied successfully',
         dealerCode: dealerCodeObj.dealerCode,
+        name: dealerCodeObj?.name,
+        image: profile?.image,
       })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
