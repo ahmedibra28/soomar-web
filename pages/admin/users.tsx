@@ -107,6 +107,7 @@ const Users = () => {
     setValue('platform', item?.platform)
     setValue('mobile', item?.mobile)
     setValue('dealerCode', item?.dealerCode)
+    setValue('dealerBanner', item?.dealerBanner)
 
     setEdit(true)
   }
@@ -193,15 +194,27 @@ const Users = () => {
     </div>,
     <div key={7}>
       {watch().platform === 'dankaab' && (
-        <div className="col-12">
-          {inputText({
-            register,
-            errors,
-            label: 'Dealer Code',
-            name: 'dealerCode',
-            placeholder: 'Enter dealer code',
-          } as DynamicFormProps)}
-        </div>
+        <>
+          <div className="col-12">
+            {inputText({
+              register,
+              errors,
+              label: 'Dealer Code',
+              name: 'dealerCode',
+              placeholder: 'Enter dealer code',
+            } as DynamicFormProps)}
+          </div>
+          <div className="col-12">
+            {inputText({
+              register,
+              errors,
+              label: 'Dealer Banner',
+              name: 'dealerBanner',
+              placeholder: 'Enter dealer banner',
+              isRequired: false,
+            } as DynamicFormProps)}
+          </div>
+        </>
       )}
     </div>,
 

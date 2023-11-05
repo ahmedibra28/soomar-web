@@ -21,7 +21,7 @@ handler.post(
 
       const profile = await Profile.findOne({
         user: _id,
-        points: { $gt: Number(amount) },
+        points: { $gte: Number(amount) },
       })
 
       if (!profile)

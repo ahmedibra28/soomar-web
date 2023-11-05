@@ -18,6 +18,7 @@ export interface IUser {
   isReal: boolean
   platform: 'web' | 'soomar' | 'dankaab'
   dealerCode?: string
+  dealerBanner?: string
   role?: string
 }
 
@@ -35,6 +36,7 @@ const userSchema = new Schema<IUser>(
     blocked: { type: Boolean, default: false },
     isReal: { type: Boolean, default: false },
     dealerCode: { type: String, uppercase: true },
+    dealerBanner: String,
     platform: {
       type: String,
       enum: ['web', 'soomar', 'dankaab'],

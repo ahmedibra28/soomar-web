@@ -1,7 +1,7 @@
 import nc from 'next-connect'
 import db from '../../../../config/db'
 import myProduct from '../../../../models/myProduct'
-import Profile from '../../../../models/Profile'
+import User from '../../../../models/User'
 
 const handler = nc()
 
@@ -18,14 +18,14 @@ handler.get(
       })
       if (!dealer) return res.status(400).json({ error: 'Dealer not found' })
 
-      const profile = await Profile.findOne(
-        { user: dealer.dealer },
-        { image: 1, name: 1, mobile: 1 }
+      const user = await User.findOne(
+        { _id: dealer.dealer },
+        { dealerBanner: 1, name: 1, mobile: 1, dealerCode: 1 }
       )
 
-      if (!profile) return res.status(400).json({ error: 'Profile not found' })
+      if (!user) return res.status(400).json({ error: 'Dealer not found' })
 
-      return res.status(200).json(profile)
+      return res.status(200).json(user)
     } catch (error: any) {
       res
         .status(500)

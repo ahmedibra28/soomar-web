@@ -37,8 +37,16 @@ handler.put(
     await db()
     try {
       const { id } = req.query
-      const { name, confirmed, blocked, password, email, platform, mobile } =
-        req.body
+      const {
+        name,
+        confirmed,
+        blocked,
+        password,
+        email,
+        platform,
+        mobile,
+        dealerBanner,
+      } = req.body
 
       const object = await schemaName.findById(id)
       if (!object)
@@ -62,6 +70,7 @@ handler.put(
       object.blocked = blocked
       object.platform = platform
       object.mobile = mobile
+      object.dealerBanner = dealerBanner
 
       password && (object.password = await encryptPassword(password))
 
