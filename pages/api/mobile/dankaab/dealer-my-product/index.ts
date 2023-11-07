@@ -176,7 +176,7 @@ handler.post(
 
       if (type === 'Internet') {
         const object = await myProduct.findOneAndUpdate(
-          { internet },
+          { internet, dealer: req.user._id },
           {
             internet,
             dealer: user._id,
@@ -191,7 +191,7 @@ handler.post(
       }
       if (type === 'Product') {
         const object = await myProduct.findOneAndUpdate(
-          { product },
+          { product, dealer: req.user._id },
           {
             product,
             dealer: user._id,
