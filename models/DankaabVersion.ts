@@ -13,7 +13,7 @@ const dankaabVersionSchema = new Schema<IDankaabVersion>(
 )
 
 const DankaabVersion =
-  models.Version ||
+  models.DankaabVersion ||
   model<IDankaabVersion>('DankaabVersion', dankaabVersionSchema)
 
 export default DankaabVersion
