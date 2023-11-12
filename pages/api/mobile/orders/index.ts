@@ -133,13 +133,22 @@ handler.post(
 
       body.amount = amount
 
-      const { MERCHANT_U_ID, API_USER_ID, API_KEY, MERCHANT_ACCOUNT_NO } =
-        process.env
+      const {
+        MERCHANT_U_ID,
+        API_USER_ID,
+        API_KEY,
+        MERCHANT_ACCOUNT_NO,
+        DANKAAAB_TEL_MERCHANT_ACCOUNT_NO,
+        DANKAAB_MERCHANT_U_ID,
+        DANKAAB_API_USER_ID,
+        DANKAAB_API_KEY,
+      } = process.env
 
       const paymentInfo = await useEVCPayment({
-        merchantUId: MERCHANT_U_ID,
-        apiUserId: API_USER_ID,
-        apiKey: API_KEY,
+        merchantUId:
+          platform === 'dankaab' ? DANKAAB_MERCHANT_U_ID : MERCHANT_U_ID,
+        apiUserId: platform === 'dankaab' ? DANKAAB_API_USER_ID : API_USER_ID,
+        apiKey: platform === 'dankaab' ? DANKAAB_API_KEY : API_KEY,
         customerMobileNumber: `252${body.deliveryAddress.mobile}`,
         description: `${req.user.name} has paid ${amount?.toFixed(
           2
@@ -147,8 +156,13 @@ handler.post(
           2
         )} for delivery cost from ${branch} branch`,
         amount: amount + Number(body.deliveryAddress.deliveryPrice),
-        withdrawTo: 'MERCHANT',
-        withdrawNumber: MERCHANT_ACCOUNT_NO,
+        ...(platform !== 'dankaab' && {
+          withdrawTo: 'MERCHANT',
+        }),
+        withdrawNumber:
+          platform === 'dankaab'
+            ? DANKAAAB_TEL_MERCHANT_ACCOUNT_NO
+            : MERCHANT_ACCOUNT_NO,
       })
 
       if (paymentInfo.responseCode !== '2001')
@@ -251,7 +265,7 @@ handler.post(
 
               const profile = await Profile.findOne({ user: req.user._id })
 
-              const token = await getToken()
+              const token = await getToken(platform as string)
               await sendSMS({
                 token: token.access_token,
                 mobile: profile.mobile,

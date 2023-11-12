@@ -168,19 +168,30 @@ handler.post(
         SL_API_USER_ID,
         SL_API_KEY,
         SL_MERCHANT_ACCOUNT_NO,
+
+        DANKAAAB_TEL_MERCHANT_ACCOUNT_NO,
+        DANKAAB_MERCHANT_U_ID,
+        DANKAAB_API_USER_ID,
+        DANKAAB_API_KEY,
       } = process.env
 
       const paymentInfo = await useEVCPayment({
         merchantUId:
-          branch === 'Hargeisa' && provider === 'Somtel SL'
+          platform === 'dankaab'
+            ? DANKAAB_MERCHANT_U_ID
+            : branch === 'Hargeisa' && provider === 'Somtel SL'
             ? SL_MERCHANT_U_ID
             : MERCHANT_U_ID,
         apiUserId:
-          branch === 'Hargeisa' && provider === 'Somtel SL'
+          platform === 'dankaab'
+            ? DANKAAB_API_USER_ID
+            : branch === 'Hargeisa' && provider === 'Somtel SL'
             ? SL_API_USER_ID
             : API_USER_ID,
         apiKey:
-          branch === 'Hargeisa' && provider === 'Somtel SL'
+          platform === 'dankaab'
+            ? DANKAAB_API_KEY
+            : branch === 'Hargeisa' && provider === 'Somtel SL'
             ? SL_API_KEY
             : API_KEY,
         customerMobileNumber: `252${senderMobile}`,
@@ -188,9 +199,13 @@ handler.post(
           2
         )} for ${provider} internet data`,
         amount: checkBundle.amount,
-        withdrawTo: 'MERCHANT',
+        ...(platform !== 'dankaab' && {
+          withdrawTo: 'MERCHANT',
+        }),
         withdrawNumber:
-          branch === 'Hargeisa' && provider === 'Somtel SL'
+          platform === 'dankaab'
+            ? `${DANKAAAB_TEL_MERCHANT_ACCOUNT_NO}`
+            : branch === 'Hargeisa' && provider === 'Somtel SL'
             ? SL_MERCHANT_ACCOUNT_NO
             : DATA_MERCHANT_ACCOUNT_NO,
         currency:

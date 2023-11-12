@@ -66,14 +66,12 @@ handler.post(
           role: '5e0af1c63b6482125c1b44cb', // Customer role
         })
 
-        // const token = await getToken()
-        // const sms = await sendSMS({
-        //   token: token.access_token,
-        //   mobile,
-        //   message: `Dankaab Your OTP is ${object.otp}`,
-        // })
-
-        const sms = true
+        const token = await getToken('dankaab')
+        const sms = await sendSMS({
+          token: token.access_token,
+          mobile,
+          message: `Dankaab Your OTP is ${object.otp}`,
+        })
 
         if (sms)
           return res.status(200).json({ _id: object?._id, otp: object?.otp })
@@ -106,7 +104,7 @@ handler.post(
       if (!otpGenerate)
         return res.status(400).json({ error: 'OTP not generated' })
 
-      const token = await getToken()
+      const token = await getToken('dankaab')
       const sms = await sendSMS({
         token: token.access_token,
         mobile,

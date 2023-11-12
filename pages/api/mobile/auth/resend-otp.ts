@@ -11,6 +11,7 @@ handler.post(
       await db()
 
       const { _id } = req.body
+      const platform = req.headers['platform'] || 'soomar'
 
       const user = await User.findOne({ _id })
 
@@ -28,7 +29,7 @@ handler.post(
         if (!otpGenerate)
           return res.status(400).json({ error: 'OTP not generated' })
 
-        const token = await getToken()
+        const token = await getToken(platform as string)
         const sms = await sendSMS({
           token: token.access_token,
           mobile: user.mobile,
@@ -44,7 +45,7 @@ handler.post(
         if (!otpGenerate)
           return res.status(400).json({ error: 'OTP not generated' })
 
-        const token = await getToken()
+        const token = await getToken(platform as string)
         const sms = await sendSMS({
           token: token.access_token,
           mobile: user.mobile,
@@ -54,7 +55,7 @@ handler.post(
         if (sms) return res.status(200).json({ _id: user?._id, otp: user?.otp })
       }
 
-      const token = await getToken()
+      const token = await getToken(platform as string)
       const sms = await sendSMS({
         token: token.access_token,
         mobile: user.mobile,

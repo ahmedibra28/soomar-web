@@ -27,7 +27,8 @@ handler.post(
       if (!profile)
         return res.status(400).json({ error: 'Insufficient balance' })
 
-      const { MERCHANT_U_ID, API_USER_ID, API_KEY } = process.env
+      const { DANKAAB_MERCHANT_U_ID, DANKAAB_API_USER_ID, DANKAAB_API_KEY } =
+        process.env
 
       const provider = ProviderNumberValidation(profile.mobile).validEVCReceiver
       if (!provider)
@@ -36,9 +37,9 @@ handler.post(
           .json({ error: 'Invalid payment receiver mobile number' })
 
       const paymentInfo = await useEVCPayment({
-        merchantUId: MERCHANT_U_ID,
-        apiUserId: API_USER_ID,
-        apiKey: API_KEY,
+        merchantUId: DANKAAB_MERCHANT_U_ID,
+        apiUserId: DANKAAB_API_USER_ID,
+        apiKey: DANKAAB_API_KEY,
         customerMobileNumber: `252${profile.mobile}`,
         description: `Dealer ${req.user.name} has got ${amount} for profit withdraw`,
         amount: amount,
