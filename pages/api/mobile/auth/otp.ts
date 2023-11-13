@@ -23,9 +23,10 @@ handler.post(
       if (!user)
         return res.status(400).json({ error: `Invalid OTP or expired` })
 
+      const allowedNumbers = [770022200, 615301507]
+
       if (
-        (Number(user.mobile) !== 770022200 ||
-          Number(user.mobile) !== 615301507) &&
+        !allowedNumbers.includes(Number(user.mobile)) &&
         Number(user.otp) !== Number(otp)
       )
         return res.status(400).json({ error: 'Invalid OTP or expired' })
