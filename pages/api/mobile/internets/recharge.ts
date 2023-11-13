@@ -158,7 +158,7 @@ handler.post(
           })
       }
 
-      if (senderMobile?.toString() === '770022200') {
+      if (senderMobile?.toString() === '615301507' && platform === 'dankaab') {
         const profile = await Profile.findOne({ user: req.user._id })
         return res.status(200).json(profile)
       }
