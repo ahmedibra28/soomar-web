@@ -48,7 +48,7 @@ handler.get(
         },
       }))
 
-      res.status(200).json({ length: query?.length, query })
+      res.status(200).json({ length: query?.length, data: query })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }
