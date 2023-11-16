@@ -7,6 +7,7 @@ export interface IBusiness {
   address: string
   mobile: string
   apiKey: string
+  balance?: number
   status: 'active' | 'disabled' | 'deleted'
   createdBy: IUser
   updatedBy?: IUser
@@ -18,6 +19,7 @@ const businessSchema = new Schema<IBusiness>(
     address: { type: String, required: true },
     mobile: { type: String, required: true },
     apiKey: { type: String, required: true },
+    balance: { type: Number, default: 0 },
     status: {
       type: String,
       enum: ['active', 'disabled', 'deleted'],

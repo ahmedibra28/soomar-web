@@ -89,6 +89,7 @@ const Businesses = () => {
     setValue('name', item?.name)
     setValue('address', item?.address)
     setValue('mobile', item?.mobile)
+    setValue('balance', item?.balance)
     setValue('status', item?.status)
     setEdit(true)
   }
@@ -136,7 +137,7 @@ const Businesses = () => {
         placeholder: 'Enter mobile',
       } as DynamicFormProps)}
     </div>,
-    <div key={3} className="col-12">
+    <div key={2} className="col-12">
       {inputText({
         register,
         errors,
@@ -145,8 +146,16 @@ const Businesses = () => {
         placeholder: 'Enter address',
       } as DynamicFormProps)}
     </div>,
-
-    <div key={2} className="col-12">
+    <div key={3} className="col-12">
+      {inputTel({
+        register,
+        errors,
+        label: 'Balance',
+        name: 'balance',
+        placeholder: 'Enter balance',
+      } as DynamicFormProps)}
+    </div>,
+    <div key={4} className="col-12">
       {staticInputSelect({
         register,
         errors,
@@ -241,6 +250,7 @@ const Businesses = () => {
                 <th>Mobile</th>
                 <th>Address</th>
                 <th>API Key</th>
+                <th>Balance</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
@@ -252,6 +262,7 @@ const Businesses = () => {
                   <td>{item?.mobile}</td>
                   <td>{item?.address}</td>
                   <td>{item?.apiKey}</td>
+                  <td>{item?.balance}</td>
                   <td>
                     {item?.status === 'active' ? (
                       <div className="badge bg-success">{item?.status}</div>

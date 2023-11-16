@@ -182,6 +182,23 @@ handler.post(
         //   })
       }
 
+      const checkBalance = await Business.findOne({
+        _id: business._id,
+        balance: { $gte: checkBundle.amount },
+      })
+
+      if (!checkBalance && business.name === 'DT One')
+        return res.status(400).json({ error: 'Insufficient balance' })
+
+      await Business.updateOne(
+        { _id: business._id },
+        {
+          $inc: {
+            balance: -checkBundle.amount,
+          },
+        }
+      )
+
       if (mode === 'development') {
         return res.json({
           business: business._id,

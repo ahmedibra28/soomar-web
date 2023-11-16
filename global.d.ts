@@ -34,6 +34,7 @@ declare global {
       branch: string
       mode?: string
       dealerCode?: string
+      apikey?: string
     }
   }
   interface NextApiResponseExtended extends NextApiResponse {

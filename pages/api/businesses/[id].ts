@@ -11,7 +11,7 @@ handler.put(
     await db()
     try {
       const { id } = req.query
-      const { name, status, address, mobile } = req.body
+      const { name, status, address, mobile, balance } = req.body
 
       const object = await Business.findById(id)
       if (!object) return res.status(400).json({ error: `Business not found` })
@@ -28,6 +28,7 @@ handler.put(
       object.name = name
       object.mobile = mobile
       object.address = address
+      object.balance = balance
       object.updatedBy = req.user._id
       await object.save()
       res.status(200).json({ message: `Business updated` })

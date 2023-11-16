@@ -48,7 +48,7 @@ handler.post(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const { name, status, address, mobile } = req.body
+      const { name, status, address, mobile, balance } = req.body
 
       const exist = await Business.findOne({
         name: { $regex: `^${name?.trim()}$`, $options: 'i' },
@@ -61,6 +61,7 @@ handler.post(
         status,
         address,
         mobile,
+        balance,
         apiKey: uuidv4(),
         createdBy: req.user._id,
       })
