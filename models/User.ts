@@ -20,6 +20,7 @@ export interface IUser {
   dealerCode?: string
   dealerBanner?: string
   role?: string
+  isDeleted?: boolean
 }
 
 const userSchema = new Schema<IUser>(
@@ -37,6 +38,7 @@ const userSchema = new Schema<IUser>(
     isReal: { type: Boolean, default: false },
     dealerCode: { type: String, uppercase: true },
     dealerBanner: String,
+    isDeleted: { type: Boolean, default: false },
     platform: {
       type: String,
       enum: ['web', 'soomar', 'dankaab'],

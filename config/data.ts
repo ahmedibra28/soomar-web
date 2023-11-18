@@ -606,6 +606,13 @@ const permissions = [
     name: 'Mobile Profile',
     method: 'PUT',
   },
+  {
+    _id: '643bdfc66e2f031ae50db339',
+    description: 'Delete account',
+    route: '/api/mobile/profile/delete',
+    name: 'Mobile Delete Account',
+    method: 'POST',
+  },
 
   // Category
   {

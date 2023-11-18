@@ -322,6 +322,7 @@ const Users = () => {
                 <th>Mobile</th>
                 <th>Platform</th>
                 <th>Role</th>
+                <th>Deleted</th>
                 <th>Approved</th>
                 <th>Confirmed</th>
                 <th>Blocked</th>
@@ -353,6 +354,13 @@ const Users = () => {
                   </td>
                   {/* @ts-ignore */}
                   <td>{item?.role?.name}</td>
+                  <td>
+                    {item?.isDeleted ? (
+                      <FaCheckCircle className="text-success" />
+                    ) : (
+                      <FaTimesCircle className="text-danger" />
+                    )}
+                  </td>
                   <td>
                     {item?.isReal ? (
                       <FaCheckCircle className="text-success" />

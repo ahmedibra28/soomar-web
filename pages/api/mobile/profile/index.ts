@@ -16,7 +16,10 @@ handler.get(
     await db()
 
     try {
-      const profile = await Profile.findOne({ user: req.user._id })
+      const profile = await Profile.findOne({ user: req.user._id }).populate(
+        'user',
+        ['isDeleted']
+      )
 
       res.status(200).json(profile)
     } catch (error: any) {
@@ -88,6 +91,7 @@ handler.post(
       const user = await User.findById(req.user._id)
 
       const newProfile = JSON.parse(JSON.stringify(profile))
+      newProfile.dealerCode = user.dealerCode
       newProfile.dealerCode = user.dealerCode
 
       res.status(200).json(newProfile)
