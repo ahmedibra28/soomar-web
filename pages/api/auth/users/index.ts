@@ -84,7 +84,7 @@ handler.post(
         return res.status(400).json({ error: 'Dealer code is required' })
 
       if (req.body?.dealerCode) {
-        const checkDealer = await Profile.findOne({
+        const checkDealer = await User.findOne({
           dealerCode: req.body.dealerCode?.toUpperCase(),
         })
         if (checkDealer)
