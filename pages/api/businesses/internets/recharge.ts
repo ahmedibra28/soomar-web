@@ -60,11 +60,6 @@ handler.post(
           .status(400)
           .json({ error: 'Invalid business apikey or business is not active' })
 
-      // disabled this for purpose of mybank
-      // const providerSender = ProviderNumberValidation(senderMobile).validSender
-      // if (!providerSender)
-      //   return res.status(400).json({ error: 'Invalid sender mobile number' })
-
       // ADSL PLUS validation
       if (categoryName === 'ADSL PLUS') {
         if (!receiverMobile)
@@ -172,14 +167,6 @@ handler.post(
       if (provider === 'Somtel SL') {
         if (!senderMobile || senderMobile.toString().length !== 9)
           return res.status(400).json({ error: 'Invalid sender mobile number' })
-
-        // disabled this for purpose of mybank
-        // const key = senderMobile.toString().substring(0, 2)
-
-        // if (key !== '63')
-        //   return res.status(400).json({
-        //     error: 'Invalid sender mobile number or provider is not Telesom',
-        //   })
       }
 
       const checkBalance = await Business.findOne({
