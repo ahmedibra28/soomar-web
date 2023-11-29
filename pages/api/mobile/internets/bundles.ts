@@ -1,6 +1,7 @@
 import nc from 'next-connect'
 import db from '../../../../config/db'
 import Bundle from '../../../../models/Bundle'
+import { InternetPriceIncrement } from '../../../../utils/InternetPriceIncrement'
 
 const handler = nc()
 handler.get(
@@ -8,12 +9,13 @@ handler.get(
     await db()
     try {
       const { id: category } = req.query
+      const platform = (req.headers['platform'] || 'soomar') as string
 
       if (!category) {
         return res.status(400).json({ error: 'Category is required' })
       }
 
-      const bundles = await Bundle.find({
+      let bundles = await Bundle.find({
         internetCategory: category,
         status: 'active',
       })
@@ -28,6 +30,15 @@ handler.get(
           },
         })
         .select('-createdAt -updatedAt -__v -createdBy')
+
+      bundles = bundles?.map((item) => ({
+        ...item,
+        amount: InternetPriceIncrement({
+          amount: item?.amount,
+          provider: item?.internetCategory?.internetProvider?.name,
+          platform,
+        }),
+      }))
 
       return res.json(bundles)
     } catch (error: any) {

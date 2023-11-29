@@ -13,6 +13,7 @@ import { useSomLinkRecharge } from '../../../../hooks/useSomLinkRecharge'
 import myProduct from '../../../../models/myProduct'
 import Profile from '../../../../models/Profile'
 import DealerTransaction from '../../../../models/DealerTransaction'
+import { InternetPriceIncrement } from '../../../../utils/InternetPriceIncrement'
 
 const handler = nc()
 handler.use(isAuth)
@@ -123,6 +124,14 @@ handler.post(
       })
       if (!checkBundle) return res.status(400).json({ error: 'Invalid bundle' })
 
+      const originalAmount = checkBundle.amount
+
+      checkBundle.amount = InternetPriceIncrement({
+        amount: checkBundle.amount,
+        provider: checkProvider?.name,
+        platform: platform?.toString(),
+      })
+
       const validateBundleId = (provider: string) => {
         const somlink = '6421558efb02b13e6b5f0ace'
         const hormuud = '6421552afb02b13e6b5f07cc'
@@ -158,6 +167,7 @@ handler.post(
           })
       }
 
+      // This is for apple for their demo, uncomment
       if (senderMobile?.toString() === '615301507' && platform === 'dankaab') {
         const profile = await Profile.findOne({ user: req.user._id })
         return res.status(200).json(profile)
@@ -274,7 +284,7 @@ handler.post(
       const rechargeResponse = await rechargeData({
         sender: senderMobile,
         receiver: receiverMobile,
-        amount: checkBundle.amount,
+        amount: originalAmount,
         branch,
       })
 
