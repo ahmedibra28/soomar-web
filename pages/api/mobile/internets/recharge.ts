@@ -253,6 +253,7 @@ handler.post(
           provider: providerId,
           category: categoryId,
           bundle: bundleId,
+          amount: checkBundle.amount,
           senderMobile,
           receiverMobile,
           ...(platform === 'dankaab' &&
@@ -299,6 +300,7 @@ handler.post(
         provider: providerId,
         category: categoryId,
         bundle: bundleId,
+        amount: checkBundle.amount,
         senderMobile,
         receiverMobile,
         ...(platform === 'dankaab' &&

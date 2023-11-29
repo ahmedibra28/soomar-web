@@ -16,6 +16,7 @@ export interface IInternetTransaction {
   reference?: string
   points?: number
   dealer?: IUser
+  amount?: number
 
   createdAt?: Date
 }
@@ -50,6 +51,7 @@ const internetTransactionSchema = new Schema<IInternetTransaction>(
     reference: String,
     points: Number,
     dealer: Schema.Types.ObjectId,
+    amount: { type: Number, default: 0 },
   },
   { timestamps: true }
 )

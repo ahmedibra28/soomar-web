@@ -58,7 +58,7 @@ handler.get(
         .sort({ createdAt: -1 })
         .lean()
         .select(
-          'createdAt provider category bundle _id business senderMobile receiverMobile reference'
+          'createdAt provider amount category bundle _id business senderMobile receiverMobile reference'
         )
         .populate('provider', ['name', 'image'])
         .populate('category', ['name', 'image'])
