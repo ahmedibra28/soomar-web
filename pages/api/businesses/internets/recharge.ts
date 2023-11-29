@@ -177,15 +177,6 @@ handler.post(
       if (!checkBalance && business.name === 'DT One')
         return res.status(400).json({ error: 'Insufficient balance' })
 
-      await Business.updateOne(
-        { _id: business._id },
-        {
-          $inc: {
-            balance: -checkBundle.amount,
-          },
-        }
-      )
-
       if (mode === 'development') {
         return res.json({
           business: business._id,
@@ -207,6 +198,15 @@ handler.post(
 
         if (data?.status !== 'Success')
           return res.status(400).json({ error: data?.message })
+
+        await Business.updateOne(
+          { _id: business._id },
+          {
+            $inc: {
+              balance: -checkBundle.amount,
+            },
+          }
+        )
 
         const result = await InternetTransaction.create({
           business: business._id,
@@ -230,6 +230,15 @@ handler.post(
       if (rechargeResponse.resultCode !== 200) {
         return res.status(401).json({ error: `Internet recharge failed` })
       }
+
+      await Business.updateOne(
+        { _id: business._id },
+        {
+          $inc: {
+            balance: -checkBundle.amount,
+          },
+        }
+      )
 
       const result = await InternetTransaction.create({
         business: business._id,
