@@ -31,7 +31,7 @@ handler.get(
           .json({ error: 'Invalid business apikey or business is not active' })
 
       const queryCondition =
-        receiverMobile || senderMobile
+        receiverMobile || senderMobile || startDate || endDate
           ? {
               ...((senderMobile && { senderMobile }) ||
                 (receiverMobile && { receiverMobile })),
