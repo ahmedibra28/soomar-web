@@ -4,7 +4,7 @@ import Profile from '../../../../models/Profile'
 import { isAuth } from '../../../../utils/auth'
 import User from '../../../../models/User'
 import { Markets } from '../../../../utils/Markets'
-import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
+// import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
 import { encryptPassword } from '../../../../utils/encryptPassword'
 
 const handler = nc()
@@ -52,9 +52,9 @@ handler.post(
       if (market && !checkMarket)
         return res.status(400).json({ error: 'Invalid market' })
 
-      const provider = ProviderNumberValidation(mobile).validOTP
-      if (!provider)
-        return res.status(400).json({ error: 'Invalid mobile number' })
+      // const provider = ProviderNumberValidation(mobile).validOTP
+      // if (!provider)
+      //   return res.status(400).json({ error: 'Invalid mobile number' })
 
       const exist = await User.findOne({
         mobile,
@@ -67,7 +67,7 @@ handler.post(
 
       await User.updateOne(
         { _id: req.user._id },
-        { mobile, platform, name, email: req.user.email }
+        { platform, name, email: req.user.email }
       )
 
       if (password) {
@@ -81,7 +81,7 @@ handler.post(
       profile.market = market || profile.market
       profile.points = points || profile.points
       profile.address = address || profile.address
-      profile.mobile = mobile || profile.mobile
+      // profile.mobile = mobile || profile.mobile
       profile.settings = {
         pushToken: settings?.pushToken || profile.settings?.pushToken,
       }
