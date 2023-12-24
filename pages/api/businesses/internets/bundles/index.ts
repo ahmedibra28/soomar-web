@@ -34,7 +34,7 @@ handler.get(
         .sort({ createdAt: -1 })
         .lean()
         .select(
-          '-createdAt -updatedAt -__v -createdBy -updatedBy -status -branch -quantity'
+          '-createdAt -updatedAt -__v -createdBy -updatedBy -status -branch'
         )
         .populate({
           path: 'internetCategory',

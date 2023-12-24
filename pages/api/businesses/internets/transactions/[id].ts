@@ -26,12 +26,15 @@ handler.get(
       let query = (await InternetTransaction.findOne(queryCondition)
         .lean()
         .select(
-          'createdAt provider amount category bundle _id business senderMobile receiverMobile reference'
+          'createdAt provider amount quantity category bundle _id business senderMobile receiverMobile reference'
         )
         .populate('provider', ['name', 'image'])
         .populate('category', ['name', 'image'])
         .populate('business', ['name', 'mobile', 'address'])
-        .populate('bundle', 'amount label description')) as IInternetTransaction
+        .populate(
+          'bundle',
+          'amount quantity label description'
+        )) as IInternetTransaction
 
       if (!query)
         return res.status(404).json({ error: 'Transaction not found' })

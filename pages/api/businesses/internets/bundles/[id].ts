@@ -12,7 +12,7 @@ handler.get(
       let query = (await Bundle.findOne({ status: 'active', _id: id })
         .lean()
         .select(
-          '-createdAt -updatedAt -__v -createdBy -updatedBy -status -branch -quantity'
+          '-createdAt -updatedAt -__v -createdBy -updatedBy -status -branch'
         )
         .populate({
           path: 'internetCategory',

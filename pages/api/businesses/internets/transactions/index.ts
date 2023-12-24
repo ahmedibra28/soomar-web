@@ -58,12 +58,12 @@ handler.get(
         .sort({ createdAt: -1 })
         .lean()
         .select(
-          'createdAt provider amount category bundle _id business senderMobile receiverMobile reference'
+          'createdAt provider amount quantity category bundle _id business senderMobile receiverMobile reference'
         )
         .populate('provider', ['name', 'image'])
         .populate('category', ['name', 'image'])
         .populate('business', ['name', 'mobile', 'address'])
-        .populate('bundle', 'amount label description')
+        .populate('bundle', 'amount quantity label description')
 
       let result: IInternetTransaction[] = await query
 

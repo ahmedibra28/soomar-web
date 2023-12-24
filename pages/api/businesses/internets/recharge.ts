@@ -216,7 +216,7 @@ handler.post(
           { _id: business._id },
           {
             $inc: {
-              balance: isDT ? -checkBalance.quantity : -checkBundle.amount,
+              balance: isDT ? -checkBundle.quantity : -checkBundle.amount,
             },
           }
         )
@@ -227,6 +227,7 @@ handler.post(
           category: categoryId,
           bundle: bundleId,
           amount: checkBundle.amount,
+          quantity: checkBundle.quantity,
           senderMobile,
           receiverMobile,
           reference,
@@ -256,7 +257,7 @@ handler.post(
         { _id: business._id },
         {
           $inc: {
-            balance: isDT ? -checkBalance.quantity : -checkBundle.amount,
+            balance: isDT ? -checkBundle.quantity : -checkBundle.amount,
           },
         }
       )
@@ -267,6 +268,7 @@ handler.post(
         category: categoryId,
         bundle: bundleId,
         amount: checkBundle.amount,
+        quantity: checkBundle.quantity,
         senderMobile,
         receiverMobile,
         reference,
