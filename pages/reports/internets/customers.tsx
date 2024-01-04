@@ -67,6 +67,7 @@ const Customer = () => {
           <table className="table table-sm table-border">
             <thead className="border-0">
               <tr>
+                <th>Source</th>
                 <th>Customer</th>
                 <th>Sender</th>
                 <th>Receiver</th>
@@ -80,6 +81,7 @@ const Customer = () => {
               {getApi?.data?.data?.map(
                 (item: IInternetTransaction, i: number) => (
                   <tr key={i}>
+                    <td>{item?.dealer ? 'Dankaab' : 'Soomar'}</td>
                     <td>{item?.user?.name}</td>
                     <td>{item?.senderMobile}</td>
                     <td>{item?.receiverMobile}</td>
