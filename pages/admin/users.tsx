@@ -108,6 +108,8 @@ const Users = () => {
     setValue('mobile', item?.mobile)
     setValue('dealerCode', item?.dealerCode)
     setValue('dealerBanner', item?.dealerBanner)
+    setValue('productLimit', item?.productLimit)
+    setValue('internetLimit', item?.internetLimit)
 
     setEdit(true)
   }
@@ -212,6 +214,24 @@ const Users = () => {
               name: 'dealerBanner',
               placeholder: 'Enter dealer banner',
               isRequired: false,
+            } as DynamicFormProps)}
+          </div>
+          <div className="col-12">
+            {inputText({
+              register,
+              errors,
+              label: 'Product limit',
+              name: 'productLimit',
+              placeholder: 'Enter product limit',
+            } as DynamicFormProps)}
+          </div>
+          <div className="col-12">
+            {inputText({
+              register,
+              errors,
+              label: 'Internet limit',
+              name: 'internetLimit',
+              placeholder: 'Enter internet limit',
             } as DynamicFormProps)}
           </div>
         </>

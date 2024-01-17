@@ -80,8 +80,14 @@ handler.post(
       if (checkDuplicateMobile)
         return res.status(400).json({ error: 'Mobile number already exists' })
 
-      if (req.body?.platform === 'dankaab' && !req.body?.dealerCode)
-        return res.status(400).json({ error: 'Dealer code is required' })
+      if (req.body?.platform === 'dankaab') {
+        if (!req.body?.dealerCode)
+          return res.status(400).json({ error: 'Dealer code is required' })
+        if (!req.body?.productLimit)
+          return res.status(400).json({ error: 'Product limit is required' })
+        if (!req.body?.internetLimit)
+          return res.status(400).json({ error: 'Internet limit is required' })
+      }
 
       if (req.body?.dealerCode) {
         const checkDealer = await User.findOne({

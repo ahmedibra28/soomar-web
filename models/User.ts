@@ -19,6 +19,8 @@ export interface IUser {
   platform: 'web' | 'soomar' | 'dankaab'
   dealerCode?: string
   dealerBanner?: string
+  productLimit?: number
+  internetLimit?: number
   role?: string
   isDeleted?: boolean
 }
@@ -38,6 +40,8 @@ const userSchema = new Schema<IUser>(
     isReal: { type: Boolean, default: false },
     dealerCode: { type: String, uppercase: true },
     dealerBanner: String,
+    productLimit: Number,
+    internetLimit: Number,
     isDeleted: { type: Boolean, default: false },
     platform: {
       type: String,

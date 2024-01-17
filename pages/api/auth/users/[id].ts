@@ -46,6 +46,8 @@ handler.put(
         platform,
         mobile,
         dealerBanner,
+        productLimit,
+        internetLimit,
       } = req.body
 
       const object = await schemaName.findById(id)
@@ -71,6 +73,8 @@ handler.put(
       object.platform = platform
       object.mobile = mobile
       object.dealerBanner = dealerBanner
+      object.productLimit = productLimit
+      object.internetLimit = internetLimit
 
       password && (object.password = await encryptPassword(password))
 

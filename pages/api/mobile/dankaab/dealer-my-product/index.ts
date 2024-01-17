@@ -174,7 +174,17 @@ handler.post(
       }).lean()) as IUser
       if (!user) return res.status(400).json({ error: 'User not found' })
 
+      const checkLimit = await User.findById(req.user._id).lean()
+
       if (type === 'Internet') {
+        const countInternetLimit = await myProduct.countDocuments({
+          dealer: req.user._id,
+          internet: { $exists: true },
+        })
+        if (Number(checkLimit?.internetLimit || 0) <= countInternetLimit) {
+          return res.status(400).json({ error: 'Internet limit exceeded' })
+        }
+
         const object = await myProduct.findOneAndUpdate(
           { internet, dealer: req.user._id },
           {
@@ -190,6 +200,15 @@ handler.post(
         return res.status(200).json({ message: 'Internet updated' })
       }
       if (type === 'Product') {
+        const countProductLimit = await myProduct.countDocuments({
+          dealer: req.user._id,
+          product: { $exists: true },
+        })
+
+        if (Number(checkLimit?.productLimit || 0) <= countProductLimit) {
+          return res.status(400).json({ error: 'Product limit exceeded' })
+        }
+
         const object = await myProduct.findOneAndUpdate(
           { product, dealer: req.user._id },
           {
