@@ -174,7 +174,7 @@ handler.post(
       }).lean()) as IUser
       if (!user) return res.status(400).json({ error: 'User not found' })
 
-      const checkLimit = await User.findById(req.user._id).lean()
+      const checkLimit = await User.findById(req.user._id)
 
       if (type === 'Internet') {
         const countInternetLimit = await myProduct.countDocuments({
