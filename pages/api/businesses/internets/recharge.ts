@@ -9,6 +9,7 @@ import InternetTransaction from '../../../../models/InternetTransaction'
 import { useSomLinkRecharge } from '../../../../hooks/useSomLinkRecharge'
 import Business from '../../../../models/Business'
 import { Markets } from '../../../../utils/Markets'
+import { useAmtelRecharge } from '../../../../hooks/useAmtelRecharge'
 
 const handler = nc()
 handler.post(
@@ -151,7 +152,7 @@ handler.post(
         const somtel = '6422f8e54f44fa88647f2587'
         const somtelSL = '6422f8e54f44fa88647f2589'
         const somnet = '64215500fb02b13e6b5efeac'
-        const amtel = null
+        const amtel = '65b3d7d562d99debfcae44e2'
 
         if (provider == 'somtel') return somtel
         if (provider == 'somnet') return somnet
@@ -211,6 +212,46 @@ handler.post(
 
         if (data?.status !== 'Success')
           return res.status(400).json({ error: data?.message })
+
+        await Business.updateOne(
+          { _id: business._id },
+          {
+            $inc: {
+              balance: isDT ? -checkBundle.quantity : -checkBundle.amount,
+            },
+          }
+        )
+
+        const result = await InternetTransaction.create({
+          business: business._id,
+          provider: providerId,
+          category: categoryId,
+          bundle: bundleId,
+          amount: checkBundle.amount,
+          quantity: checkBundle.quantity,
+          senderMobile,
+          receiverMobile,
+          reference,
+        })
+
+        const parseResult = JSON.parse(JSON.stringify(result))
+        delete parseResult.__v
+
+        return res.json({
+          message: 'success',
+          ...parseResult,
+        })
+      }
+
+      if (provider?.toLowerCase() === 'amtel') {
+        const data = await useAmtelRecharge({
+          customerNumber: receiverMobile,
+          offerId: checkBundle?.offerId,
+          offerAmount: checkBundle?.amount,
+        })
+
+        if (data.status !== 'Success')
+          return res.status(400).json({ error: data.message })
 
         await Business.updateOne(
           { _id: business._id },

@@ -14,6 +14,7 @@ import myProduct from '../../../../models/myProduct'
 import Profile from '../../../../models/Profile'
 import DealerTransaction from '../../../../models/DealerTransaction'
 import { InternetPriceIncrement } from '../../../../utils/InternetPriceIncrement'
+import { useAmtelRecharge } from '../../../../hooks/useAmtelRecharge'
 
 const handler = nc()
 handler.use(isAuth)
@@ -138,7 +139,7 @@ handler.post(
         const somtel = '6422f8e54f44fa88647f2587'
         const somtelSL = '6422f8e54f44fa88647f2589'
         const somnet = '64215500fb02b13e6b5efeac'
-        const amtel = null
+        const amtel = '65b3d7d562d99debfcae44e2'
 
         if (provider == 'somtel') return somtel
         if (provider == 'somnet') return somnet
@@ -247,6 +248,50 @@ handler.post(
 
         if (data?.status !== 'Success')
           return res.status(400).json({ error: data?.message })
+
+        await InternetTransaction.create({
+          user: req.user._id,
+          provider: providerId,
+          category: categoryId,
+          bundle: bundleId,
+          amount: checkBundle.amount,
+          senderMobile,
+          receiverMobile,
+          ...(platform === 'dankaab' &&
+            req.user.role === 'DANKAAB_CUSTOMER' &&
+            checkBundle.points > 0 && {
+              points: checkBundle.points,
+              dealer: dealerId,
+            }),
+        })
+        if (checkBundle.points > 0) {
+          if (req.user.role === 'DANKAAB_CUSTOMER' && platform === 'dankaab') {
+            await Profile.findOneAndUpdate(
+              { user: dealerId },
+              {
+                $inc: { points: checkBundle.points },
+              }
+            )
+
+            await DealerTransaction.create({
+              amount: checkBundle.points,
+              type: 'DEPOSIT',
+              user: dealerId,
+            })
+          }
+        }
+        return res.json('success')
+      }
+
+      if (provider?.toLowerCase() === 'amtel') {
+        const data = await useAmtelRecharge({
+          customerNumber: receiverMobile,
+          offerId: checkBundle?.offerId,
+          offerAmount: checkBundle?.amount,
+        })
+
+        if (data.status !== 'Success')
+          return res.status(400).json({ error: data.message })
 
         await InternetTransaction.create({
           user: req.user._id,

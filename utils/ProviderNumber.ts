@@ -70,7 +70,14 @@ export const ProviderNumberValidation = (number: number) => {
   }
 
   const validReceiver = () => {
-    const valid = [...hormuud, ...somnet, ...somtel, ...somlink, ...somtelSL]
+    const valid = [
+      ...hormuud,
+      ...somnet,
+      ...somtel,
+      ...somlink,
+      ...somtelSL,
+      ...amtel,
+    ]
     return valid.includes(key)
   }
 
