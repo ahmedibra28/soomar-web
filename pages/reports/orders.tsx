@@ -201,6 +201,7 @@ const Order = () => {
           <table className="table table-sm table-border">
             <thead className="border-0">
               <tr>
+                <th>Source</th>
                 <th>Customer</th>
                 <th>Delivery Address</th>
                 <th>Street</th>
@@ -214,6 +215,7 @@ const Order = () => {
             <tbody>
               {getApi?.data?.data?.map((item: IOrder, i: number) => (
                 <tr key={i}>
+                  <td>{item?.dealer ? 'Dankaab' : 'Soomar'}</td>
                   <td>{item?.user?.name}</td>
                   <td>{item?.deliveryAddress?.address}</td>
                   <td>{item?.deliveryAddress?.deliveryAddress}</td>
