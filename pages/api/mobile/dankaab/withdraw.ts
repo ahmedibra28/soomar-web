@@ -6,6 +6,7 @@ import Profile from '../../../../models/Profile'
 import { useEVCPayment } from '../../../../hooks/useEVCPayment'
 import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
 import DealerTransaction from '../../../../models/DealerTransaction'
+import User from '../../../../models/User'
 
 const handler = nc()
 
@@ -29,6 +30,9 @@ handler.post(
 
       const { DANKAAB_MERCHANT_U_ID, DANKAAB_API_USER_ID, DANKAAB_API_KEY } =
         process.env
+
+      const uProfile = await User.findOne({ _id })
+      profile.mobile = profile?.mobile || uProfile.mobile
 
       const provider = ProviderNumberValidation(profile.mobile).validEVCReceiver
       if (!provider)

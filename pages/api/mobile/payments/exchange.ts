@@ -5,6 +5,7 @@ import { isAuth } from '../../../../utils/auth'
 import Profile from '../../../../models/Profile'
 import { useEVCPayment } from '../../../../hooks/useEVCPayment'
 import { ProviderNumberValidation } from '../../../../utils/ProviderNumber'
+import User from '../../../../models/User'
 
 const handler = nc()
 
@@ -24,6 +25,9 @@ handler.post(
         return res.status(400).json({ error: 'Insufficient points' })
 
       const { MERCHANT_U_ID, API_USER_ID, API_KEY } = process.env
+
+      const uProfile = await User.findOne({ _id })
+      profile.mobile = profile?.mobile || uProfile.mobile
 
       const provider = ProviderNumberValidation(profile.mobile).validEVCReceiver
       if (!provider)

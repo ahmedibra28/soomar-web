@@ -104,6 +104,7 @@ handler.post(
       await Profile.create({
         user: object._id,
         name: object.name,
+        mobile: Number(object.mobile),
         image: `https://ui-avatars.com/api/?uppercase=true&name=${object.name}&background=random&color=random&size=128`,
       })
 
