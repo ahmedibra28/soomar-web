@@ -21,7 +21,7 @@ export const Markets = [
   },
   {
     name: 'Puntland',
-    internet: false,
+    internet: true,
     product: true,
   },
 ]
