@@ -16,7 +16,9 @@ handler.put(
       const { id } = req.query
       const { name, image, status, branch } = req.body
 
-      const branches = Markets.map((item) => item.name)
+      const branches = Markets.map((item) =>
+        item.internet ? item.name : null
+      ).filter((item) => item !== null)
 
       if (!branches.includes(branch))
         return res.status(400).json({ error: 'Invalid branch' })

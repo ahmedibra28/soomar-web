@@ -2,6 +2,7 @@ import nc from 'next-connect'
 import db from '../../../../config/db'
 import InternetProvider from '../../../../models/InternetProvider'
 import { isAuth } from '../../../../utils/auth'
+import { Markets } from '../../../../utils/Markets'
 
 const handler = nc()
 handler.use(isAuth)
@@ -49,7 +50,10 @@ handler.post(
     try {
       const { name, image, branch, status } = req.body
 
-      const branches = ['Mogadishu', 'Kismayo', 'Hargeisa', 'Baidoa']
+      const branches = Markets.map((item) =>
+        item.internet ? item.name : null
+      ).filter((item) => item !== null)
+
       if (!branches.includes(branch))
         return res.status(400).json({ error: 'Invalid branch' })
 
