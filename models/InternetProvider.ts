@@ -5,7 +5,7 @@ export interface IInternetProvider {
   readonly _id: Schema.Types.ObjectId
   name: string
   image?: string
-  branch?: 'Mogadishu' | 'Kismayo' | 'Hargeisa' | 'Baidoa'
+  branch?: 'Mogadishu' | 'Kismayo' | 'Hargeisa' | 'Baidoa' | 'Puntland'
   createdBy: IUser
   updatedBy?: IUser
   status: 'active' | 'deleted' | 'inactive'
@@ -17,7 +17,7 @@ const internetProviderSchema = new Schema<IInternetProvider>(
     image: String,
     branch: {
       type: String,
-      enum: ['Mogadishu', 'Kismayo', 'Hargeisa', 'Baidoa'],
+      enum: ['Mogadishu', 'Kismayo', 'Hargeisa', 'Baidoa', 'Puntland'],
       default: 'Mogadishu',
     },
     createdBy: { type: Schema.Types.ObjectId, ref: User, required: true },
