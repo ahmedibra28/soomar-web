@@ -146,27 +146,27 @@ handler.post(
         }
       }
 
-      const validateBundleId = (provider: string) => {
-        const somlink = '6421558efb02b13e6b5f0ace'
-        const hormuud = '6421552afb02b13e6b5f07cc'
-        const somtel = '6422f8e54f44fa88647f2587'
-        const somtelSL = '6422f8e54f44fa88647f2589'
-        const somnet = '64215500fb02b13e6b5efeac'
-        const amtel = '65b3d7d562d99debfcae44e2'
+      // const validateBundleId = (provider: string) => {
+      //   const somlink = '6421558efb02b13e6b5f0ace'
+      //   const hormuud = '6421552afb02b13e6b5f07cc'
+      //   const somtel = '6422f8e54f44fa88647f2587'
+      //   const somtelSL = '6422f8e54f44fa88647f2589'
+      //   const somnet = '64215500fb02b13e6b5efeac'
+      //   const amtel = '65b3d7d562d99debfcae44e2'
 
-        if (provider == 'somtel') return somtel
-        if (provider == 'somnet') return somnet
-        if (provider == 'amtel') return amtel
-        if (provider == 'hormuud') return hormuud
-        if (provider == 'somlink') return somlink
-        if (provider == 'somtel sl') return somtelSL
+      //   if (provider == 'somtel') return somtel
+      //   if (provider == 'somnet') return somnet
+      //   if (provider == 'amtel') return amtel
+      //   if (provider == 'hormuud') return hormuud
+      //   if (provider == 'somlink') return somlink
+      //   if (provider == 'somtel sl') return somtelSL
 
-        return false
-      }
+      //   return false
+      // }
 
-      // implement IMS sales here...
-      if (!validateBundleId(provider?.toLowerCase()))
-        return res.status(400).json({ error: 'Invalid bundle reference' })
+      // // implement IMS sales here...
+      // if (!validateBundleId(provider?.toLowerCase()))
+      //   return res.status(400).json({ error: 'Invalid bundle reference' })
 
       // implement SOMALI LAND DATA here...
       if (provider === 'Somtel SL') {

@@ -18,6 +18,7 @@ export const ProviderNumberValidation = (number: number) => {
     telesom: ['63'],
     somtel: ['62'],
     somtelSL: ['65'],
+    somtelPL: ['66'],
     somlink: ['64'],
     amtel: ['71'],
     soltelco: ['67'],
@@ -32,6 +33,7 @@ export const ProviderNumberValidation = (number: number) => {
     somlink,
     amtel,
     soltelco,
+    somtelPL,
     somtelSL,
   } = ProviderNumber
 
@@ -44,6 +46,7 @@ export const ProviderNumberValidation = (number: number) => {
     if (somlink.includes(key)) return 'somlink'
     if (amtel.includes(key)) return 'amtel'
     if (soltelco.includes(key)) return 'soltelco'
+    if (somtelPL.includes(key)) return 'somtelPL'
     if (somtelSL.includes(key)) return 'somtelSL'
 
     return false
@@ -77,6 +80,7 @@ export const ProviderNumberValidation = (number: number) => {
       ...somlink,
       ...somtelSL,
       ...amtel,
+      ...somtelPL,
     ]
     return valid.includes(key)
   }

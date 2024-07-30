@@ -14,7 +14,16 @@ handler.post(
     try {
       await db()
 
-      const { market, mobile } = req.body
+      const { market } = req.body
+
+      let mobile = req.body?.mobile
+
+      if (mobile?.length === 12 && mobile?.startsWith('252')) {
+        mobile = mobile?.slice(3)
+      }
+      if (mobile?.length === 10 && mobile?.startsWith('0')) {
+        mobile = mobile?.slice(1)
+      }
 
       const checkMarket = Markets.find(
         (item) =>
