@@ -10,6 +10,10 @@ const {
   INTERNET_RECHARGE_BUSINESS_KEY_HGA,
   INTERNET_RECHARGE_USERNAME_HGA,
   INTERNET_RECHARGE_PASSWORD_HGA,
+
+  INTERNET_RECHARGE_BUSINESS_KEY_PL,
+  INTERNET_RECHARGE_USERNAME_PL,
+  INTERNET_RECHARGE_PASSWORD_PL,
 } = process.env
 
 export const rechargeData = async ({
@@ -23,17 +27,27 @@ export const rechargeData = async ({
   receiver: string
   branch?: string
 }) => {
+  const obj = { username: '', password: '' }
+  let businessKey = ''
+
+  if (branch === 'Hargeisa') {
+    obj.username = INTERNET_RECHARGE_USERNAME_HGA as string
+    obj.password = INTERNET_RECHARGE_PASSWORD_HGA as string
+    businessKey = INTERNET_RECHARGE_BUSINESS_KEY_HGA as string
+  } else if (branch === 'Mogadishu') {
+    obj.username = INTERNET_RECHARGE_USERNAME_MGQ as string
+    obj.password = INTERNET_RECHARGE_PASSWORD_MGQ as string
+    businessKey = INTERNET_RECHARGE_BUSINESS_KEY_MGQ as string
+  } else if (branch === 'Puntland') {
+    obj.username = INTERNET_RECHARGE_USERNAME_PL as string
+    obj.password = INTERNET_RECHARGE_PASSWORD_PL as string
+    businessKey = INTERNET_RECHARGE_BUSINESS_KEY_PL as string
+  }
+
   const { data } = await axios.post(
     `${INTERNET_RECHARGE_URL}`,
     {
-      username:
-        branch === 'Hargeisa'
-          ? INTERNET_RECHARGE_USERNAME_HGA
-          : INTERNET_RECHARGE_USERNAME_MGQ,
-      password:
-        branch === 'Hargeisa'
-          ? INTERNET_RECHARGE_PASSWORD_HGA
-          : INTERNET_RECHARGE_PASSWORD_MGQ,
+      ...obj,
       amount,
       sender,
       recharge: receiver,
@@ -43,10 +57,7 @@ export const rechargeData = async ({
     {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'X-API-KEY':
-          branch === 'Hargeisa'
-            ? INTERNET_RECHARGE_BUSINESS_KEY_HGA
-            : INTERNET_RECHARGE_BUSINESS_KEY_MGQ,
+        'X-API-KEY': businessKey,
       },
     }
   )
